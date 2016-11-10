@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="edu.csumb.cst438.router.DebugPage"
+    tools:showIn="@layout/activity_debug_page">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Main Route Record Page"
+        android:onClick="openRecordActivity"
+        android:id="@+id/DebugRecordButton"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile Settings"
+        android:onClick="openProfileActivity"
+        android:id="@+id/DebugProfileButton"
+        android:layout_below="@+id/DebugRecordButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="openLoginActivity"
+        android:id="@+id/DebugLoginButton"
+        android:layout_below="@+id/DebugProfileButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Friend Management"
+        android:onClick="openFriendsActivity"
+        android:id="@+id/DebugFriendsButton"
+        android:layout_below="@+id/DebugLoginButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Routes"
+        android:onClick="openMyRoutesActivity"
+        android:id="@+id/DebugMyRoutesButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/DebugFriendsButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEST"
+        android:onClick="MartinTest"
+        android:id="@+id/TestButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/DebugMyRoutesButton" />
+
+
+</RelativeLayout>

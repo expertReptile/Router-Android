@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "873525711585",
+    "project_id": "firebase-router"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873525711585:android:15cf3ef4b29cb04d",
+        "android_client_info": {
+          "package_name": "edu.csumb.cst438.router"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873525711585-tjm4kg5nj6vjc59748n9e56607tf4nmj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.csumb.cst438.router",
+            "certificate_hash": "640626EFD4CDBBD606112529D9443FEAB3A0F938"
+          }
+        },
+        {
+          "client_id": "873525711585-lnshesubs819fi7k6ajqd85o0fp43j0t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0-BC2-izPyu501nJI8U6Pai5JZZWGT0g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Router</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_record">Record</string>
+    <string name="search_title">search</string>
+    <string name="search_button_text">Searching</string>
+    <string name="server_client_id">873525711585-qno80ennfsmavl40fon30lum595e78te.apps.googleusercontent.com</string>
+    <string name="title_activity_main">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
