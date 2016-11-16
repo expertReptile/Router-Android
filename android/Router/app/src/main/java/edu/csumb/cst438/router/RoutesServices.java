@@ -2,7 +2,7 @@ package edu.csumb.cst438.router;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -13,11 +13,12 @@ import java.util.ArrayList;
 
 public class RoutesServices extends Services{
 
-    public RoutesServices(SQLiteDatabase db) {
-        super(db);
+    public RoutesServices() {
+        super(Application.db);
     }
 
     public void insertRoute(Route route) {
+        Log.d("services", route.toString());
 
         final ContentValues values = new ContentValues();
         values.put(SQLiteHelper.Routes.COLLUMN_NAME_ROUTEID, route.getRouteIdRemote());
@@ -73,37 +74,53 @@ public class RoutesServices extends Services{
         return routes;
     }
 
-    public void update(final String query) {
+    public void update(final ContentValues values, final String where) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                db.rawQuery(query, null);
+                try {
+                    db.update(SQLiteHelper.Routes.TABLE_NAME, values, where, null);
+                }
+                catch (Exception e) {
+                    Log.d("update", e.toString());
+                }
             }
         }).start();
     }
 
-    public void UpdateRouteRoute(String newRoute, int id) {
-        String query = String.format("UPDATE Routes SET Route = '%s' WHERE RouteId = %d", newRoute, id );
-        update(query);
+    public void updateRouteRoute(String newRoute, int id) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("Route", newRoute);
+        String where = "RouteId=" + Integer.toString(id);
+        Log.d("recording", "updated " + newRoute);
+        update(contentValues, where);
     }
 
-    public void updateStartPointLat(String newLat, int id) {
-        String query = String.format("UPDATE Routes SET StartPointLat = '%s' WHERE RouteId = %d", newLat , id );
-        update(query);
+    public void updateStartPointLat(String newLat, String name) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("StartPointLat", newLat);
+        String where = "RouteName=" + name;
+        update(contentValues, where);
     }
 
-    public void updateStartPointLon(String newLon, int id) {
-        String query = String.format("UPDATE Routes SET StartPointLon = '%s' WHERE RouteId = %d", newLon, id );
-        update(query);
+    public void updateStartPointLon(String newLon, String name) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("StartPointLon", newLon);
+        String where = "RouteName=" + name;
+        update(contentValues, where);
     }
 
-    public void updateRouteName(String newName, int id) {
-        String query = String.format("UPDATE Routes SET RouteName = '%s' WHERE RouteId = %d", newName, id );
-        update(query);
+    public void updateRouteName(String newName, String name) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("RouteName", newName);
+        String where = "RouteName=" + name;
+        update(contentValues, where);
     }
 
-    public void updateRouteUserId(String newId, int id) {
-        String query = String.format("UPDATE Routes SET UserId = '%s' WHERE RouteId = %d", newId, id );
-        update(query);
+    public void updateRouteUserId(String newId, String name) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("UserId", newId);
+        String where = "RouteName=" + name;
+        update(contentValues, where);
     }
 }

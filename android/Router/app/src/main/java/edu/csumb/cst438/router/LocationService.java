@@ -1,9 +1,9 @@
 package edu.csumb.cst438.router;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,9 +23,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class LocationService implements LocationListener {
 
-    private static int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
+    public static int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
     //mininum distance moved until next update
-    private static final long MIN_DISTANCE_CHANGE = 10; // 10 meters
+    private static final long MIN_DISTANCE_CHANGE = 1; // 10 meters
 
     //minimum tiem in between updates in millisecons
     private static final long MIN_TIME_CHANGED = 60000; // 1000 ms = 1 sec. 1000 * 60 = 60000
@@ -42,6 +42,7 @@ public class LocationService implements LocationListener {
     private boolean isNetworkEnabled;
     private boolean locationServiceAvailable;
     Context context;
+    private boolean locationChanged = false;
 
     //singleton
     public static LocationService getLocationManager(Context context) {
@@ -52,17 +53,24 @@ public class LocationService implements LocationListener {
     }
 
     public LatLng getLocation() {
+        this.locationChanged = false;
+        Log.d("location", Double.toString(this.latitude));
+        Log.d("location", Double.toString(this.longitude));
         return new LatLng(this.latitude, this.longitude);
     }
 
     public LocationService(Context mContext) {
-        this.context = mContext;
         initLocationService(mContext);
         Log.d("GPS", "Location Service created.");
     }
 
+    public boolean hasChanged() {
+        return locationChanged;
+    }
+
     @Override
     public void onLocationChanged(Location location) {
+        this.locationChanged = true;
         this.longitude = location.getLongitude();
         this.latitude = location.getLatitude();
         String msg = "New Latitude: " + this.latitude
@@ -93,10 +101,10 @@ public class LocationService implements LocationListener {
     public void initLocationService(Context mContext) {
 
         if(Build.VERSION.SDK_INT >= 23 &&
-           ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-           ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+           ContextCompat.checkSelfPermission(Application.context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+           ContextCompat.checkSelfPermission(Application.context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions((Activity)context, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
+            ActivityCompat.requestPermissions((Activity)mContext, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
                     LocationService.MY_PERMISSION_ACCESS_COURSE_LOCATION );
             Log.d("GPS", "App does not have permissions");
             return;
@@ -105,7 +113,7 @@ public class LocationService implements LocationListener {
         try {
             this.latitude = 0.0;
             this.longitude = 0.0;
-            this.locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+            this.locationManager = (LocationManager) Application.context.getSystemService(Context.LOCATION_SERVICE);
 
             //GPS & Network status
             this.isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);

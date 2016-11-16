@@ -2,6 +2,7 @@ package edu.csumb.cst438.router;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +14,8 @@ public class DebugPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug_page);
+        ActivityCompat.requestPermissions(this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
+                LocationService.MY_PERMISSION_ACCESS_COURSE_LOCATION );
     }
 
     @Override
@@ -44,12 +47,15 @@ public class DebugPage extends AppCompatActivity {
     }
 
     public void openLoginActivity(View view) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
+        this.stopService(new Intent(this, RecordingService.class));
+        //Intent intent = new Intent(this, Login.class);
+        //startActivity(intent);
     }
 
     public void MartinTest(View view) {
-        LocationService loc = new LocationService(this);
-        loc.isServiceAvailable();
+        Intent intent = new Intent(this, RecordingService.class);
+        intent.putExtra("name", "routeName");
+        intent.putExtra("userId", "1");
+        this.startService(intent);
     }
 }

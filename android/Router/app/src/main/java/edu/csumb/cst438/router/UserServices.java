@@ -2,7 +2,6 @@ package edu.csumb.cst438.router;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 
@@ -12,33 +11,38 @@ import android.util.Log;
 
 public class UserServices extends Services{
 
-    public UserServices(SQLiteDatabase db) {
-        super(db);
+    public UserServices() {
+        super(Application.db);
     }
 
     public void updateUserBio(String newBio) {
-        String query = String.format("UPDATE UserSettings SET Bio = '%s' WHERE 1", newBio);
-        update(query);
+        ContentValues values = new ContentValues();
+        values.put("Bio", newBio);
+        update(values);
     }
 
     public void updateUserName(String newName) {
-        String query = String.format("UPDATE UserSettings SET Username = '%s' WHERE 1", newName);
-        update(query);
+        ContentValues values = new ContentValues();
+        values.put("Username", newName);
+        update(values);
     }
 
     public void updateUserPrivacy(String newPrivacy) {
-        String query = String.format("UPDATE UserSettings SET Privacy = '%s' WHERE 1", newPrivacy);
-        update(query);
+        ContentValues values = new ContentValues();
+        values.put("Privacy", newPrivacy);
+        update(values);
     }
 
     public void updateUserEmail(String newEmail) {
-        String query = String.format("UPDATE UserSettings SET Email = '%s' WHERE 1", newEmail);
-        update(query);
+        ContentValues values = new ContentValues();
+        values.put("Email", newEmail);
+        update(values);
     }
 
     public void updateUserId(String newId) {
-        String query = String.format("UPDATE UserSettings SET UserId = '%s' WHERE 1", newId);
-        update(query);
+        ContentValues values = new ContentValues();
+        values.put("UserId", newId);
+        update(values);
     }
 
     public String getUserPrivacy() {
@@ -102,12 +106,11 @@ public class UserServices extends Services{
         }).start();
     }
 
-    public void update(final String query) {
+    public void update(final ContentValues values) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                db.execSQL(query);
-                Log.d("test", query);
+                db.update(SQLiteHelper.UserSettings.TABLE_NAME, values, null, null);
             }
         }).start();
     }
