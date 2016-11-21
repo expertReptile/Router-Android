@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:id="@+id/swiper"
+    swipe:rightEdgeSwipeOffset="0dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@color/black"
+        android:id="@+id/bottom_view"
+        android:layout_width="160dp"
+        android:weightSum="3"
+        android:layout_height="match_parent">
+        // show bottom things here
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:text="Delete"
+            android:drawableTop="@android:drawable/ic_menu_delete"
+            android:drawableTint="@android:color/holo_red_light"
+            android:id="@+id/Delete"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:layout_toRightOf="@+id/Delete"
+            android:text="Edit"
+            android:drawableTop="@android:drawable/ic_menu_edit"
+            android:id="@+id/Edit"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:layout_toRightOf="@+id/Edit"
+            android:text="Share"
+            android:drawableTop="@android:drawable/ic_menu_share"
+            android:id="@+id/Share"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="0dp"
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/swiperList">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/swiperRow"
+            android:text=""/>
+        // show surface things here
+    </LinearLayout>
+
+</com.daimajia.swipe.SwipeLayout>
