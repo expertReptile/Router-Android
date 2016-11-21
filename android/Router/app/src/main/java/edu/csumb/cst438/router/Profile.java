@@ -28,4 +28,6 @@ public class Profile extends AppCompatActivity {
     public void getProfile() {
         // get profile deets from either internal or external DB
     }
+
+
 }

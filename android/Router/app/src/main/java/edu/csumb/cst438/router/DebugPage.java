@@ -48,8 +48,8 @@ public class DebugPage extends AppCompatActivity {
 
     public void openLoginActivity(View view) {
         this.stopService(new Intent(this, RecordingService.class));
-        //Intent intent = new Intent(this, Login.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
     }
 
     public void MartinTest(View view) {

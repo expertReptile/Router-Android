@@ -18,38 +18,31 @@
             android:weightSum="1">
 
             <EditText
-                android:id="@+id/email_to_create"
+                android:id="@+id/emailToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
                 android:inputType="text"
-                android:textColor="@android:color/black"
                 />
 
             <EditText
-                android:id="@+id/username_to_create"
+                android:id="@+id/usernameToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
                 android:inputType="text"
                 />
 
-            <ScrollView
-                android:id="@+id/ScrollView01"
-                android:layout_width="wrap_content"
-                android:layout_height="150dip">
-
-                <EditText
-                    android:id="@+id/bio_to_create"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Bio"
-                    android:inputType="text"/>
-
-            </ScrollView>
+            <EditText
+                android:id="@+id/bioToCreate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Bio"
+                android:inputType="textMultiLine"
+                />
 
             <EditText
-                android:id="@+id/password_to_create"
+                android:id="@+id/passwordToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -57,7 +50,7 @@
                 />
 
             <EditText
-                android:id="@+id/passwordAgain_to_create"
+                android:id="@+id/repasswordToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password Again"
@@ -65,7 +58,7 @@
                 />
 
             <Button
-                android:id="@+id/register_button"
+                android:id="@+id/registerButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -73,6 +66,7 @@
                 android:layout_marginTop="40dp"
                 android:text="Register"
                 android:textSize="18sp"
+                android:onClick="register"
                 />
 
             <TextView
@@ -85,14 +79,15 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/login_button"
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:text="Login Here"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:onClick="logIn"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

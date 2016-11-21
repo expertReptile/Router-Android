@@ -18,7 +18,7 @@
             android:weightSum="1">
 
             <EditText
-                android:id="@+id/username_to_login"
+                android:id="@+id/usernameToLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
@@ -26,14 +26,14 @@
                 />
 
             <EditText
-                android:id="@+id/password_to_login"
+                android:id="@+id/passwordToLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:inputType="textPassword"
                 />
             <Button
-                android:id="@+id/login_button"
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -52,7 +52,7 @@
                 android:textSize="20sp" />
 
             <com.google.android.gms.common.SignInButton
-                android:id="@+id/sign_in_button"
+                android:id="@+id/signInButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"/>
@@ -67,14 +67,15 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/registration_button"
+                android:id="@+id/registrationButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:text="Register Here"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:onClick="register"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
