@@ -34,7 +34,7 @@ public class MyRoutes extends AppCompatActivity {
         //      TODO: make proper call to DB to get the list of the User's friends
 
 
-            Route tempRoute = new Route(TRUE, 5, "{}", "12.12", "12.12", 321, "testRoute");
+            Route tempRoute = new Route(true, 5, "{}", "12.12", "12.12", 321, "testRoute");
             routesServices.insertRoute(tempRoute);
             myRoutes = new String[]{routesServices.getRouteById(5).getRouteName()};
             /*for(Route route: routesServices.getAllLocalRoutes()){

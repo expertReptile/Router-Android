@@ -25,6 +25,8 @@ public class Profile extends AppCompatActivity {
     private EditText mUsername;
     private EditText mEmail;
     private EditText mBio;
+    private Boolean isPrivate;
+    private Boolean isKilo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +64,24 @@ public class Profile extends AppCompatActivity {
         bio.setHint(userServices.getUserBio());
 
         Log.d("poop", userServices.getUserPrivacy());
-        // todo: do button swapping here
         if(userServices.getUserPrivacy().equals("PUBLIC")) {
+            isPrivate = false;
             findViewById(R.id.ProfilePrivacyButton_Private).setBackgroundColor(000000);
         } else {
+            isPrivate = true;
             findViewById(R.id.ProfilePrivacyButton_Public).setBackgroundColor(000000);
         }
 
         // TODO: unit changes
         //userServices.getUnitPref();
+    }
+
+    public void setPublic(View view) {
+        isPrivate = false;
+    }
+
+    public void setPrivate(View view) {
+        isPrivate = true;
     }
 
     public void saveProfile(View view) {
@@ -83,6 +94,12 @@ public class Profile extends AppCompatActivity {
         }
         if(!TextUtils.isEmpty(mEmail.getText().toString())) {
             userServices.updateUserEmail(mEmail.getText().toString());
+        }
+
+        if(isPrivate){
+            userServices.updateUserPrivacy("PRIVATE");
+        } else {
+            userServices.updateUserPrivacy("PUBLIC");
         }
     }
 
