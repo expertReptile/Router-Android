@@ -34,7 +34,6 @@
         <activity android:name=".Friends" />
         <activity android:name=".MyRoutes" />
         <activity android:name=".Profile" />
-        <activity android:name=".SearchResultsActivity" />
         <activity android:name=".Login" />
         <activity android:name=".Register"/>
         <!--
