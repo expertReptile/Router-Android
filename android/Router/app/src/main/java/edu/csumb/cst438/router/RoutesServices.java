@@ -60,17 +60,20 @@ public class RoutesServices extends Services{
     }
 
     public static ArrayList<Route> getAllLocalRoutes() {
-        String query = "SELECT * FROM Routes WHERE 1";
 
         ArrayList<Route> routes = new ArrayList<>();
 
-        Cursor c = db.rawQuery(query, null);
+        Cursor c = db.query("Routes", null, null, null, null, null, null);
 
-        c.moveToFirst();
+        //c.moveToFirst();
+        Log.d("RoutesServices", Integer.toString(c.getCount()));
+        Log.d("RoutesServices", "about to add routes");
         while(c.moveToNext()) {
+            Log.d("RoutesServices", "adding route");
             routes.add(new Route(false, c.getInt(1), c.getString(2), c.getString(3), c.getString(4), c.getInt(6), c.getString(5)));
         }
 
+        Log.d("RoutesServices", routes.toString());
         return routes;
     }
 

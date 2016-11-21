@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,19 +21,19 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
-    private EditText username_to_login;
-    private EditText password_to_login;
+    private EditText usernameToLogin;
+    private EditText passwordToLogin;
     private SignInButton signInButton;
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private Connector connector;
+    private UserServices userServices;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        connector = new Connector();
         setupVariables();
         //  Configure sign-in to request the user's ID, email address, and basic profile. ID and
         //  basic profile are included in DEFAULT_SIGN_IN.
@@ -59,7 +58,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         });
     }
 
-    // [START onActivityResult]
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -70,15 +68,13 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             handleSignInResult(result);
         }
     }
-    // [END onActivityResult]
 
-    // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             Log.d(TAG, "signed in: success");
+            // TODO: Send user to a different activity to enter `User` info.
             moveToMain();
-
         } else {
             Log.d(TAG, "signed in: failed");
         }
@@ -103,11 +99,11 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     }
 
     public void logIn(View view) {
-        String username = username_to_login.getText().toString();
-        String password = password_to_login.getText().toString();
+        String username = usernameToLogin.getText().toString();
+        String password = passwordToLogin.getText().toString();
 
         if (username.trim().length() > 0 && password.trim().length() > 0) {
-            authenticateLogin(username, password);
+            authenticateLogin(username, password, view);
         } else {
             Snackbar.make(view, "Please Enter Credentials!", Snackbar.LENGTH_LONG)
                     .show();
@@ -119,13 +115,24 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         startActivity(intent);
     }
 
-    public void authenticateLogin(final String username, final String password) {
-        //connector.insertRoute("1", "route", "name", "lat", "lon", "userId");Log.d("route", connector.getRouteById(1).toString());
+    public void authenticateLogin(final String username, final String password, View view) {
+        this.connector = new Connector();
+        this.userServices = new UserServices();
+        User user = connector.checkLogin(username,password);
+        if(user == null) {
+            Log.d(TAG, "signed in: failed");
+            Snackbar.make(view, "Sign In Failed", Snackbar.LENGTH_LONG)
+                    .show();
+        }
+        else{
+            userServices.createLocalUser(user.username, user.bio, "private", user.email, user.id);
+            moveToMain();
+        }
     }
 
     private void setupVariables() {
-        username_to_login = (EditText) findViewById(R.id.username_to_login);
-        password_to_login = (EditText) findViewById(R.id.password_to_login);
-        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        usernameToLogin = (EditText) findViewById(R.id.usernameToLogin);
+        passwordToLogin = (EditText) findViewById(R.id.passwordToLogin);
+        signInButton = (SignInButton) findViewById(R.id.signInButton);
     }
 }

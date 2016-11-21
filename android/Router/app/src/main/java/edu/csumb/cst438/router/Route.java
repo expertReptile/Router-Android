@@ -7,6 +7,8 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by pico on 11/1/16.
  */
@@ -95,6 +97,27 @@ public class Route {
 
     public String getRoute() {
         return route;
+    }
+    public ArrayList<LatLng> getRouteList() {
+        try {
+            jsonArray = new JSONArray(route.toString());
+        }
+        catch (Exception e) {
+            Log.d("route", e.toString());
+        }
+        ArrayList<LatLng> locs = new ArrayList<>();
+        try {
+            for(int i = 0; i < jsonArray.length(); i++) {
+                locs.add(new LatLng(Double.parseDouble(new JSONObject(jsonArray.get(i).toString()).get("lat").toString()),
+                        Double.parseDouble(new JSONObject(jsonArray.get(i).toString()).get("lon").toString())));
+                Log.d("locs", locs.toString());
+            }
+        }
+        catch (Exception e) {
+            Log.d("route", e.toString());
+        }
+        return locs;
+
     }
 
     public String getStartPointLat() {

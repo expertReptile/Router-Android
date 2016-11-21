@@ -18,16 +18,15 @@
             android:weightSum="1">
 
             <EditText
-                android:id="@+id/email_to_create"
+                android:id="@+id/emailToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
                 android:inputType="text"
-                android:textColor="@android:color/black"
                 />
 
             <EditText
-                android:id="@+id/username_to_create"
+                android:id="@+id/usernameToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
@@ -35,14 +34,15 @@
                 />
 
             <EditText
-                android:id="@+id/bio_to_create"
+                android:id="@+id/bioToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Bio"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                />
 
             <EditText
-                android:id="@+id/password_to_create"
+                android:id="@+id/passwordToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -50,7 +50,7 @@
                 />
 
             <EditText
-                android:id="@+id/passwordAgain_to_create"
+                android:id="@+id/repasswordToCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password Again"
@@ -58,7 +58,7 @@
                 />
 
             <Button
-                android:id="@+id/register_button"
+                android:id="@+id/registerButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -79,7 +79,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/login_button"
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

@@ -91,7 +91,7 @@ public class Connector {
         Callable<Integer> callable = new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return uploadRoute_intenal(userId, lat, lon, name, path);
+                return uploadRoute_internal(userId, lat, lon, name, path);
             }
         };
         Future<Integer> future = executorService.submit(callable);
@@ -198,7 +198,7 @@ public class Connector {
     }
 
 
-    private int uploadRoute_intenal(int userId, String lat, String lon, String name, String path) {
+    private int uploadRoute_internal(int userId, String lat, String lon, String name, String path) {
         HashMap<String, String> result = new HashMap<String, String>();
         String json = "";
 
@@ -340,7 +340,7 @@ public class Connector {
         try {
             JSONObject response = new JSONObject(getResponse(json.toString(), checkLogin));
             if(response.get("username") != null) {
-                return new User(response.get("username").toString(), response.get("bio").toString(), response.get("email").toString());
+                return new User(response.get("username").toString(), response.get("bio").toString(), response.get("email").toString(), response.get("idusers").toString());
             }
             return null;
         }

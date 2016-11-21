@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 
@@ -17,13 +16,14 @@ import android.widget.EditText;
 public class Register extends AppCompatActivity{
     private static final String TAG = "RegisterActivity";
 
-    private EditText email_to_create;
-    private EditText username_to_create;
-    private EditText password_to_create;
-    private EditText passwordAgain_to_create;
-    private EditText bio_to_create;
+    private EditText emailToCreate;
+    private EditText usernameToCreate;
+    private EditText passwordToCreate;
+    private EditText repasswordToCreate;
+    private EditText bioToCreate;
 
-    private Connector connector = new Connector();
+    private Connector connector;
+    private UserServices userServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +33,19 @@ public class Register extends AppCompatActivity{
     }
 
     public void register(View view){
-        String email = email_to_create.getText().toString();
-        String username = username_to_create.getText().toString();
-        String bio = bio_to_create.getText().toString();
-        String password = password_to_create.getText().toString();
-        String passwordAgain = passwordAgain_to_create.getText().toString();
+        String email = emailToCreate.getText().toString();
+        String username = usernameToCreate.getText().toString();
+        String bio = bioToCreate.getText().toString();
+        String password = passwordToCreate.getText().toString();
+        String passwordAgain = repasswordToCreate.getText().toString();
 
         if (email.trim().length() > 0 && username.trim().length() > 0 && password.trim().length() > 0 && passwordAgain.trim().length() >0)
-            createUser(username, password, bio, email);
+            if(password.equals(passwordAgain))
+                createUser(username, password, bio, email, view);
+            else{
+                Snackbar.make(view, "Passwords don't match", Snackbar.LENGTH_LONG)
+                        .show();
+            }
         else {
             Snackbar.make(view, "Please Enter Credentials!", Snackbar.LENGTH_LONG)
                     .show();
@@ -52,22 +57,32 @@ public class Register extends AppCompatActivity{
         startActivity(intent);
     }
 
-    public void createUser(final String username, final String password, final String bio, final String email) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int userId = connector.createUser(username, password, bio, email);
-                Log.d(TAG, " createUser: " + Integer.toString(userId));
-            }
-        });
+    public void createUser(final String username, final String password, final String bio, final String email, final View view) {
+        this.connector = new Connector();
+        this.userServices = new UserServices();
+        int userId = connector.createUser(username, password, bio, email);
+        Log.d(TAG, " createUser: " + Integer.toString(userId));
+        if(userId == -1){
+            Snackbar.make(view, "Can't create user", Snackbar.LENGTH_LONG)
+                            .show();
+        }
+        else{
+            userServices.createLocalUser(username, bio, "private", email, Integer.toString(userId));
+            moveToMain();
+        }
+    }
+
+    private void moveToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void setupVariables() {
-        email_to_create = (EditText) findViewById(R.id.email_to_create);
-        username_to_create = (EditText) findViewById(R.id.username_to_create);
-        bio_to_create = (EditText) findViewById(R.id.bio_to_create);
-        password_to_create = (EditText) findViewById(R.id.password_to_create);
-        passwordAgain_to_create = (EditText) findViewById(R.id.passwordAgain_to_create);
+        emailToCreate = (EditText) findViewById(R.id.emailToCreate);
+        usernameToCreate = (EditText) findViewById(R.id.usernameToCreate);
+        bioToCreate = (EditText) findViewById(R.id.bioToCreate);
+        passwordToCreate = (EditText) findViewById(R.id.passwordToCreate);
+        repasswordToCreate = (EditText) findViewById(R.id.repasswordToCreate);
     }
 
 }
