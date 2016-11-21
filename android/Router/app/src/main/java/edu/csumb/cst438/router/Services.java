@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class Services {
 
-    public SQLiteDatabase db;
+    public static SQLiteDatabase db;
 
     public Services(SQLiteDatabase db) {
         this.db = db;

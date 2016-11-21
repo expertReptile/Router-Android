@@ -14,6 +14,8 @@ public class Application extends android.app.Application {
     public static SQLiteHelper.DeBra dbUtil;
     public static SQLiteDatabase db;
     public static Context context;
+    public static RoutesServices routesService;
+    public static UserServices userService;
 
 
     public void onCreate() {
@@ -39,6 +41,11 @@ public class Application extends android.app.Application {
         Log.d("Application", "start get writeable");
         this.db = dbUtil.getWritableDatabase();
         Log.d("Application", "got writeable " + Boolean.toString(this.db != null));
+
+        Log.d("Application", "creating services");
+        this.routesService = new RoutesServices();
+        this.userService = new UserServices();
+        Log.d("Application", "created services " + Boolean.toString(this.routesService != null && this.userService != null));
     }
 
     public SQLiteDatabase getDB() {
