@@ -5,39 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        tools:context="edu.csumb.cst438.router.MainActivity">
+        android:layout_height="match_parent">
 
-
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:map="http://schemas.android.com/apk/res-auto"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="edu.csumb.cst438.router.MainActivity" />
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            tools:context="edu.csumb.cst438.router.MainActivity">
+
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="edu.csumb.cst438.router.MainActivity" />
+
+        </RelativeLayout>
+
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:id="@+id/floating_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:floatingSearch_searchBarMarginLeft="0dp"
+            app:floatingSearch_searchBarMarginTop="3dp"
+            app:floatingSearch_searchBarMarginRight="0dp"
+            app:floatingSearch_searchHint="Search"
+            app:floatingSearch_showSearchKey="false"
+            app:floatingSearch_leftActionMode="showHamburger"
+            app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/quantum_ic_play_arrow_grey600_36"
+            android:id="@+id/MainRecordButton"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/quantum_ic_keyboard_arrow_down_white_36"
+            android:id="@+id/GetNearMeButton"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
-
-    <com.arlib.floatingsearchview.FloatingSearchView
-        android:id="@+id/floating_search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:floatingSearch_searchBarMarginLeft="0dp"
-        app:floatingSearch_searchBarMarginTop="3dp"
-        app:floatingSearch_searchBarMarginRight="0dp"
-        app:floatingSearch_searchHint="Search"
-        app:floatingSearch_showSearchKey="false"
-        app:floatingSearch_leftActionMode="showHamburger"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
 
     <ListView android:id="@+id/main_left_drawer"
         android:layout_width="240dp"

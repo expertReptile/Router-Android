@@ -1,7 +1,9 @@
+
 package edu.csumb.cst438.router;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -46,6 +48,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerList = (ListView) findViewById(R.id.main_left_drawer);
         mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
 
@@ -56,9 +59,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         mSearchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
 
+
         loc = new LocationService(this);
         routesServices = Application.routesService;
         recordingService = new Intent(this, RecordingService.class);
+
         Log.d("map", "finished onCreate");
     }
 

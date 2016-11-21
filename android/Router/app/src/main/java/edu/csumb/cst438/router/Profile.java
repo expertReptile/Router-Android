@@ -33,15 +33,13 @@ public class Profile extends AppCompatActivity {
         this.userServices = new UserServices();
 
         EditText username = (EditText) findViewById(R.id.UsernameEditText);
-        //username.setText(userServices.getUserName());
         username.setHint(userServices.getUserName());
-        username.setHintTextColor(123456);
 
         EditText email = (EditText) findViewById(R.id.EmailTextEdit);
-        email.setText(userServices.getUserEmail());
+        email.setHint(userServices.getUserEmail());
 
         EditText bio = (EditText) findViewById(R.id.ProfileBioEditText);
-        bio.setText(userServices.getUserBio());
+        bio.setHint(userServices.getUserBio());
 
 
         // todo: do button swapping here
