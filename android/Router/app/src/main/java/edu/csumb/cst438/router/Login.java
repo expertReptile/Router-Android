@@ -24,8 +24,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
     private EditText username_to_login;
     private EditText password_to_login;
-    private Button login_button;
-    private Button register_button;
     private SignInButton signInButton;
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
@@ -53,33 +51,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
 
-        login_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = username_to_login.getText().toString();
-                String password = password_to_login.getText().toString();
-
-                if (username.trim().length() > 0 && password.trim().length() > 0) {
-                    authenticateLogin(username, password);
-                } else {
-                    Snackbar.make(v, "Please Enter Credentials!", Snackbar.LENGTH_LONG)
-                            .show();
-                }
-            }
-        });
-
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                signIn();
-            }
-        });
-        
-        register_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login.this, Register.class);
-                startActivity(intent);
             }
         });
     }
@@ -128,19 +103,29 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     }
 
     public void logIn(View view) {
-        connector.checkLogin(username_to_login.toString(), password_to_login.toString());
+        String username = username_to_login.getText().toString();
+        String password = password_to_login.getText().toString();
+
+        if (username.trim().length() > 0 && password.trim().length() > 0) {
+            authenticateLogin(username, password);
+        } else {
+            Snackbar.make(view, "Please Enter Credentials!", Snackbar.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    public void register(View view){
+        Intent intent = new Intent(Login.this, Register.class);
+        startActivity(intent);
     }
 
     public void authenticateLogin(final String username, final String password) {
         //connector.insertRoute("1", "route", "name", "lat", "lon", "userId");Log.d("route", connector.getRouteById(1).toString());
     }
 
-    
     private void setupVariables() {
         username_to_login = (EditText) findViewById(R.id.username_to_login);
         password_to_login = (EditText) findViewById(R.id.password_to_login);
-        login_button = (Button) findViewById(R.id.login_button);
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        register_button = (Button) findViewById(R.id.registration_button);
     }
 }
