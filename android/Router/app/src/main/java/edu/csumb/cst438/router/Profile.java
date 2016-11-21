@@ -85,4 +85,10 @@ public class Profile extends AppCompatActivity {
             userServices.updateUserEmail(mEmail.getText().toString());
         }
     }
+
+    public void logOut(View view) {
+        userServices.deleteLocalUser();
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
 }
