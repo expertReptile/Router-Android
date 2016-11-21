@@ -36,6 +36,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerList = (ListView) findViewById(R.id.main_left_drawer);
         mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
 
@@ -45,6 +46,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         mSearchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
+
 
         loc = new LocationService(this);
         Log.d("map", "finished onCreate");
