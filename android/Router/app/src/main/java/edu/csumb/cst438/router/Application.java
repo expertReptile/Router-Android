@@ -2,6 +2,7 @@ package edu.csumb.cst438.router;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Looper;
 import android.util.Log;
 
 
@@ -45,6 +46,7 @@ public class Application extends android.app.Application {
         Log.d("Application", "creating services");
         this.routesService = new RoutesServices();
         this.userService = new UserServices();
+        Looper.prepare();
         Log.d("Application", "created services " + Boolean.toString(this.routesService != null && this.userService != null));
     }
 
