@@ -17,7 +17,6 @@ public class Application extends android.app.Application {
     public static Context context;
     public static RoutesServices routesService;
     public static UserServices userService;
-    public static LocationService locationService;
 
 
     public void onCreate() {
@@ -48,7 +47,6 @@ public class Application extends android.app.Application {
         this.routesService = new RoutesServices();
         this.userService = new UserServices();
         Looper.prepare();
-        this.locationService = new LocationService(this);
         Log.d("Application", "created services " + Boolean.toString(this.routesService != null && this.userService != null));
     }
 
