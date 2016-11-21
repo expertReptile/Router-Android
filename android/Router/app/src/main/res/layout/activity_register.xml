@@ -23,7 +23,6 @@
                 android:layout_height="wrap_content"
                 android:hint="Email"
                 android:inputType="text"
-                android:textColor="@android:color/black"
                 />
 
             <EditText

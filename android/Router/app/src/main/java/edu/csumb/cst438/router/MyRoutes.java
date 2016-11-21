@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 
+import static java.lang.Boolean.TRUE;
+
 public class MyRoutes extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
@@ -21,6 +23,7 @@ public class MyRoutes extends AppCompatActivity {
     private TextView noDataMyRoutes;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mRecyclerAdapter;
+    private RoutesServices routesServices;
 
     private String myRoutes[];
 
@@ -29,7 +32,16 @@ public class MyRoutes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_routes);
         //      TODO: make proper call to DB to get the list of the User's friends
-        myRoutes = new String[] {"Friend1","Friend2","Friend3","Friend4","Friend5","Friend6","Friend7","Friend8","Friend9","Friend10",};
+
+
+            Route tempRoute = new Route(TRUE, 5, "{}", "12.12", "12.12", 321, "testRoute");
+            routesServices.insertRoute(tempRoute);
+            myRoutes = new String[]{routesServices.getRouteById(5).getRouteName()};
+            /*for(Route route: routesServices.getAllLocalRoutes()){
+                myRoutes[myRoutes.length] = route.getRouteName();
+            }*/
+
+        //myRoutes = new String[] {"Friend1","Friend2","Friend3","Friend4","Friend5","Friend6","Friend7","Friend8","Friend9","Friend10",};
         noDataMyRoutes = (TextView) findViewById(R.id.no_data_myRoutes);
         mRecyclerView = (RecyclerView) findViewById(R.id.myRoutes_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
