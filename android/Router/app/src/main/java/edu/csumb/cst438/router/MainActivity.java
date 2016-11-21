@@ -7,10 +7,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -63,5 +65,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng monterey = loc.getLocation();
         mMap.addMarker(new MarkerOptions().position(monterey).title("Marker in CSUMB"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(monterey, 16));
+    }
+
+    public void updateLocation() {
+        LatLng newPos = loc.getLocation();
+        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(newPos, 15);
+        mMap.moveCamera(center);
+        mMap.addMarker(new MarkerOptions()
+        .position(newPos)
+        .alpha(0.8f)
+        .anchor(0.0f, 1.0f)
+        .title("Your Location"));
     }
 }
