@@ -1,6 +1,5 @@
 package edu.csumb.cst438.router;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -18,10 +17,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-
-import java.net.URL;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -53,7 +48,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         mSearchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
 
-        loc = Application.locationService;
+        loc = new LocationService(this);
         routesServices = Application.routesService;
         Log.d("map", "finished onCreate");
     }
