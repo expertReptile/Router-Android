@@ -1,18 +1,28 @@
 package edu.csumb.cst438.router;
 
-import android.support.v4.app.FragmentActivity;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.net.URL;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -21,6 +31,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private ListView mDrawerList;
     private FloatingSearchView mSearchView;
     private LocationService loc;
+    private Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mSearchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
 
         loc = new LocationService(this);
+        Log.d("map", "finished onCreate");
     }
 
 
@@ -57,11 +69,60 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d("map", "onMapReady start");
         mMap = googleMap;
 
         // Add a marker in monterey and move the camera
-        LatLng monterey = loc.getLocation();
-        mMap.addMarker(new MarkerOptions().position(monterey).title("Marker in CSUMB"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(monterey, 16));
+        LatLng pos = loc.getLocation();
+        marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));
+
+        Polyline line = googleMap.addPolyline(new PolylineOptions()
+        .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
+        .width(5)
+        .color(Color.RED));
+        updateLocation();
+    }
+
+    public void updateLocation() {
+        if(marker != null) {
+            marker.remove();
+        }
+        LatLng newPos = loc.getLocation();
+        Log.d("update", "New Location: " + newPos.toString());
+        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(newPos, 15);
+        mMap.moveCamera(center);
+        Log.d("update", "Moved camera to " + center.toString());
+        marker = mMap.addMarker(new MarkerOptions()
+        .position(newPos)
+        .alpha(0.8f)
+        .anchor(0.0f, 1.0f)
+        .title("Your Location"));
+        new LocationChangedListener().execute(null, null);
+    }
+
+
+    private class LocationChangedListener extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            Log.d("update", "Starting new thread");
+            while(!loc.hasChanged()) {
+                //Log.d("update", loc.getLocation().toString());
+                Log.d("update", "waiting");
+                try {
+                    Thread.sleep(1000);
+                }
+                catch (Exception e) {
+                    Log.d("thread", e.toString());
+                }
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Void params) {
+            Log.d("post", "Location Changed");
+            updateLocation();
+        }
     }
 }
+
+

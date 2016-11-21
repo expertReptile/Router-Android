@@ -36,6 +36,7 @@ public class LocationService implements LocationListener {
 
     private LocationManager locationManager;
     public Location location;
+    public Location oldLocation;
     public double latitude;
     public  double longitude;
     private boolean isGPSEnabled;
@@ -51,6 +52,7 @@ public class LocationService implements LocationListener {
         }
         return instance;
     }
+
 
     public LatLng getLocation() {
         this.locationChanged = false;
@@ -70,6 +72,7 @@ public class LocationService implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d("Location", "Location Changed");
         this.locationChanged = true;
         this.longitude = location.getLongitude();
         this.latitude = location.getLatitude();
