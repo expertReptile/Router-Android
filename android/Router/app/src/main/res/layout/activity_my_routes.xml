@@ -6,32 +6,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="edu.csumb.cst438.router.MyRoutes">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myRoutes_recycler_view"
+            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/MyRoutesList"/>
-
-    </RelativeLayout>
+            android:layout_marginTop="37dp"/>
+        <TextView
+            android:id="@+id/no_data_myRoutes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Where have the things gone?"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <com.arlib.floatingsearchview.FloatingSearchView
         android:id="@+id/floating_search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:floatingSearch_searchBarMarginLeft="20dp"
+        app:floatingSearch_searchBarMarginLeft="0dp"
         app:floatingSearch_searchBarMarginTop="3dp"
-        app:floatingSearch_searchBarMarginRight="20dp"
+        app:floatingSearch_searchBarMarginRight="0dp"
         app:floatingSearch_searchHint="Search"
         app:floatingSearch_showSearchKey="false"
         app:floatingSearch_leftActionMode="showHamburger"
