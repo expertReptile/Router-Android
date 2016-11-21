@@ -15,37 +15,37 @@ public class UserServices extends Services{
         super(Application.db);
     }
 
-    public void updateUserBio(String newBio) {
+    public static void updateUserBio(String newBio) {
         ContentValues values = new ContentValues();
         values.put("Bio", newBio);
         update(values);
     }
 
-    public void updateUserName(String newName) {
+    public static void updateUserName(String newName) {
         ContentValues values = new ContentValues();
         values.put("Username", newName);
         update(values);
     }
 
-    public void updateUserPrivacy(String newPrivacy) {
+    public static void updateUserPrivacy(String newPrivacy) {
         ContentValues values = new ContentValues();
         values.put("Privacy", newPrivacy);
         update(values);
     }
 
-    public void updateUserEmail(String newEmail) {
+    public static void updateUserEmail(String newEmail) {
         ContentValues values = new ContentValues();
         values.put("Email", newEmail);
         update(values);
     }
 
-    public void updateUserId(String newId) {
+    public static void updateUserId(String newId) {
         ContentValues values = new ContentValues();
         values.put("UserId", newId);
         update(values);
     }
 
-    public String getUserPrivacy() {
+    public static String getUserPrivacy() {
         String query = String.format("SELECT * FROM UserSettings WHERE 1");
         Cursor c= db.rawQuery(query, null);
 
@@ -58,7 +58,7 @@ public class UserServices extends Services{
         return c.getString(3);
     }
 
-    public String getUserEmail() {
+    public static String getUserEmail() {
         String query = String.format("SELECT * FROM UserSettings WHERE 1");
         Cursor c= db.rawQuery(query, null);
 
@@ -71,7 +71,7 @@ public class UserServices extends Services{
         return c.getString(4);
     }
 
-    public String getUserName() {
+    public static String getUserName() {
         String query = String.format("SELECT * FROM UserSettings WHERE 1");
         Cursor c= db.rawQuery(query, null);
 
@@ -84,7 +84,7 @@ public class UserServices extends Services{
         return c.getString(1);
     }
 
-    public String getUserId() {
+    public static String getUserId() {
         String query = String.format("SELECT * FROM UserSettings WHERE 1");
         Cursor c= db.rawQuery(query, null);
 
@@ -97,7 +97,7 @@ public class UserServices extends Services{
         return c.getString(5);
     }
 
-    private void insert(final String tableName, final ContentValues values) {
+    private static void insert(final String tableName, final ContentValues values) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -106,7 +106,7 @@ public class UserServices extends Services{
         }).start();
     }
 
-    public void update(final ContentValues values) {
+    public static void update(final ContentValues values) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -115,7 +115,7 @@ public class UserServices extends Services{
         }).start();
     }
 
-    public void CreateLocalUser(String username, String bio, String privacy, String email, String userId) {
+    public static void CreateLocalUser(String username, String bio, String privacy, String email, String userId) {
         ContentValues values = new ContentValues();
         values.put("Username", username);
         values.put("Bio", bio);
@@ -126,7 +126,7 @@ public class UserServices extends Services{
         deleteLocalUser();
         insert("UserSettings", values);
     }
-    public String getUserBio() {
+    public static String getUserBio() {
         String query = String.format("SELECT * FROM UserSettings WHERE 1");
         Cursor c= db.rawQuery(query, null);
 
@@ -139,7 +139,7 @@ public class UserServices extends Services{
         return c.getString(2);
     }
 
-    public void deleteLocalUser() {
+    public static void deleteLocalUser() {
         String query = "DELETE FROM UserSettings WHERE 1";
         db.rawQuery(query, null);
     }

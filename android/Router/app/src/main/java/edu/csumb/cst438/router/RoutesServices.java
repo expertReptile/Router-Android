@@ -17,7 +17,7 @@ public class RoutesServices extends Services{
         super(Application.db);
     }
 
-    public void insertRoute(Route route) {
+    public static void insertRoute(Route route) {
         Log.d("services", route.toString());
 
         final ContentValues values = new ContentValues();
@@ -32,7 +32,7 @@ public class RoutesServices extends Services{
 
     }
 
-    private void insert(final String tableName, final ContentValues values) {
+    private static void insert(final String tableName, final ContentValues values) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -41,12 +41,12 @@ public class RoutesServices extends Services{
         }).start();
     }
 
-    public void deleteRoute(int id) {
+    public static void deleteRoute(int id) {
         String query = String.format("DELETE FROM Routes WHERE RouteId = %s", Integer.toString(id));
         db.execSQL(query);
     }
 
-    public Route getRouteById(int id) {
+    public static Route getRouteById(int id) {
         String query = String.format("SELECT * FROM Routes WHERE RouteId = %s", id);
 
         Cursor c = db.rawQuery(query, null);
@@ -59,7 +59,7 @@ public class RoutesServices extends Services{
         return new Route(false, c.getInt(1), c.getString(2), c.getString(3), c.getString(4), c.getInt(6), c.getString(5));
     }
 
-    public ArrayList<Route> getAllLocalRoutes() {
+    public static ArrayList<Route> getAllLocalRoutes() {
         String query = "SELECT * FROM Routes WHERE 1";
 
         ArrayList<Route> routes = new ArrayList<>();
@@ -74,7 +74,7 @@ public class RoutesServices extends Services{
         return routes;
     }
 
-    public void update(final ContentValues values, final String where) {
+    public static void update(final ContentValues values, final String where) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -88,7 +88,7 @@ public class RoutesServices extends Services{
         }).start();
     }
 
-    public void updateRouteRoute(String newRoute, int id) {
+    public static void updateRouteRoute(String newRoute, int id) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("Route", newRoute);
         String where = "RouteId=" + Integer.toString(id);
@@ -96,28 +96,28 @@ public class RoutesServices extends Services{
         update(contentValues, where);
     }
 
-    public void updateStartPointLat(String newLat, String name) {
+    public static void updateStartPointLat(String newLat, String name) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("StartPointLat", newLat);
         String where = "RouteName=" + name;
         update(contentValues, where);
     }
 
-    public void updateStartPointLon(String newLon, String name) {
+    public static void updateStartPointLon(String newLon, String name) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("StartPointLon", newLon);
         String where = "RouteName=" + name;
         update(contentValues, where);
     }
 
-    public void updateRouteName(String newName, String name) {
+    public static void updateRouteName(String newName, String name) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("RouteName", newName);
         String where = "RouteName=" + name;
         update(contentValues, where);
     }
 
-    public void updateRouteUserId(String newId, String name) {
+    public static void updateRouteUserId(String newId, String name) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("UserId", newId);
         String where = "RouteName=" + name;
