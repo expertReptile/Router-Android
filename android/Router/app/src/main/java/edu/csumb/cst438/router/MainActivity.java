@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.net.URL;
->>>>>>> e8ac607dc33f08786eeb7844ce66f4c1dc235a3c
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -75,19 +74,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in monterey and move the camera
+        marker = mMap.addMarker(new MarkerOptions().position(loc.getLocation()).title("You"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocation(), 16));
 
-        Route route = RoutesServices.getAllLocalRoutes().get(0);
-        Log.d("test", DrawingService.createLine(route).toString());
-        googleMap.addPolyline(DrawingService.createLine(route));
-        LatLng pos = loc.getLocation();
-        marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));
-
-        Polyline line = googleMap.addPolyline(new PolylineOptions()
-        .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
-        .width(5)
-        .color(Color.RED));
         updateLocation();
     }
 
