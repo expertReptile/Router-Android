@@ -57,8 +57,6 @@
             android:drawableTop="@drawable/quantum_ic_keyboard_arrow_down_white_36"
             android:id="@+id/GetNearMeButton"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/MainRecordButton"
-            android:layout_marginLeft="100dp"
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
