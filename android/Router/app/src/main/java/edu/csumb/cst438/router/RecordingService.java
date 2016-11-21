@@ -20,7 +20,7 @@ public class RecordingService extends IntentService {
     public RecordingService() {
         super("RecordingService");
         gps = new LocationService(this);
-        routesServices = new RoutesServices(Application.db);
+        routesServices = new RoutesServices();
     }
 
     @Override

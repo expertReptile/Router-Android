@@ -1,8 +1,10 @@
 package edu.csumb.cst438.router;
 
-import android.support.v4.app.FragmentActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -15,6 +17,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -45,6 +49,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mSearchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
 
         loc = new LocationService(this);
+        Log.d("map", "finished onCreate");
     }
 
 
@@ -59,12 +64,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d("map", "onMapReady start");
         mMap = googleMap;
 
         // Add a marker in monterey and move the camera
         LatLng monterey = loc.getLocation();
         mMap.addMarker(new MarkerOptions().position(monterey).title("Marker in CSUMB"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(monterey, 16));
+
+        Polyline line = googleMap.addPolyline(new PolylineOptions()
+        .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
+        .width(5)
+        .color(Color.RED));
     }
 
     public void updateLocation() {
