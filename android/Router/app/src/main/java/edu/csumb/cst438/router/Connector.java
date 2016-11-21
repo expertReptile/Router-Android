@@ -125,15 +125,15 @@ public class Connector {
         return null;
     }
 
-    public boolean checkLogin(final String username, final String password) {
+    public User checkLogin(final String username, final String password) {
 
-        Callable<Boolean> callable = new Callable<Boolean>() {
+        Callable<User> callable = new Callable<User>() {
             @Override
-            public Boolean call() throws Exception {
+            public User call() throws Exception {
                 return checkLogin_internal(username, password);
             }
         };
-        Future<Boolean> future = executorService.submit(callable);
+        Future<User> future = executorService.submit(callable);
         executorService.shutdown();
         try {
             return future.get();
@@ -141,7 +141,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-        return false;
+        return null;
 
     }
 
@@ -325,7 +325,7 @@ public class Connector {
         return -1;
     }
 
-    private Boolean checkLogin_internal(String username, String password) {
+    private User checkLogin_internal(String username, String password) {
         password = sha1(password);
         String json = "";
         try {
@@ -339,15 +339,15 @@ public class Connector {
 
         try {
             JSONObject response = new JSONObject(getResponse(json.toString(), checkLogin));
-            if(response.get("status").toString().equals("success")) {
-                return true;
+            if(response.get("username") != null) {
+                return new User(response.get("username").toString(), response.get("bio").toString(), response.get("email").toString());
             }
-            return false;
+            return null;
         }
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-        return false;
+        return null;
 
     }
 }
