@@ -1,12 +1,11 @@
 package edu.csumb.cst438.router;
 
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +35,7 @@ public class MyRoutes extends AppCompatActivity {
 
             Route tempRoute = new Route(TRUE, 5, "{}", "12.12", "12.12", 321, "testRoute");
             routesServices.insertRoute(tempRoute);
+
             myRoutes = new String[]{routesServices.getRouteById(5).getRouteName()};
             /*for(Route route: routesServices.getAllLocalRoutes()){
                 myRoutes[myRoutes.length] = route.getRouteName();

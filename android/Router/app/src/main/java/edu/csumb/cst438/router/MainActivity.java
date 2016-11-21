@@ -1,12 +1,16 @@
 package edu.csumb.cst438.router;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -18,8 +22,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -30,6 +32,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationService loc;
     private RoutesServices routesServices;
     private Marker marker;
+    private boolean isRecording = false;
+    private Intent recordingService;
+    private String routeName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,39 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         loc = new LocationService(this);
         routesServices = Application.routesService;
+        recordingService = new Intent(this, RecordingService.class);
         Log.d("map", "finished onCreate");
+    }
+
+    public void startRecording() {
+
+        if(!isRecording) {
+            recordingService.putExtra("name", "TEMPORARY");
+            recordingService.putExtra("StartLat", Double.toString(loc.getLocation().latitude));
+            recordingService.putExtra("StartLon", Double.toString(loc.getLocation().longitude));
+            this.startService(recordingService);
+            isRecording = true;
+        }
+        else {
+            this.stopService(recordingService);
+            isRecording = false;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    routeName = input.getText().toString();
+                }
+            });
+
+            builder.show();
+
+            RoutesServices.updateRouteName(routeName, "TEMPORARY");
+        }
     }
 
 
@@ -84,7 +121,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
         LatLng newPos = loc.getLocation();
         Log.d("update", "New Location: " + newPos.toString());
-        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(newPos, 15);
+        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(newPos, 20);
         mMap.moveCamera(center);
         Log.d("update", "Moved camera to " + center.toString());
         marker = mMap.addMarker(new MarkerOptions()
