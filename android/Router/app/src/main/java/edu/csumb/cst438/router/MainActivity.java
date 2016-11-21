@@ -15,7 +15,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -23,6 +22,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.net.URL;
+>>>>>>> e8ac607dc33f08786eeb7844ce66f4c1dc235a3c
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -31,6 +31,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private ListView mDrawerList;
     private FloatingSearchView mSearchView;
     private LocationService loc;
+    private RoutesServices routesServices;
     private Marker marker;
 
     @Override
@@ -53,7 +54,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         mSearchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
 
-        loc = new LocationService(this);
+        loc = Application.locationService;
+        routesServices = Application.routesService;
         Log.d("map", "finished onCreate");
     }
 
@@ -73,6 +75,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in monterey and move the camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocation(), 16));
+
+        Route route = RoutesServices.getAllLocalRoutes().get(0);
+        Log.d("test", DrawingService.createLine(route).toString());
+        googleMap.addPolyline(DrawingService.createLine(route));
         LatLng pos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));
