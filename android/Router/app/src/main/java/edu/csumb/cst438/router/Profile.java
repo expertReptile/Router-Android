@@ -1,6 +1,8 @@
 package edu.csumb.cst438.router;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +24,15 @@ public class Profile extends AppCompatActivity {
     private ListView mDrawerList;
     private UserServices userServices;
     private Button mSaveButton;
+    private Button mMetric;
+    private Button mImperial;
+    private Button mPublic;
+    private Button mPrivate;
     private EditText mUsername;
     private EditText mEmail;
     private EditText mBio;
     private Boolean isPrivate;
-    private Boolean isKilo;
+    private Boolean isMetric;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,10 @@ public class Profile extends AppCompatActivity {
 
         userServices = new UserServices();
         mSaveButton = (Button)findViewById(R.id.ProfileSaveButton);
+        mMetric = (Button)findViewById(R.id.DistanceUnitsButton_Kilometers);
+        mImperial = (Button)findViewById(R.id.DistanceUnitsButton_Miles);
+        mPublic = (Button)findViewById(R.id.ProfilePrivacyButton_Public);
+        mPrivate = (Button)findViewById(R.id.ProfilePrivacyButton_Private);
         mUsername = (EditText)findViewById(R.id.UsernameEditText);
         mEmail = (EditText)findViewById(R.id.EmailTextEdit);
         mBio = (EditText)findViewById(R.id.ProfileBioEditText);
@@ -52,7 +62,9 @@ public class Profile extends AppCompatActivity {
     }
 
     public void getProfile() {
-        userServices.CreateLocalUser("test user", "BIO", "PRIVATE", "email@rmail.jdsk", "321");
+
+        //TODO: retrieve user info from local DB after user has logged in && remove test line below
+        userServices.CreateLocalUser("test user", "BIO", "PRIVATE", "email@rmail.jdsk", "321", "METRIC");
 
         EditText mUsername = (EditText) findViewById(R.id.UsernameEditText);
         mUsername.setHint(userServices.getUserName());
@@ -63,25 +75,42 @@ public class Profile extends AppCompatActivity {
         EditText bio = (EditText) findViewById(R.id.ProfileBioEditText);
         bio.setHint(userServices.getUserBio());
 
-        Log.d("poop", userServices.getUserPrivacy());
         if(userServices.getUserPrivacy().equals("PUBLIC")) {
-            isPrivate = false;
-            findViewById(R.id.ProfilePrivacyButton_Private).setBackgroundColor(000000);
+            setPublic(mPublic);
         } else {
-            isPrivate = true;
-            findViewById(R.id.ProfilePrivacyButton_Public).setBackgroundColor(000000);
+            setPrivate(mPrivate);
         }
 
-        // TODO: unit changes
-        //userServices.getUnitPref();
+        if(userServices.getUserUnits().equals("IMPERIAL")) {
+            setImperial(mImperial);
+        } else {
+            setMetric(mMetric);
+        }
     }
 
     public void setPublic(View view) {
         isPrivate = false;
+        mPublic.setBackgroundColor(0xff5a595b);
+        mPrivate.setBackgroundColor(000000);
     }
 
     public void setPrivate(View view) {
         isPrivate = true;
+        mPrivate.setBackgroundColor(0xff5a595b);
+        mPublic.setBackgroundColor(000000);
+    }
+
+    public void setImperial(View view) {
+        isMetric = false;
+        mImperial.setBackgroundColor(0xff5a595b);
+        mMetric.setBackgroundColor(000000);
+
+    }
+
+    public void setMetric(View view) {
+        isMetric = true;
+        mMetric.setBackgroundColor(0xff5a595b);
+        mImperial.setBackgroundColor(000000);
     }
 
     public void saveProfile(View view) {
@@ -100,6 +129,12 @@ public class Profile extends AppCompatActivity {
             userServices.updateUserPrivacy("PRIVATE");
         } else {
             userServices.updateUserPrivacy("PUBLIC");
+        }
+
+        if(isMetric){
+            userServices.updateUserUnits("METRIC");
+        } else {
+            userServices.updateUserUnits("IMPERIAL");
         }
     }
 

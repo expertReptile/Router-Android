@@ -45,6 +45,12 @@ public class UserServices extends Services{
         update(values);
     }
 
+    public static void updateUserUnits(String newUnit) {
+        ContentValues values = new ContentValues();
+        values.put("Units", newUnit);
+        update(values);
+    }
+
     public static String getUserPrivacy() {
         String query = String.format("SELECT * FROM UserSettings WHERE 1");
         Cursor c= db.rawQuery(query, null);
@@ -97,6 +103,19 @@ public class UserServices extends Services{
         return c.getString(5);
     }
 
+    public static String getUserUnits() {
+        String query = String.format("SELECT * FROM UserSettings WHERE 1");
+        Cursor c= db.rawQuery(query, null);
+
+        if(c.getCount() == 0) {
+            Log.d("DeBra", "something went wrong!");
+            return null;
+        }
+
+        c.moveToFirst();
+        return c.getString(6);
+    }
+
     private static void insert(final String tableName, final ContentValues values) {
         new Thread(new Runnable() {
             @Override
@@ -115,13 +134,14 @@ public class UserServices extends Services{
         }).start();
     }
 
-    public static void CreateLocalUser(String username, String bio, String privacy, String email, String userId) {
+    public static void CreateLocalUser(String username, String bio, String privacy, String email, String userId, String units) {
         ContentValues values = new ContentValues();
         values.put("Username", username);
         values.put("Bio", bio);
         values.put("Privacy", privacy);
         values.put("Email", email);
         values.put("userId", userId);
+        values.put("Units", units);
 
         deleteLocalUser();
         insert("UserSettings", values);
