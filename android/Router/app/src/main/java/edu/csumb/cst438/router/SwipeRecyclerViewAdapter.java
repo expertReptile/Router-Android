@@ -95,52 +95,34 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             }
         });
 
-
-        viewHolder.testButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(v.getContext(), "Clicked on " + viewHolder.testButton1.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        viewHolder.testButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.testButton2.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        viewHolder.testButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.testButton3.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-/*
-
-        Could come in handy as a delete button example
-
-        viewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
+        viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
-                studentList.remove(position);
+                theArrayList.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position, studentList.size());
+                notifyItemRangeChanged(position, theArrayList.size());
                 mItemManger.closeAllItems();
-                Toast.makeText(view.getContext(), "Deleted " + viewHolder.tvName.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
-*/
 
-        // mItemManger is member in RecyclerSwipeAdapter Class
+        viewHolder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            //TODO : need dialogue window to edit route info
+                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.editButton.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            //TODO : impleent sharing things
+                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.shareButton.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mItemManger.bindView(viewHolder.itemView, position);
-
     }
 
     @Override
@@ -157,22 +139,19 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         return R.id.swiper;
     }
 
-
-    //  ViewHolder Class
-
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
-        Button testButton1;
-        Button testButton2;
-        Button testButton3;
+        Button deleteButton;
+        Button editButton;
+        Button shareButton;
         TextView rowText;
 
         public SimpleViewHolder(View itemView) {
             super(itemView);
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swiper);
-            testButton1 = (Button) itemView.findViewById(R.id.Delete);
-            testButton2 = (Button) itemView.findViewById(R.id.Edit);
-            testButton3 = (Button) itemView.findViewById(R.id.Share);
+            deleteButton = (Button) itemView.findViewById(R.id.Delete);
+            editButton = (Button) itemView.findViewById(R.id.Edit);
+            shareButton = (Button) itemView.findViewById(R.id.Share);
             rowText = (TextView) itemView.findViewById(R.id.swiperRow);
         }
     }
