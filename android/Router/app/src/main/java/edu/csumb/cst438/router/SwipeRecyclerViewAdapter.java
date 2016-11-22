@@ -12,17 +12,26 @@ import android.widget.Toast;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
+import java.util.ArrayList;
+
 /**
  * Created by Pearce on 11/9/16.
  */
 
 public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecyclerViewAdapter.SimpleViewHolder> {
     private Context mContext;
+    private String rowString;
     private String[] theList;
+    private ArrayList<Route> theArrayList;
 
     public SwipeRecyclerViewAdapter(Context context, String[] objects) {
         this.mContext = context;
         this.theList = objects;
+    }
+
+    public SwipeRecyclerViewAdapter(Context context, ArrayList<Route> objects) {
+        this.mContext = context;
+        this.theArrayList = objects;
     }
 
     @Override
@@ -33,10 +42,14 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public void onBindViewHolder(final SimpleViewHolder viewHolder, final int position) {
-        final String row = theList[position];
+        if(theList != null){
+            rowString = theList[position];
+        } else {
+            rowString = theArrayList.get(position).getRouteName();
+        }
 
         // TODO: update this area to populate the actual row values and not a debug text
-        viewHolder.rowText.setText((row) + "  -  Row Position " + position);
+        viewHolder.rowText.setText(rowString);
 
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
         viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.bottom_view));
@@ -78,7 +91,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, " onClick : " + row , Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, " onClick : " + rowString , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -87,7 +100,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(v.getContext(), "Clicked on test button 1" + viewHolder.testButton1.getText().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Clicked on " + viewHolder.testButton1.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -96,7 +109,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(view.getContext(), "Clicked on test button 2" + viewHolder.testButton2.getText().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.testButton2.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,7 +117,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(view.getContext(), "Clicked on test button 3" + viewHolder.testButton3.getText().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.testButton3.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -132,7 +145,11 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public int getItemCount() {
-        return theList.length;
+        if(theList != null) {
+            return theList.length;
+        } else {
+            return theArrayList.size();
+        }
     }
 
     @Override
