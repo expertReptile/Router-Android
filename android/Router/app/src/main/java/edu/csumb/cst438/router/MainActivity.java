@@ -3,7 +3,6 @@ package edu.csumb.cst438.router;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -67,7 +67,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("map", "finished onCreate");
     }
 
-    public void startRecording() {
+    public void startRecording(View view) {
 
         if(!isRecording) {
             recordingService.putExtra("name", "TEMPORARY");
@@ -78,9 +78,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
         else {
             this.stopService(recordingService);
+            Application.cont = false;
             isRecording = false;
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Name Your Route");
+
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_CLASS_TEXT);
             builder.setView(input);
@@ -89,13 +92,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     routeName = input.getText().toString();
+                    RoutesServices.updateRouteName(routeName, "TEMPORARY");
                 }
             });
 
             builder.show();
-
-            RoutesServices.updateRouteName(routeName, "TEMPORARY");
         }
+    }
+
+    public void getCurrentLocation(View view) {
+        updateLocation();
     }
 
 
