@@ -86,9 +86,9 @@ public class MyRoutes extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        routesServices.deleteRoute(5);
+        /*routesServices.deleteRoute(5);
         routesServices.deleteRoute(6);
         routesServices.deleteRoute(7);
-        routesServices.deleteRoute(8);
+        routesServices.deleteRoute(8);*/
     }
 }

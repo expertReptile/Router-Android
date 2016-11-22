@@ -18,9 +18,8 @@ public class SearchEngine {
 
     public static ArrayList<Route> findRoutes(String query, ArrayList<Route> data) {
         //TODO: implement search for routes functionality (may need to change format)
-        String pattern = ".*" + query + ".*";
+        String pattern = "(?i).*" + query + ".*";
         ArrayList<Route> results = new ArrayList<>();
-        int ctr = 0;
 
         for(Route entry: data) {
             if(entry.getRouteName().matches(pattern)) {
