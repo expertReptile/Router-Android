@@ -67,7 +67,7 @@ public class Register extends AppCompatActivity{
                             .show();
         }
         else{
-            userServices.createLocalUser(username, bio, "private", email, Integer.toString(userId));
+            userServices.createLocalUser(username, bio, "private", email, Integer.toString(userId), "METRIC");
             moveToMain();
         }
     }

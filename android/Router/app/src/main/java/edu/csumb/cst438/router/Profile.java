@@ -64,7 +64,7 @@ public class Profile extends AppCompatActivity {
     public void getProfile() {
 
         //TODO: remove test line below for deployment functionality
-        userServices.CreateLocalUser("test user", "BIO", "PRIVATE", "email@rmail.jdsk", "321", "METRIC");
+        userServices.createLocalUser("test user", "BIO", "PRIVATE", "email@rmail.jdsk", "321", "METRIC");
 
         EditText mUsername = (EditText) findViewById(R.id.UsernameEditText);
         mUsername.setHint(userServices.getUserName());
@@ -75,13 +75,13 @@ public class Profile extends AppCompatActivity {
         EditText bio = (EditText) findViewById(R.id.ProfileBioEditText);
         bio.setHint(userServices.getUserBio());
 
-        if(userServices.getUserPrivacy().equals("PUBLIC")) {
+        if(userServices.getUserPrivacy().toUpperCase().equals("PUBLIC")) {
             setPublic(mPublic);
         } else {
             setPrivate(mPrivate);
         }
 
-        if(userServices.getUserUnits().equals("IMPERIAL")) {
+        if(userServices.getUserUnits().toUpperCase().equals("IMPERIAL")) {
             setImperial(mImperial);
         } else {
             setMetric(mMetric);
