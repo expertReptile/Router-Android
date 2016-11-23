@@ -3,7 +3,6 @@ package edu.csumb.cst438.router;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import static edu.csumb.cst438.router.Application.userService;
 
 public class Splash extends AppCompatActivity {
