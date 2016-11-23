@@ -1,6 +1,7 @@
 package edu.csumb.cst438.router;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,12 +86,22 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
                 // called when mid swipe and user ends touch input
             }
         });
-
+/*
         viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, " onClick : " + rowString , Toast.LENGTH_SHORT).show();
                 //TODO: implement desired functionality when a row is clicked
+            }
+        });
+*/
+        viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                intent.putExtra("routeId", theArrayList.get(position).getRouteIdRemote());
+                intent.putExtra("route", theArrayList.get(position).getRoute());
+                view.getContext().startActivity(intent);
             }
         });
 
