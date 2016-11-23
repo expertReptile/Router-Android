@@ -20,6 +20,7 @@ public class SQLiteHelper {
         public static final String COLLUM_NAME_PRIVACY = "Privacy";
         public static final String COLLUMN_NAME_EMAIL = "Email";
         public static final String COLLUMN_NAME_USERID = "UserId";
+        public static final String COLUMN_NAME_UNITS = "Units";
     }
 
     public static abstract class Routes implements BaseColumns {
@@ -42,7 +43,8 @@ public class SQLiteHelper {
                 UserSettings.COLLUMN_NAME_BIO + TEXT_STYPE + COMMA_SEP +
                 UserSettings.COLLUM_NAME_PRIVACY + TEXT_STYPE + COMMA_SEP +
                 UserSettings.COLLUMN_NAME_EMAIL + TEXT_STYPE + COMMA_SEP +
-                    UserSettings.COLLUMN_NAME_USERID + ")";
+                    UserSettings.COLLUMN_NAME_USERID + TEXT_STYPE + COMMA_SEP +
+                    UserSettings.COLUMN_NAME_UNITS + ")";
 
     private static final String DELETE_USER_SETTINGS =
             "DROP TABLE IF EXISTS " + UserSettings.TABLE_NAME;
@@ -72,7 +74,7 @@ public class SQLiteHelper {
     private static final String INIT_USER_SETTINGS = "INSERT INTO " + UserSettings.TABLE_NAME +
             " (" + UserSettings.COLLUMN_NAME_USERNAME + COMMA_SEP + UserSettings.COLLUM_NAME_PRIVACY +
             COMMA_SEP + UserSettings.COLLUMN_NAME_BIO + COMMA_SEP + UserSettings.COLLUMN_NAME_EMAIL + COMMA_SEP +
-            UserSettings.COLLUM_NAME_PRIVACY + ") " + "VALUES (%s, %s, %s, %s)";
+            UserSettings.COLLUM_NAME_PRIVACY + COMMA_SEP + UserSettings.COLUMN_NAME_UNITS + ") " + "VALUES (%s, %s, %s, %s)";
 
     private static final String SELECT_FROM_ROUTES = "SELECT * FROM " + Routes.TABLE_NAME + " WHERE %s = %s";
 
