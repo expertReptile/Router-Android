@@ -23,6 +23,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
     private String rowString;
     private String[] theList;
     private ArrayList<Route> theArrayList;
+    private RoutesServices routesServices = new RoutesServices();
 
     public SwipeRecyclerViewAdapter(Context context, String[] objects) {
         this.mContext = context;
@@ -48,14 +49,11 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             rowString = theArrayList.get(position).getRouteName();
         }
 
-        // TODO: update this area to populate the actual row values and not a debug text
         viewHolder.rowText.setText(rowString);
 
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
         viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.bottom_view));
 
-
-        // TODO implement different actions for the recycler view swiper states and the buttons revealed by the swiper
         viewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
             public void onClose(SwipeLayout layout) {
@@ -92,6 +90,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, " onClick : " + rowString , Toast.LENGTH_SHORT).show();
+                //TODO: implement desired functionality when a row is clicked
             }
         });
 
@@ -100,6 +99,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             public void onClick(View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 theArrayList.remove(position);
+                routesServices.deleteRoute(theArrayList.get(position).getRouteIdRemote());
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, theArrayList.size());
                 mItemManger.closeAllItems();
@@ -117,7 +117,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //TODO : impleent sharing things
+            //TODO : implement sharing things
                 Toast.makeText(view.getContext(), "Clicked on " + viewHolder.shareButton.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });

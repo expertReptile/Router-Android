@@ -72,7 +72,6 @@ public class MyRoutes extends AppCompatActivity {
                 displayedRoutes.clear();
                 displayedRoutes.addAll(SearchEngine.findRoutes(query, localRoutes));
                 mRecyclerAdapter.notifyDataSetChanged();
-                Log.d("search test", "searching");
             }
         });
     }
@@ -81,14 +80,5 @@ public class MyRoutes extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mRecyclerAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        /*routesServices.deleteRoute(5);
-        routesServices.deleteRoute(6);
-        routesServices.deleteRoute(7);
-        routesServices.deleteRoute(8);*/
     }
 }
