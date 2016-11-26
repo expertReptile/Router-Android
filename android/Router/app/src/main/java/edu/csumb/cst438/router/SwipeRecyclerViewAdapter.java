@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecyclerViewAdapter.SimpleViewHolder> {
     private Context mContext;
+    private String[] theList;
     private String rowString;
     private String[] theList;
     private ArrayList<Route> theArrayList;
@@ -44,6 +45,10 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public void onBindViewHolder(final SimpleViewHolder viewHolder, final int position) {
+        final String row = theList[position];
+
+        // TODO: update this area to populate the actual row values and not a debug text
+        viewHolder.rowText.setText((row) + "  -  Row Position " + position);
         if(theList != null){
             rowString = theList[position];
         } else {
@@ -55,6 +60,8 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
         viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.bottom_view));
 
+
+        // TODO implement different actions for the recycler view swiper states and the buttons revealed by the swiper
         viewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
             public void onClose(SwipeLayout layout) {
@@ -86,6 +93,60 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
                 // called when mid swipe and user ends touch input
             }
         });
+
+        viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, " onClick : " + row , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        viewHolder.testButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(v.getContext(), "Clicked on test button 1" + viewHolder.testButton1.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        viewHolder.testButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(view.getContext(), "Clicked on test button 2" + viewHolder.testButton2.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        viewHolder.testButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(view.getContext(), "Clicked on test button 3" + viewHolder.testButton3.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+/*
+
+        Could come in handy as a delete button example
+
+        viewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItemManger.removeShownLayouts(viewHolder.swipeLayout);
+                studentList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, studentList.size());
+                mItemManger.closeAllItems();
+                Toast.makeText(view.getContext(), "Deleted " + viewHolder.tvName.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+*/
+
+        // mItemManger is member in RecyclerSwipeAdapter Class
+        mItemManger.bindView(viewHolder.itemView, position);
+
 /*
         viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +199,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public int getItemCount() {
+        return theList.length;
         if(theList != null) {
             return theList.length;
         } else {
@@ -150,6 +212,14 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         return R.id.swiper;
     }
 
+
+    //  ViewHolder Class
+
+    public static class SimpleViewHolder extends RecyclerView.ViewHolder {
+        SwipeLayout swipeLayout;
+        Button testButton1;
+        Button testButton2;
+        Button testButton3;
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
         Button deleteButton;
@@ -160,6 +230,9 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         public SimpleViewHolder(View itemView) {
             super(itemView);
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swiper);
+            testButton1 = (Button) itemView.findViewById(R.id.Delete);
+            testButton2 = (Button) itemView.findViewById(R.id.Edit);
+            testButton3 = (Button) itemView.findViewById(R.id.Share);
             deleteButton = (Button) itemView.findViewById(R.id.Delete);
             editButton = (Button) itemView.findViewById(R.id.Edit);
             shareButton = (Button) itemView.findViewById(R.id.Share);

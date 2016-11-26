@@ -57,6 +57,13 @@ public class Profile extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getProfile();
+    }
+
+    public void getProfile() {
+        this.userServices = new UserServices();
+
+        EditText username = (EditText) findViewById(R.id.UsernameEditText);
+        username.setHint(userServices.getUserName());
 
 
     }
@@ -75,6 +82,17 @@ public class Profile extends AppCompatActivity {
         EditText bio = (EditText) findViewById(R.id.ProfileBioEditText);
         bio.setHint(userServices.getUserBio());
 
+
+        // todo: do button swapping here
+        /*
+        if(userServices.getUserPrivacy().equals("PUBLIC")) {
+
+        } else {
+
+        }*/
+
+        // TODO: unit changes
+        //userServices.getUnitPref();
         if(userServices.getUserPrivacy().toUpperCase().equals("PUBLIC")) {
             setPublic(mPublic);
         } else {

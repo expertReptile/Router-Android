@@ -116,7 +116,7 @@ public class RoutesServices extends Services{
     public static void updateRouteName(String newName, String name) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("RouteName", newName);
-        String where = "RouteName=" + name;
+        String where = "RouteName=" + "'" + name + "'";
         update(contentValues, where);
     }
 

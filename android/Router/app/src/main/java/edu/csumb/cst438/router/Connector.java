@@ -32,6 +32,15 @@ public class Connector {
     static String uploadRoute = "/uploadRoute/";
     static String createUser = "/createUser/";
     static String getNearMe = "/getNearMe/";
+    static String getFriendRequests = "/getFriendRequests/";
+    static String getFriends = "/getFriends/";
+    static String getRoutesShared = "/getRoutesShared/";
+    static String shareRoute = "/shareRoute/";
+    static String processRequest = "/processRequest/";
+    static String searchFriends = "/searchFriends/";
+    static String removeFriend = "/removeFriends/";
+    static String addFriend = "/addFriend/";
+
     static ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     Object result = null;
@@ -46,6 +55,122 @@ public class Connector {
             Log.e("error", e.toString());
         }
     }
+
+    public ArrayList<User> getFriendRequests() {
+        Callable<ArrayList<User>> callable = new Callable<ArrayList<User>>() {
+            @Override
+            public ArrayList<User> call() throws Exception {
+                return getFriendRequests_internal(UserServices.getUserId());
+            }
+        };
+        Future<ArrayList<User>> future = executorService.submit(callable);
+        executorService.shutdown();
+        try {
+            return future.get();
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+        return null;
+    }
+
+    public ArrayList<User> getFriends() {
+        Callable<ArrayList<User>> callable = new Callable<ArrayList<User>>() {
+            @Override
+            public ArrayList<User> call() throws Exception {
+                return getFriends_internal(UserServices.getUserId());
+            }
+        };
+        Future<ArrayList<User>> future = executorService.submit(callable);
+        executorService.shutdown();
+        try {
+            return future.get();
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+        return null;
+    }
+
+    public ArrayList<Route> getRoutesShared() {
+        Callable<ArrayList<Route>> callable = new Callable<ArrayList<Route>>() {
+            @Override
+            public ArrayList<Route> call() throws Exception {
+                return getRoutesShared_internal(UserServices.getUserId());
+            }
+        };
+        Future<ArrayList<Route>> future = executorService.submit(callable);
+        executorService.shutdown();
+        try {
+            return future.get();
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+        return null;
+    }
+
+    public void shareRoute(final int you_id, final Route route) {
+        Callable<Void> callable = new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                shareRoute_internal(UserServices.getUserId(), you_id, route);
+                return null;
+            }
+        };
+        executorService.submit(callable);
+    }
+
+    public void processRequest(final String response, final int you_id) {
+        Callable<Void> callable = new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                processRequest_internal(UserServices.getUserId(), response, you_id);
+                return null;
+            }
+        };
+        executorService.submit(callable);
+    }
+
+    public ArrayList<User> searchFriends(final String name) {
+        Callable<ArrayList<User>> callable = new Callable<ArrayList<User>>() {
+            @Override
+            public ArrayList<User> call() throws Exception {
+                return searchFriends_internal(name);
+            }
+        };
+        Future<ArrayList<User>> future = executorService.submit(callable);
+        try {
+            return future.get();
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+        return null;
+    }
+
+    public void removeFriend(final int you_id) {
+        Callable<Void> callable = new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                removeFriend_internal(UserServices.getUserId(), you_id);
+                return null;
+            }
+        };
+        Future<Void> future = executorService.submit(callable);
+    }
+
+    public void addFriend(final int you_id) {
+        Callable<Void> callable = new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                addFriend_internal(UserServices.getUserId(), you_id);
+                return null;
+            }
+        };
+        Future<Void> future = executorService.submit(callable);
+    }
+
 
 
     public HashMap<String, String> downloadRoute(final int routeId) {
@@ -350,4 +475,211 @@ public class Connector {
         return null;
 
     }
+
+    private ArrayList<User> getFriendRequests_internal(final String userId) {
+        String json = "";
+        ArrayList<User> result = new ArrayList<>();
+        try {
+            json = (new JSONObject()
+            .put("userId", userId)).toString();
+        }
+        catch (Exception e) {
+            Log.d("Error", e.toString());
+        }
+
+        try {
+            JSONArray response = new JSONArray(getResponse(json.toString(), getFriendRequests));
+
+            for(int i = 0; i < response.length(); i++) {
+                JSONObject item = (JSONObject)response.get(i);
+                User temp = new User();
+                temp.username = item.get("username").toString();
+                temp.bio = item.get("bio").toString();
+                temp.userId = item.get("userId").toString();
+
+                result.add(temp);
+            }
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+
+        return result;
+    }
+
+    private ArrayList<User> getFriends_internal(final String userId) {
+        String json = "";
+        ArrayList<User> result = new ArrayList<>();
+        try {
+            json = (new JSONObject()
+                    .put("userId", userId)).toString();
+        }
+        catch (Exception e) {
+            Log.d("Error", e.toString());
+        }
+
+        try {
+            JSONArray response = new JSONArray(getResponse(json.toString(), getFriends));
+
+            for(int i = 0; i < response.length(); i++) {
+                JSONObject item = (JSONObject)response.get(i);
+                User temp = new User();
+                temp.username = item.get("username").toString();
+                temp.bio = item.get("bio").toString();
+                temp.userId = item.get("userId").toString();
+
+                result.add(temp);
+            }
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+
+        return result;
+    }
+
+    private ArrayList<Route> getRoutesShared_internal(final String userId) {
+        String json = "";
+        ArrayList<Route> result = new ArrayList<>();
+        try {
+            json = (new JSONObject()
+                    .put("userId", userId)).toString();
+        }
+        catch (Exception e) {
+            Log.d("Error", e.toString());
+        }
+
+        try {
+            JSONArray response = new JSONArray(getResponse(json.toString(), getRoutesShared));
+
+            for(int i = 0; i < response.length(); i++) {
+                JSONObject item = (JSONObject)response.get(i);
+                Route temp = new Route();
+                temp.setRoute(item.get("route").toString());
+                temp.setRouteName(item.get("routeName").toString());
+                temp.setStartPointLat(item.get("startPointLat").toString());
+                temp.setStartPointLon(item.get("startPointLon").toString());
+
+                result.add(temp);
+            }
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+
+        return result;
+    }
+
+    private void shareRoute_internal(final String userId, final int you_id, final Route route) {
+        String json = "";
+        try {
+            json = (new JSONObject()
+                    .put("userId", userId)
+                    .put("you_id", you_id)
+                    .put("route", route.getRoute())
+                    .put("route_name", route.getRouteName())
+                    .put("startPointLat", route.getStartPointLat())
+                    .put("startPointLon", route.getStartPointLon())).toString();
+        }
+        catch (Exception e) {
+            Log.d("Error", e.toString());
+        }
+
+        try {
+            getResponse(json.toString(), shareRoute);
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+    }
+
+    private void processRequest_internal(final String userId, final String response, final int you_id) {
+        String json = "";
+        try {
+            json = (new JSONObject()
+                    .put("userId", userId)
+                    .put("you_id", you_id)
+                    .put("response", response)).toString();
+        }
+        catch (Exception e) {
+            Log.d("Error", e.toString());
+        }
+
+        try {
+            getResponse(json.toString(), processRequest);
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+    }
+
+    private ArrayList<User> searchFriends_internal(final String name) {
+        String json = "";
+        ArrayList<User> result = new ArrayList<>();
+        try {
+            json = (new JSONObject()
+                    .put("name", name)).toString();
+        }
+        catch (Exception e) {
+            Log.d("Error", e.toString());
+        }
+
+        try {
+            JSONArray response = new JSONArray(getResponse(json.toString(), searchFriends));
+
+            for(int i = 0; i < response.length(); i++) {
+                JSONObject item = (JSONObject)response.get(i);
+                User temp = new User();
+                temp.username = item.get("username").toString();
+                temp.bio = item.get("bio").toString();
+                temp.userId = item.get("userId").toString();
+
+                result.add(temp);
+            }
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+
+        return result;
+    }
+
+    private void removeFriend_internal(final String userId, final int you_id) {
+        String json = "";
+        try {
+            json = (new JSONObject()
+                    .put("userId", userId)
+                    .put("you_id", you_id)).toString();
+        }
+        catch (Exception e) {
+            Log.d("Error", e.toString());
+        }
+
+        try {
+            getResponse(json.toString(), removeFriend);
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+    }
+
+    private void addFriend_internal(final String userId, final int you_id) {
+        String json = "";
+        try {
+            json = (new JSONObject()
+                    .put("userId", userId)
+                    .put("you_id", you_id)).toString();
+        }
+        catch (Exception e) {
+            Log.d("Error", e.toString());
+        }
+
+        try {
+            getResponse(json.toString(), addFriend);
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+    }
+
 }

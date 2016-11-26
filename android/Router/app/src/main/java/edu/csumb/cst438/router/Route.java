@@ -30,7 +30,7 @@ public class Route {
         this.routeIdRemote = routeIdRemote;
         this.startPointLat = startPointLat;
         this.startPointLon = startPointLon;
-        this.userId = userId;
+        this.userId = Integer.parseInt(UserServices.getUserId());
         this.routeName = routeName;
     }
 

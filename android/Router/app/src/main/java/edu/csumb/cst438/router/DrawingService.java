@@ -20,6 +20,7 @@ public class DrawingService {
 
     public static PolylineOptions createLine(Route route) {
         PolylineOptions polyLine = new PolylineOptions();
+        if(route == null) { return polyLine; }
         polyLine.width(5).color(Color.RED);
         for(LatLng latLg : route.getRouteList()) {
             Log.d("test", latLg.toString());

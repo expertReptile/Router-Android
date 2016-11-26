@@ -17,6 +17,8 @@ public class Application extends android.app.Application {
     public static Context context;
     public static RoutesServices routesService;
     public static UserServices userService;
+    public static boolean cont = true;
+    public static Route currentRoute = null;
 
 
     public void onCreate() {

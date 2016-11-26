@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import static edu.csumb.cst438.router.Application.cont;
+
 /**
  * Created by pico on 11/11/16.
  */
@@ -16,6 +18,8 @@ public class RecordingService extends IntentService {
     public static String name = "Recording.Service";
     private RoutesServices routesServices;
     private static int SLEEP_TIME = 2000; // 2 seconds
+    private Thread recording;
+    private Thread checking;
 
     public RecordingService() {
         super("RecordingService");
@@ -27,13 +31,13 @@ public class RecordingService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         // get data from intent
         //do work in here
-        route.setRouteName("test");
-
-        route.setUserId(Integer.parseInt(intent.getStringExtra("userId")));
-        route.setRouteIdRemote(10);
+        route.setRouteName(intent.getStringExtra("name"));
+        route.setStartPointLat(intent.getStringExtra("StartLat"));
+        route.setStartPointLon(intent.getStringExtra("StartLon"));
         routesServices.insertRoute(route);
+        cont = true;
 
-        new Thread(new Runnable() {
+        recording = new Thread(new Runnable() {
             @Override
             public void run() {
                 Log.d("recording", "starting recording");
@@ -41,16 +45,19 @@ public class RecordingService extends IntentService {
                 Log.d("recording", "stopped recording");
                 Log.d("recording", route.getRoute().toString());
             }
-        }).start();
+        });
 
-        new Thread(new Runnable() {
+        checking = new Thread(new Runnable() {
             @Override
             public void run() {
                 Log.d("recording", "starting gps");
                 startGPSing();
                 Log.d("recording", "stopped gpsing");
             }
-        }).start();
+        });
+
+        recording.start();
+        checking.start();
     }
 
     @Override
@@ -59,12 +66,16 @@ public class RecordingService extends IntentService {
 
     public void startRecording() {
 
-        while(true) {
-            Log.d("loop", "here1");
+        while(Application.cont) {
+            Log.d("recording", "here1");
             synchronized (lock) {
 
                 while(!gps.hasChanged())
                 {
+                    if(!Application.cont) {
+                        Log.d("recording", "dying");
+                        return;
+                    }
                     try {
                         Log.d("recording", "waiting");
                         lock.wait();
@@ -73,23 +84,34 @@ public class RecordingService extends IntentService {
                     catch (Exception e) {
                         Log.d("recording", e.toString());
                     }
+                    if(!Application.cont) {
+                        return;
+                    }
                 }
                 route.add(gps.getLocation());
                 routesServices.updateRouteRoute(route.getRoute(), route.getRouteIdRemote());
+                Application.currentRoute = route;
                 Log.d("recording", "route: " + route);
             }
+            Log.d("recording", "BLA4");
+            Log.d("recording", Boolean.toString(Application.cont));
         }
+        Log.d("recording", Boolean.toString(Application.cont));
 
     }
 
     public void startGPSing() {
         Log.d("recording", "starting gps!");
 
-        while(true) {
-            Log.d("loop", "here2");
+        while(Application.cont) {
+            Log.d("recording", "here2");
             synchronized (lock) {
 
                 while(!gps.hasChanged()) {
+                    if(!Application.cont) {
+                        Log.d("recording", "dying");
+                        return;
+                    }
                     try {
                         Log.d("recording", "sleeping");
                         Log.d("recording", "loc: " + gps.getLocation().toString());
@@ -100,10 +122,16 @@ public class RecordingService extends IntentService {
                     catch (Exception e) {
                         Log.d("recording", e.toString());
                     }
+                    if(!Application.cont) {
+                        return;
+                    }
                 }
                 lock.notify();
                 Log.d("recording", "notified");
             }
+            Log.d("recording", "BLA3");
+            Log.d("recording", Boolean.toString(Application.cont));
         }
+        Log.d("recording", Boolean.toString(Application.cont));
     }
 }

@@ -1,13 +1,19 @@
 
 package edu.csumb.cst438.router;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -31,10 +37,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationService loc;
     private RoutesServices routesServices;
     private Marker marker;
+    private boolean isRecording = false;
+    private Intent recordingService;
+    private String routeName = "";
+    private Polyline currentPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            this.isRecording = savedInstanceState.getBoolean("isRecording");
+        }
         setContentView(R.layout.activity_main);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -57,7 +71,52 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         loc = new LocationService(this);
 
         routesServices = Application.routesService;
+        recordingService = new Intent(this, RecordingService.class);
+
         Log.d("map", "finished onCreate");
+    }
+
+    public void startRecording(View view) {
+
+        if(!isRecording) {
+            recordingService.putExtra("name", "TEMPORARY");
+            recordingService.putExtra("StartLat", Double.toString(loc.getLocation().latitude));
+            recordingService.putExtra("StartLon", Double.toString(loc.getLocation().longitude));
+            this.startService(recordingService);
+            isRecording = true;
+        }
+        else {
+            this.stopService(recordingService);
+            Application.cont = false;
+            isRecording = false;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Name Your Route");
+
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    routeName = input.getText().toString();
+                    RoutesServices.updateRouteName(routeName, "TEMPORARY");
+                }
+            });
+
+            builder.show();
+        }
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean("isRecording", this.isRecording);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void getCurrentLocation(View view) {
+        updateLocation();
     }
 
 
@@ -94,7 +153,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
         LatLng newPos = loc.getLocation();
         Log.d("update", "New Location: " + newPos.toString());
-        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(newPos, 15);
+        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(newPos, 20);
         mMap.moveCamera(center);
         Log.d("update", "Moved camera to " + center.toString());
         marker = mMap.addMarker(new MarkerOptions()
@@ -103,6 +162,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         .anchor(0.0f, 1.0f)
         .title("Your Location"));
         new LocationChangedListener().execute(null, null);
+    }
+
+    public void updateDraw() {
+        if(currentPath == null) {
+            currentPath = mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
+        }
+        else {
+            currentPath.remove();
+            currentPath = mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
+        }
     }
 
 
@@ -124,6 +193,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         protected void onPostExecute(Void params) {
             Log.d("post", "Location Changed");
+            if(isRecording) {
+                updateDraw();
+            }
             updateLocation();
         }
     }

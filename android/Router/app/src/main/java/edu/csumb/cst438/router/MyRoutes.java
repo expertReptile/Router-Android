@@ -1,7 +1,10 @@
 package edu.csumb.cst438.router;
 
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +30,8 @@ public class MyRoutes extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mRecyclerAdapter;
     private RoutesServices routesServices;
+
+    private String myRoutes[];
     private ArrayList<Route> displayedRoutes;
     private ArrayList<Route> localRoutes;
 
@@ -34,7 +39,22 @@ public class MyRoutes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_routes);
+        //      TODO: make proper call to DB to get the list of the User's friends
 
+
+            Route tempRoute = new Route(TRUE, 5, "{}", "12.12", "12.12", 321, "testRoute");
+            routesServices.insertRoute(tempRoute);
+
+            myRoutes = new String[]{routesServices.getRouteById(5).getRouteName()};
+            /*for(Route route: routesServices.getAllLocalRoutes()){
+                myRoutes[myRoutes.length] = route.getRouteName();
+            }*/
+
+        //myRoutes = new String[] {"Friend1","Friend2","Friend3","Friend4","Friend5","Friend6","Friend7","Friend8","Friend9","Friend10",};
+        noDataMyRoutes = (TextView) findViewById(R.id.no_data_myRoutes);
+        mRecyclerView = (RecyclerView) findViewById(R.id.myRoutes_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerAdapter= new SwipeRecyclerViewAdapter(this, myRoutes);
         routesServices = new RoutesServices();
 
             // ****** TODO Remove test data
@@ -69,6 +89,11 @@ public class MyRoutes extends AppCompatActivity {
 
             @Override
             public void onSearchAction(String query) {
+
+                //TODO: figure out how to use results
+                System.out.println(SearchEngine.findFriends(query));
+            }
+        });
                 displayedRoutes.clear();
                 displayedRoutes.addAll(SearchEngine.findRoutes(query, localRoutes));
                 mRecyclerAdapter.notifyDataSetChanged();
