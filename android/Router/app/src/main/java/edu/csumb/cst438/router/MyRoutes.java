@@ -50,6 +50,8 @@ public class MyRoutes extends AppCompatActivity {
                 myRoutes[myRoutes.length] = route.getRouteName();
             }*/
 
+
+
         //myRoutes = new String[] {"Friend1","Friend2","Friend3","Friend4","Friend5","Friend6","Friend7","Friend8","Friend9","Friend10",};
         noDataMyRoutes = (TextView) findViewById(R.id.no_data_myRoutes);
         mRecyclerView = (RecyclerView) findViewById(R.id.myRoutes_recycler_view);
