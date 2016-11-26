@@ -31,8 +31,6 @@ public class Friends extends AppCompatActivity {
         //      TODO: make proper call to DB to get the list of the User's friends
         friends = new String[] {"Friend1","Friend2","Friend3","Friend4","Friend5","Friend6","Friend7","Friend8","Friend9","Friend10",};
 
-        //      TODO: make proper call to DB to get the list of the User's friends
-        friends = new String[] {"Friend1","Friend2","Friend3","Friend4","Friend5","Friend6","Friend7","Friend8","Friend9","Friend10",};
 
 
         noData = (TextView) findViewById(R.id.no_data);
