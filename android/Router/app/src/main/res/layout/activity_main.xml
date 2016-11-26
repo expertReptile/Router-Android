@@ -51,7 +51,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:onClick="startRecording"/>
-            android:layout_centerHorizontal="true"/>
 
         <Button
             android:layout_width="60dp"
@@ -61,7 +60,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:onClick="getCurrentLocation"/>
-            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
