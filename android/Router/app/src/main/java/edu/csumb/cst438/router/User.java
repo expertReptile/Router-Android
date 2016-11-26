@@ -14,10 +14,6 @@ public class User {
     public User() {
 
     }
-
-    public User() {
-
-    }
     public String id;
 
     public User(String username, String bio, String email, String id) {

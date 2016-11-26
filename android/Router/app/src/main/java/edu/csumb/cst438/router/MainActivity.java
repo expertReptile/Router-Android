@@ -3,7 +3,6 @@ package edu.csumb.cst438.router;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -26,7 +25,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -137,9 +135,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in monterey and move the camera
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocation(), 16));
 
-        Route route = RoutesServices.getAllLocalRoutes().get(0);
-        Log.d("test", DrawingService.createLine(route).toString());
-        googleMap.addPolyline(DrawingService.createLine(route));
         LatLng pos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));

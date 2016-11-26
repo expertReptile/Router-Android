@@ -23,7 +23,6 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
     private Context mContext;
     private String[] theList;
     private String rowString;
-    private String[] theList;
     private ArrayList<Route> theArrayList;
     private RoutesServices routesServices = new RoutesServices();
 
@@ -101,32 +100,6 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             }
         });
 
-
-        viewHolder.testButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(v.getContext(), "Clicked on test button 1" + viewHolder.testButton1.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        viewHolder.testButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(view.getContext(), "Clicked on test button 2" + viewHolder.testButton2.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        viewHolder.testButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(view.getContext(), "Clicked on test button 3" + viewHolder.testButton3.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
 /*
 
         Could come in handy as a delete button example
@@ -199,7 +172,6 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public int getItemCount() {
-        return theList.length;
         if(theList != null) {
             return theList.length;
         } else {
@@ -214,12 +186,6 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
 
     //  ViewHolder Class
-
-    public static class SimpleViewHolder extends RecyclerView.ViewHolder {
-        SwipeLayout swipeLayout;
-        Button testButton1;
-        Button testButton2;
-        Button testButton3;
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
         Button deleteButton;
@@ -230,9 +196,6 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         public SimpleViewHolder(View itemView) {
             super(itemView);
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swiper);
-            testButton1 = (Button) itemView.findViewById(R.id.Delete);
-            testButton2 = (Button) itemView.findViewById(R.id.Edit);
-            testButton3 = (Button) itemView.findViewById(R.id.Share);
             deleteButton = (Button) itemView.findViewById(R.id.Delete);
             editButton = (Button) itemView.findViewById(R.id.Edit);
             shareButton = (Button) itemView.findViewById(R.id.Share);

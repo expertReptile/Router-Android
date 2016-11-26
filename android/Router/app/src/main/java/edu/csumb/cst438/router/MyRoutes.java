@@ -5,12 +5,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -116,8 +111,6 @@ public class MyRoutes extends AppCompatActivity {
 
                 //TODO: figure out how to use results
                 System.out.println(SearchEngine.findFriends(query));
-            }
-        });
                 displayedRoutes.clear();
                 displayedRoutes.addAll(SearchEngine.findRoutes(query, localRoutes));
                 mRecyclerAdapter.notifyDataSetChanged();

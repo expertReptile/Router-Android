@@ -201,7 +201,6 @@ public class Connector {
             }
         };
         Future<Integer> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -437,15 +436,17 @@ public class Connector {
                     .put("email", email)).toString();
         }
         catch (Exception e) {
-            Log.d("error", e.toString());
+            Log.d("error", "HERE " + e.toString());
         }
 
         try {
+            Log.d("TEST", json.toString());
             JSONObject response = new JSONObject(getResponse(json.toString(), createUser));
+            Log.d("TEST", response.toString());
             return Integer.parseInt((response.get("userId").toString()));
         }
         catch (Exception e) {
-            Log.e("error", e.toString());
+            Log.e("error", "HERE2 " + e.toString());
         }
         return -1;
     }

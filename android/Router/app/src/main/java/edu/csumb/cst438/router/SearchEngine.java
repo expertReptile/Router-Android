@@ -8,14 +8,7 @@ import java.util.ArrayList;
  */
 
 public class SearchEngine {
-    public static String findFriends(String query) {
-        //TODO: implement search for friends functionality (may need to change format)
-        return query;
-    }
 
-    public static String findRoutes(String query) {
-        //TODO: implement search for routes functionality (may need to change format)
-        return query;
     public static ArrayList<Route> findFriends(String query) {
         //TODO: implement search for friends functionality (may need to change format)
 
