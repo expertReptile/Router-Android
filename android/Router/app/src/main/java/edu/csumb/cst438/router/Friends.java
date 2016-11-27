@@ -23,17 +23,32 @@ public class Friends extends AppCompatActivity {
     private RecyclerView.Adapter mRecyclerAdapter;
 
     private String friends[];
+    private ArrayList<User> allFriends;
+    private ArrayList<User> displayedFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         //      TODO: make proper call to DB to get the list of the User's friends
-        friends = new String[] {"Friend1","Friend2","Friend3","Friend4","Friend5","Friend6","Friend7","Friend8","Friend9","Friend10",};
+
+        //allFriends = new ArrayList(/*make call to get all of the users friends from the DB*/);
+        User testUser1 = new User("Friend1", "test bio1", "test email1", "1");
+        User testUser2 = new User("Friend2", "test bio2", "test email2", "2");
+        User testUser3 = new User("Friend3", "test bio3", "test email3", "3");
+        User testUser4 = new User("Friend4", "test bio4", "test email4", "4");
+        allFriends = new ArrayList();
+        allFriends.add(testUser1);
+        allFriends.add(testUser2);
+        allFriends.add(testUser3);
+        allFriends.add(testUser4);
+
+        displayedFriends = new ArrayList(allFriends);
+
         noData = (TextView) findViewById(R.id.no_data);
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.friends_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerAdapter= new SwipeRecyclerViewAdapter(this, friends);
+        mRecyclerAdapter= new FriendsSwipeRecyclerViewAdapter(this, displayedFriends);
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.friends_drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.friends_left_drawer);
@@ -49,9 +64,9 @@ public class Friends extends AppCompatActivity {
 
             @Override
             public void onSearchAction(String query) {
-
-                //TODO: figure out how to use results
-                System.out.println(SearchEngine.findFriends(query));
+                displayedFriends.clear();
+                displayedFriends.addAll(SearchEngine.findFriends(query, allFriends));
+                mRecyclerAdapter.notifyDataSetChanged();
             }
         });
 

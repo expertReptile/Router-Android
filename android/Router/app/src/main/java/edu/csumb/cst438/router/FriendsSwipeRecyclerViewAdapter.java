@@ -16,51 +16,43 @@ import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import java.util.ArrayList;
 
 /**
- * Created by Pearce on 11/9/16.
+ * Created by Pearce on 11/22/16.
  */
 
-public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecyclerViewAdapter.SimpleViewHolder> {
+public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<FriendsSwipeRecyclerViewAdapter.FriendsSimpleViewHolder> {
     private Context mContext;
-    private String[] theList;
     private String rowString;
-    private ArrayList<Route> theArrayList;
-    private RoutesServices routesServices = new RoutesServices();
+    private String[] theList;
+    private ArrayList<User> theArrayList;
 
-    public SwipeRecyclerViewAdapter(Context context, String[] objects) {
+    public FriendsSwipeRecyclerViewAdapter(Context context, String[] objects) {
         this.mContext = context;
         this.theList = objects;
     }
 
-    public SwipeRecyclerViewAdapter(Context context, ArrayList<Route> objects) {
+    public FriendsSwipeRecyclerViewAdapter(Context context, ArrayList<User> objects) {
         this.mContext = context;
         this.theArrayList = objects;
     }
 
     @Override
-    public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.swiper, parent, false);
-        return new SimpleViewHolder(view);
+    public FriendsSimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friends_swiper, parent, false);
+        return new FriendsSimpleViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final SimpleViewHolder viewHolder, final int position) {
-        final String row = theList[position];
-
-        // TODO: update this area to populate the actual row values and not a debug text
-        viewHolder.rowText.setText((row) + "  -  Row Position " + position);
+    public void onBindViewHolder(final FriendsSimpleViewHolder viewHolder, final int position) {
         if(theList != null){
             rowString = theList[position];
         } else {
-            rowString = theArrayList.get(position).getRouteName();
+            rowString = theArrayList.get(position).username;
         }
-
         viewHolder.rowText.setText(rowString);
 
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
-        viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.bottom_view));
+        viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.friendsBottom_view));
 
-
-        // TODO implement different actions for the recycler view swiper states and the buttons revealed by the swiper
         viewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
             public void onClose(SwipeLayout layout) {
@@ -92,14 +84,12 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
                 // called when mid swipe and user ends touch input
             }
         });
-        
+
         viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                intent.putExtra("routeId", theArrayList.get(position).getRouteIdRemote());
-                intent.putExtra("route", theArrayList.get(position).getRoute());
-                view.getContext().startActivity(intent);
+            public void onClick(View v) {
+                Toast.makeText(mContext, " onClick : " + rowString , Toast.LENGTH_SHORT).show();
+                //TODO: implement desired functionality when a row is clicked
             }
         });
 
@@ -108,26 +98,10 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             public void onClick(View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 theArrayList.remove(position);
-                routesServices.deleteRoute(theArrayList.get(position).getRouteIdRemote());
+                // TODO delete friend from the DB
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, theArrayList.size());
                 mItemManger.closeAllItems();
-            }
-        });
-
-        viewHolder.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            //TODO : need dialogue window to edit route info
-                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.editButton.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            //TODO : implement sharing things
-                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.shareButton.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -145,25 +119,19 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public int getSwipeLayoutResourceId(int position) {
-        return R.id.swiper;
+        return R.id.friendsSwiper;
     }
 
-
-    //  ViewHolder Class
-    public static class SimpleViewHolder extends RecyclerView.ViewHolder {
+    public static class FriendsSimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
         Button deleteButton;
-        Button editButton;
-        Button shareButton;
         TextView rowText;
 
-        public SimpleViewHolder(View itemView) {
+        public FriendsSimpleViewHolder(View itemView) {
             super(itemView);
-            swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swiper);
-            deleteButton = (Button) itemView.findViewById(R.id.Delete);
-            editButton = (Button) itemView.findViewById(R.id.Edit);
-            shareButton = (Button) itemView.findViewById(R.id.Share);
-            rowText = (TextView) itemView.findViewById(R.id.swiperRow);
+            swipeLayout = (SwipeLayout) itemView.findViewById(R.id.friendsSwiper);
+            deleteButton = (Button) itemView.findViewById(R.id.friendsDelete);
+            rowText = (TextView) itemView.findViewById(R.id.friendsSwiperRow);
         }
     }
 }

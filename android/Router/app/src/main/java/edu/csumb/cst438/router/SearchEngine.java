@@ -8,12 +8,18 @@ import java.util.ArrayList;
  */
 
 public class SearchEngine {
-
-    public static ArrayList<Route> findFriends(String query) {
+    public static ArrayList<User> findFriends(String query, ArrayList<User> data) {
         //TODO: implement search for friends functionality (may need to change format)
 
-        String pattern = ".*" + query + ".*";
-        ArrayList<Route> results = new ArrayList<>();
+        String pattern = "(?i).*" + query + ".*";
+        ArrayList<User> results = new ArrayList<>();
+
+        for(User entry: data) {
+            if(entry.username.matches(pattern)) {
+                results.add(entry);
+            }
+        }
+
         return results;
     }
 
