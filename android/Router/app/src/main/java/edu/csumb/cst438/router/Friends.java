@@ -8,10 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-
 import java.util.ArrayList;
 
 public class Friends extends AppCompatActivity {
@@ -22,7 +20,6 @@ public class Friends extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mRecyclerAdapter;
 
-    private String friends[];
     private ArrayList<User> allFriends;
     private ArrayList<User> displayedFriends;
 

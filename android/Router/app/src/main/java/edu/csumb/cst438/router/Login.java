@@ -124,7 +124,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                     .show();
         }
         else{
-            userServices.createLocalUser(user.username, user.bio, "private", user.email, user.id, "METRIC");
+            userServices.CreateLocalUser(user.username, user.bio, "private", user.email, user.id, "METRIC");
             moveToMain();
         }
     }
