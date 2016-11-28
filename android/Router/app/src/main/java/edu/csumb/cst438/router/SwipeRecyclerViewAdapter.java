@@ -1,12 +1,16 @@
 package edu.csumb.cst438.router;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,8 +115,23 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         viewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //TODO : need dialogue window to edit route info
-                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.editButton.getText().toString(), Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Rename Your Route");
+
+                final EditText input = new EditText(view.getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String routeName = input.getText().toString();
+                        RoutesServices.updateRouteName(routeName, theArrayList.get(position).getRouteName());
+                    }
+                });
+
+                builder.show();
+                notifyItemChanged(position, theArrayList.size());
             }
         });
 

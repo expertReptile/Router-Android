@@ -88,7 +88,7 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
         viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, " onClick : " + rowString , Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, " onClick : " + theArrayList.get(position).username , Toast.LENGTH_SHORT).show();
                 //TODO: implement desired functionality when a row is clicked
             }
         });
@@ -104,7 +104,6 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
                 mItemManger.closeAllItems();
             }
         });
-
         mItemManger.bindView(viewHolder.itemView, position);
     }
 
