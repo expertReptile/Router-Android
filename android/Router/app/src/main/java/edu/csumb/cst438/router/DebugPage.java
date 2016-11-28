@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -47,15 +48,16 @@ public class DebugPage extends AppCompatActivity {
     }
 
     public void openLoginActivity(View view) {
-        this.stopService(new Intent(this, RecordingService.class));
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
     public void MartinTest(View view) {
-        Intent intent = new Intent(this, RecordingService.class);
-        intent.putExtra("name", "routeName");
-        intent.putExtra("userId", "1");
-        this.startService(intent);
+        Connector connector = new Connector();
+        User user = connector.checkLogin("username", "password");
+        Log.d("TEST", user.toString());
+        user = connector.checkLogin("username", "password");
+        Log.d("TEST", user.toString());
+
     }
 }

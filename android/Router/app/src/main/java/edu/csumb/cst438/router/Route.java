@@ -23,8 +23,21 @@ public class Route {
     private int userId = -1;
     private String routeName = "";
     private JSONArray jsonArray = new JSONArray();
+    private float distance;
 
     public Route(boolean isLocal, int routeIdRemote, String route, String startPointLat, String startPointLon, int userId, String routeName) {
+
+        // TODO remove this test constructor
+        this.isLocal = isLocal;
+        this.route = route;
+        this.routeIdRemote = routeIdRemote;
+        this.startPointLat = startPointLat;
+        this.startPointLon = startPointLon;
+        this.userId = userId;
+        this.routeName = routeName;
+    }
+
+    public Route(boolean isLocal, int routeIdRemote, String route, String startPointLat, String startPointLon, String routeName) {
         this.isLocal = isLocal;
         this.route = route;
         this.routeIdRemote = routeIdRemote;
@@ -60,6 +73,13 @@ public class Route {
         return String.format("isLocal: %s \nroute: %s\n routeIdRemote: %s\nstartPointLat: %s\nStartPointLon: %s\nUserId: %s\nRouteName: %s\n",
                 isLocal, route, routeIdRemote, startPointLat, startPointLon, userId, routeName);
     }
+
+    public void setDistance(float distance)
+    {
+        this.distance = distance;
+    }
+
+    public float getDistance() {return distance;}
 
     public void setLocal(boolean local) {
         this.isLocal = local;

@@ -64,7 +64,6 @@ public class Connector {
             }
         };
         Future<ArrayList<User>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -82,7 +81,7 @@ public class Connector {
             }
         };
         Future<ArrayList<User>> future = executorService.submit(callable);
-        executorService.shutdown();
+
         try {
             return future.get();
         }
@@ -100,7 +99,6 @@ public class Connector {
             }
         };
         Future<ArrayList<Route>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -182,7 +180,6 @@ public class Connector {
             }
         };
         Future<HashMap<String, String>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -219,7 +216,6 @@ public class Connector {
             }
         };
         Future<Integer> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -229,16 +225,16 @@ public class Connector {
         return -1;
     }
 
-    public ArrayList<HashMap<String, String>> getNearMe(final String lat, final String lon, final double distance) {
+    public ArrayList<Route> getNearMe(final String lat, final String lon, final double distance) {
 
-        Callable<ArrayList<HashMap<String, String>>> callable = new Callable<ArrayList<HashMap<String, String>>>() {
+        Callable<ArrayList<Route>> callable = new Callable<ArrayList<Route>>() {
             @Override
-            public ArrayList<HashMap<String, String>> call() throws Exception {
+            public ArrayList<Route> call() throws Exception {
                 return getNearMe_internal(lat, lon, distance);
             }
         };
 
-        Future<ArrayList<HashMap<String, String>>> future = executorService.submit(callable);
+        Future<ArrayList<Route>> future = executorService.submit(callable);
         executorService.shutdown();
         try {
             return future.get();
@@ -258,7 +254,6 @@ public class Connector {
             }
         };
         Future<User> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -362,8 +357,8 @@ public class Connector {
     }
 
 
-    private ArrayList<HashMap<String, String>> getNearMe_internal(String lat, String lon, double distance) {
-        ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+    private ArrayList<Route> getNearMe_internal(String lat, String lon, double distance) {
+        ArrayList<Route> result = new ArrayList<Route>();
         String json = "";
 
         try {
@@ -380,15 +375,15 @@ public class Connector {
             JSONArray response = new JSONArray(getResponse(json.toString(), getNearMe));
 
             for(int i = 0; i < response.length(); i++) {
-                HashMap<String, String> temp = new HashMap<>();
+                Route route = new Route();
                 JSONObject item = (JSONObject)response.get(i);
-                Iterator<?> keys = item.keys();
-
-                while(keys.hasNext()) {
-                    String key = keys.next().toString();
-                    temp.put(key, item.get(key).toString());
-                }
-                result.add(temp);
+                route.setStartPointLon(item.getString("startPointLon"));
+                route.setStartPointLat(item.getString("startPointLat"));
+                route.setRouteName(item.getString("routeName"));
+                route.setRouteIdRemote(item.getInt("idroutes"));
+                route.setRoute(item.getString("route"));
+                route.setDistance(Float.parseFloat(item.getString("distance")));
+                result.add(route);
             }
         }
         catch (Exception e) {
@@ -464,7 +459,8 @@ public class Connector {
         }
 
         try {
-            JSONObject response = new JSONObject(getResponse(json.toString(), checkLogin));
+            JSONArray temp = new JSONArray(getResponse(json.toString(), checkLogin));
+            JSONObject response = new JSONObject(temp.get(0).toString());
             if(response.get("username") != null) {
                 return new User(response.get("username").toString(), response.get("bio").toString(), response.get("email").toString(), response.get("idusers").toString());
             }
@@ -496,7 +492,7 @@ public class Connector {
                 User temp = new User();
                 temp.username = item.get("username").toString();
                 temp.bio = item.get("bio").toString();
-                temp.userId = item.get("userId").toString();
+                temp.userId = item.get("idusers").toString();
 
                 result.add(temp);
             }
@@ -527,7 +523,7 @@ public class Connector {
                 User temp = new User();
                 temp.username = item.get("username").toString();
                 temp.bio = item.get("bio").toString();
-                temp.userId = item.get("userId").toString();
+                temp.userId = item.get("idusers").toString();
 
                 result.add(temp);
             }

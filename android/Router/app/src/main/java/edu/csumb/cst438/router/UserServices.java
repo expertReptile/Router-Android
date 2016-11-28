@@ -134,7 +134,7 @@ public class UserServices extends Services{
         }).start();
     }
 
-    public static void createLocalUser(String username, String bio, String privacy, String email, String userId, String units) {
+    public static void CreateLocalUser(String username, String bio, String privacy, String email, String userId, String units) {
         ContentValues values = new ContentValues();
         values.put("Username", username);
         values.put("Bio", bio);
@@ -163,5 +163,6 @@ public class UserServices extends Services{
         String table = "UserSettings";
         String where = "1";
         db.delete(table, where, null);
+    }
 
 }

@@ -55,7 +55,7 @@ public class Profile extends AppCompatActivity {
     public void getProfile() {
 
         //TODO: remove test line below for deployment functionality
-        userServices.createLocalUser("test user", "BIO", "PRIVATE", "email@rmail.jdsk", "321", "METRIC");
+        userServices.CreateLocalUser("test user", "BIO", "PRIVATE", "email@rmail.jdsk", "321", "METRIC");
 
         EditText mUsername = (EditText) findViewById(R.id.UsernameEditText);
         mUsername.setHint(userServices.getUserName());
@@ -65,24 +65,11 @@ public class Profile extends AppCompatActivity {
 
         EditText bio = (EditText) findViewById(R.id.ProfileBioEditText);
         bio.setHint(userServices.getUserBio());
-
-
-        // todo: do button swapping here
-        /*
-        if(userServices.getUserPrivacy().equals("PUBLIC")) {
-
-        } else {
-
-        }*/
-
-        // TODO: unit changes
-        //userServices.getUnitPref();
         if(userServices.getUserPrivacy().toUpperCase().equals("PUBLIC")) {
             setPublic(mPublic);
         } else {
             setPrivate(mPrivate);
         }
-
         if(userServices.getUserUnits().toUpperCase().equals("IMPERIAL")) {
             setImperial(mImperial);
         } else {
@@ -106,7 +93,6 @@ public class Profile extends AppCompatActivity {
         isMetric = false;
         mImperial.setBackgroundColor(0xff5a595b);
         mMetric.setBackgroundColor(000000);
-
     }
 
     public void setMetric(View view) {
@@ -145,6 +131,4 @@ public class Profile extends AppCompatActivity {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
-
-
 }

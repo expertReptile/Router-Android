@@ -1,12 +1,16 @@
 package edu.csumb.cst438.router;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +48,6 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public void onBindViewHolder(final SimpleViewHolder viewHolder, final int position) {
-        final String row = theList[position];
-
-        // TODO: update this area to populate the actual row values and not a debug text
-        viewHolder.rowText.setText((row) + "  -  Row Position " + position);
         if(theList != null){
             rowString = theList[position];
         } else {
@@ -58,9 +58,6 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
         viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.bottom_view));
-
-
-        // TODO implement different actions for the recycler view swiper states and the buttons revealed by the swiper
         viewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
             public void onClose(SwipeLayout layout) {
@@ -92,7 +89,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
                 // called when mid swipe and user ends touch input
             }
         });
-        
+
         viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,8 +115,23 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         viewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //TODO : need dialogue window to edit route info
-                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.editButton.getText().toString(), Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Rename Your Route");
+
+                final EditText input = new EditText(view.getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String routeName = input.getText().toString();
+                        RoutesServices.updateRouteName(routeName, theArrayList.get(position).getRouteName());
+                    }
+                });
+
+                builder.show();
+                notifyItemChanged(position, theArrayList.size());
             }
         });
 
@@ -148,8 +160,6 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         return R.id.swiper;
     }
 
-
-    //  ViewHolder Class
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
         Button deleteButton;
