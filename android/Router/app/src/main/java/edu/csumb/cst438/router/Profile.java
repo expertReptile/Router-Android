@@ -53,10 +53,6 @@ public class Profile extends AppCompatActivity {
     }
 
     public void getProfile() {
-
-        //TODO: remove test line below for deployment functionality
-        userServices.CreateLocalUser("test user", "BIO", "PRIVATE", "email@rmail.jdsk", "321", "METRIC");
-
         EditText mUsername = (EditText) findViewById(R.id.UsernameEditText);
         mUsername.setHint(userServices.getUserName());
 

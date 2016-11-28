@@ -25,19 +25,15 @@ import java.util.ArrayList;
 
 public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecyclerViewAdapter.SimpleViewHolder> {
     private Context mContext;
-    private String[] theList;
     private String rowString;
     private ArrayList<Route> theArrayList;
     private RoutesServices routesServices = new RoutesServices();
-
-    public SwipeRecyclerViewAdapter(Context context, String[] objects) {
-        this.mContext = context;
-        this.theList = objects;
-    }
+    private Connector mConnector;
 
     public SwipeRecyclerViewAdapter(Context context, ArrayList<Route> objects) {
         this.mContext = context;
         this.theArrayList = objects;
+        this.mConnector = new Connector();
     }
 
     @Override
@@ -48,11 +44,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public void onBindViewHolder(final SimpleViewHolder viewHolder, final int position) {
-        if(theList != null){
-            rowString = theList[position];
-        } else {
-            rowString = theArrayList.get(position).getRouteName();
-        }
+        rowString = theArrayList.get(position).getRouteName();
 
         viewHolder.rowText.setText(rowString);
 
@@ -138,8 +130,8 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //TODO : implement sharing things
-                Toast.makeText(view.getContext(), "Clicked on " + viewHolder.shareButton.getText().toString(), Toast.LENGTH_SHORT).show();
+            //TODO : figure out how to get the friends user ID
+                mConnector.shareRoute(-1, theArrayList.get(position));
             }
         });
 
@@ -148,11 +140,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
 
     @Override
     public int getItemCount() {
-        if(theList != null) {
-            return theList.length;
-        } else {
-            return theArrayList.size();
-        }
+        return theArrayList.size();
     }
 
     @Override

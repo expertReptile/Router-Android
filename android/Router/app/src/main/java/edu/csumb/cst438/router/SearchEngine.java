@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 public class SearchEngine {
     public static ArrayList<User> findFriends(String query, ArrayList<User> data) {
-        //TODO: implement search for friends functionality (may need to change format)
-
         String pattern = "(?i).*" + query + ".*";
         ArrayList<User> results = new ArrayList<>();
 

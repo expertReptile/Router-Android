@@ -26,18 +26,6 @@ public class Route {
     private float distance;
 
     public Route(boolean isLocal, int routeIdRemote, String route, String startPointLat, String startPointLon, int userId, String routeName) {
-
-        // TODO remove this test constructor
-        this.isLocal = isLocal;
-        this.route = route;
-        this.routeIdRemote = routeIdRemote;
-        this.startPointLat = startPointLat;
-        this.startPointLon = startPointLon;
-        this.userId = userId;
-        this.routeName = routeName;
-    }
-
-    public Route(boolean isLocal, int routeIdRemote, String route, String startPointLat, String startPointLon, String routeName) {
         this.isLocal = isLocal;
         this.route = route;
         this.routeIdRemote = routeIdRemote;

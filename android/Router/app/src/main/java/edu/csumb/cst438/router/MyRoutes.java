@@ -24,24 +24,15 @@ public class MyRoutes extends AppCompatActivity {
     private RoutesServices routesServices;
     private ArrayList<Route> displayedRoutes;
     private ArrayList<Route> localRoutes;
+    private Connector mConnector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_routes);
+        mConnector = new Connector();
+        //routesServices = new RoutesServices(******); TODO get the user's saved routes from DB
         routesServices = new RoutesServices();
-
-            // ****** TODO Remove test data
-            Route tempRoute1 = new Route(true, 5, "{1}", "12.12", "12.12", 321, "testRoute1");
-            Route tempRoute2 = new Route(true, 6, "{2}", "22.22", "22.22", 321, "testRoute2");
-            Route tempRoute3 = new Route(true, 7, "{3}", "32.32", "32.32", 321, "testRote3");
-            Route tempRoute4 = new Route(true, 8, "{4}", "42.42", "42.42", 321, "testRoute4");
-            routesServices.insertRoute(tempRoute1);
-            routesServices.insertRoute(tempRoute2);
-            routesServices.insertRoute(tempRoute3);
-            routesServices.insertRoute(tempRoute4);
-            // ******** end test data
-
         localRoutes = new ArrayList(routesServices.getAllLocalRoutes());
         displayedRoutes = new ArrayList(localRoutes);
         noDataMyRoutes = (TextView) findViewById(R.id.no_data_myRoutes);

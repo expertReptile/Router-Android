@@ -22,17 +22,15 @@ import java.util.ArrayList;
 public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<FriendsSwipeRecyclerViewAdapter.FriendsSimpleViewHolder> {
     private Context mContext;
     private String rowString;
-    private String[] theList;
+    private Boolean isAdd;
+    private Connector mConnector;
     private ArrayList<User> theArrayList;
-
-    public FriendsSwipeRecyclerViewAdapter(Context context, String[] objects) {
-        this.mContext = context;
-        this.theList = objects;
-    }
 
     public FriendsSwipeRecyclerViewAdapter(Context context, ArrayList<User> objects) {
         this.mContext = context;
         this.theArrayList = objects;
+        this.isAdd = false;
+        this.mConnector = new Connector();
     }
 
     @Override
@@ -43,15 +41,15 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
 
     @Override
     public void onBindViewHolder(final FriendsSimpleViewHolder viewHolder, final int position) {
-        if(theList != null){
-            rowString = theList[position];
-        } else {
-            rowString = theArrayList.get(position).username;
-        }
+        rowString = theArrayList.get(position).username;
         viewHolder.rowText.setText(rowString);
 
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
-        viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.friendsBottom_view));
+        if(isAdd) {
+            viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.addFriendsBottom_view));
+        } else {
+            viewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, viewHolder.swipeLayout.findViewById(R.id.friendsBottom_view));
+        }
 
         viewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
@@ -93,12 +91,20 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             }
         });
 
+        viewHolder.addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mConnector.addFriend(Integer.getInteger(theArrayList.get(position).userId));
+                //TODO add any additional functionality after addFriend button is clicked
+            }
+        });
+
         viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 theArrayList.remove(position);
-                // TODO delete friend from the DB
+                mConnector.removeFriend(Integer.getInteger(theArrayList.get(position).userId));
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, theArrayList.size());
                 mItemManger.closeAllItems();
@@ -109,11 +115,7 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
 
     @Override
     public int getItemCount() {
-        if(theList != null) {
-            return theList.length;
-        } else {
-            return theArrayList.size();
-        }
+        return theArrayList.size();
     }
 
     @Override
@@ -124,13 +126,19 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
     public static class FriendsSimpleViewHolder extends RecyclerView.ViewHolder {
         SwipeLayout swipeLayout;
         Button deleteButton;
+        Button addButton;
         TextView rowText;
 
         public FriendsSimpleViewHolder(View itemView) {
             super(itemView);
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.friendsSwiper);
             deleteButton = (Button) itemView.findViewById(R.id.friendsDelete);
+            addButton = (Button) itemView.findViewById(R.id.friendsAdd);
             rowText = (TextView) itemView.findViewById(R.id.friendsSwiperRow);
         }
+    }
+
+    public void setIsAdd(Boolean bool){
+        this.isAdd = bool;
     }
 }
