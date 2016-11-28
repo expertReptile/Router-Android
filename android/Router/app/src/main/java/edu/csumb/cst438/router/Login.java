@@ -72,7 +72,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
     private void handleSignInResult(GoogleSignInResult result) {
         this.connector = new Connector();
-        this.userServices = new UserServices();
+        this.userServices = Application.userService;
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             Log.d(TAG, "signed in: success");
@@ -124,7 +124,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
     private void authenticateLogin(final String username, final String password, View view) {
         this.connector = new Connector();
-        this.userServices = new UserServices();
+        this.userServices = Application.userService;
         User user = connector.checkLogin(username,password);
         if(user == null) {
             Log.d(TAG, "signed in: failed");

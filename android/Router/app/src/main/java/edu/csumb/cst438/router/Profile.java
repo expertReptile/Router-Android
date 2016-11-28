@@ -32,7 +32,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        userServices = new UserServices();
+        userServices = Application.userService;
         mSaveButton = (Button)findViewById(R.id.ProfileSaveButton);
         mMetric = (Button)findViewById(R.id.DistanceUnitsButton_Kilometers);
         mImperial = (Button)findViewById(R.id.DistanceUnitsButton_Miles);
