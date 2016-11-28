@@ -160,8 +160,9 @@ public class UserServices extends Services{
     }
 
     public static void deleteLocalUser() {
-        String query = "DELETE FROM UserSettings WHERE 1";
-        db.rawQuery(query, null);
+        String table = "UserSettings";
+        String where = "1";
+        db.delete(table, where, null);
     }
 
 }
