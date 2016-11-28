@@ -169,8 +169,6 @@ public class Connector {
         Future<Void> future = executorService.submit(callable);
     }
 
-
-
     public HashMap<String, String> downloadRoute(final int routeId) {
 
         Callable<HashMap<String, String>> callable = new Callable<HashMap<String, String>>() {
@@ -300,6 +298,9 @@ public class Connector {
                 // will keep appending the json response to response var
 
             conn.disconnect();
+            if(response.contains("\"status\": \"failure\"")){
+                return null;
+            }
             return response;
         } catch (Exception e) {
             Log.e("error", e.toString());
@@ -431,7 +432,7 @@ public class Connector {
                     .put("email", email)).toString();
         }
         catch (Exception e) {
-            Log.d("error", "HERE " + e.toString());
+            Log.d("error", e.toString());
         }
 
         try {
@@ -441,7 +442,7 @@ public class Connector {
             return Integer.parseInt((response.get("userId").toString()));
         }
         catch (Exception e) {
-            Log.e("error", "HERE2 " + e.toString());
+            Log.e("error", e.toString());
         }
         return -1;
     }
@@ -459,12 +460,16 @@ public class Connector {
         }
 
         try {
-            JSONArray temp = new JSONArray(getResponse(json.toString(), checkLogin));
-            JSONObject response = new JSONObject(temp.get(0).toString());
-            if(response.get("username") != null) {
-                return new User(response.get("username").toString(), response.get("bio").toString(), response.get("email").toString(), response.get("idusers").toString());
-            }
-            return null;
+             String responseValue = getResponse(json.toString(), checkLogin);
+             if(responseValue == null){
+                 return null;
+             }
+             JSONObject response;
+             JSONArray jsonArray = new JSONArray(responseValue);
+             response = jsonArray.getJSONObject(0);
+             Log.d("CheckLogin: ", response.toString());
+             return new User(response.get("username").toString(), response.get("bio").toString(),
+                        response.get("email").toString(), response.get("idusers").toString());
         }
         catch (Exception e) {
             Log.e("error", e.toString());

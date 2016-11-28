@@ -1,6 +1,7 @@
 package edu.csumb.cst438.router;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -11,11 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     private static final String TAG = "SignInActivity";
@@ -25,7 +29,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     private EditText passwordToLogin;
     private SignInButton signInButton;
     private GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView;
     private Connector connector;
     private UserServices userServices;
 
@@ -45,7 +48,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
 
@@ -69,10 +71,13 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
+        this.connector = new Connector();
+        this.userServices = new UserServices();
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             Log.d(TAG, "signed in: success");
-            // TODO: Send user to a different activity to enter `User` info.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            userServices.CreateLocalUser(acct.getGivenName(), " ", "private", acct.getEmail(), acct.getId(), "METRIC");
             moveToMain();
         } else {
             Log.d(TAG, "signed in: failed");
@@ -80,6 +85,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     }
 
     private void signIn() {
+        if(mGoogleApiClient != null && mGoogleApiClient.isConnected()){
+            signOut();
+        }
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -114,7 +122,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         startActivity(intent);
     }
 
-    public void authenticateLogin(final String username, final String password, View view) {
+    private void authenticateLogin(final String username, final String password, View view) {
         this.connector = new Connector();
         this.userServices = new UserServices();
         User user = connector.checkLogin(username,password);
@@ -133,5 +141,16 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         usernameToLogin = (EditText) findViewById(R.id.usernameToLogin);
         passwordToLogin = (EditText) findViewById(R.id.passwordToLogin);
         signInButton = (SignInButton) findViewById(R.id.signInButton);
+    }
+
+    private void signOut() {
+        Log.d(TAG, "Google signed out");
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        Log.d(TAG, "status: " + status.toString());
+                    }
+                });
     }
 }

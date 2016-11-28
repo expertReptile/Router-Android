@@ -4,167 +4,169 @@
     android:id="@+id/profile_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="edu.csumb.cst438.router.Profile">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username:"
-            android:id="@+id/UsernameText"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:textSize="26sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email:"
-            android:id="@+id/EmailText"
-            android:layout_below="@+id/UsernameText"
-            android:layout_alignParentLeft="true"
-            android:textSize="26sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Distance Units:"
-            android:id="@+id/DistanceUnitsText"
-            android:textSize="26sp"
-            android:layout_below="@+id/EmailText"
-            android:layout_alignParentStart="true"/>
-
-        <Button
-            android:text="Kilometers"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/DistanceUnitsText"
-            android:layout_alignParentStart="true"
-            android:id="@+id/DistanceUnitsButton_Kilometers"
-            android:layout_toStartOf="@+id/ProfilePrivacyButton_Private"
-            android:layout_width="wrap_content"
-            android:onClick="setMetric" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile Privacy:"
-            android:id="@+id/ProfilePrivacyText"
-            android:textSize="26sp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/DistanceUnitsButton_Kilometers" />
-
-        <Button
-            android:text="Public"
-            android:layout_width="wrap_content"
-            android:layout_below="@+id/ProfilePrivacyText"
-            android:layout_alignParentStart="true"
-            android:id="@+id/ProfilePrivacyButton_Public"
-            android:elevation="0dp"
-            android:onClick="setPublic"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentTop="false"
-            android:layout_centerVertical="false"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/ProfilePrivacyButton_Private" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile Bio:"
-            android:id="@+id/ProfileBioText"
-            android:textSize="26sp"
-            android:layout_below="@+id/ProfilePrivacyButton_Public"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:text="MILES"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/DistanceUnitsButton_Miles"
-            android:layout_below="@+id/DistanceUnitsText"
-            android:layout_toEndOf="@+id/ProfilePrivacyText"
-            android:onClick="setImperial"/>
-
-        <Button
-            android:text="Private"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ProfilePrivacyButton_Private"
-            android:onClick="setPrivate"
-            android:layout_below="@+id/ProfilePrivacyText"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/ProfilePrivacyText" />
-
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Phil"
-            android:textColorHint="#FFFFFF"
-            android:layout_toRightOf="@+id/UsernameText"
-            android:id="@+id/UsernameEditText"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/UsernameText"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:layout_toRightOf="@+id/EmailText"
-            android:id="@+id/EmailTextEdit"
-            android:layout_below="@+id/UsernameText"
-            android:layout_alignParentEnd="true"
-            android:hint="e@mail.ink"
-            android:textColorHint="#FFFFFF"/>
-
-        <EditText
+        android:layout_height="wrap_content">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/ProfileBioEditText"
-            android:hint="Bio info here."
-            android:textColorHint="#FFFFFF"
-            android:layout_alignParentStart="true"
-            android:textSize="18sp"
-            android:layout_below="@+id/ProfileBioText" />
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="edu.csumb.cst438.router.Profile">
 
-        <Button
-            android:text="Save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:onClick="saveProfile"
-            android:id="@+id/ProfileSaveButton"
-            android:layout_below="@+id/ProfileBioEditText"
-            android:layout_toEndOf="@+id/ProfilePrivacyText" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username:"
+                android:id="@+id/UsernameText"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:textSize="26sp" />
 
-        <Button
-            android:text="LOGOUT"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:onClick="logOut"
-            android:id="@+id/ProfileLogOutButton"
-            android:layout_below="@+id/ProfileSaveButton"
-            android:layout_toEndOf="@+id/ProfilePrivacyText" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                android:id="@+id/EmailText"
+                android:layout_below="@+id/UsernameText"
+                android:layout_alignParentLeft="true"
+                android:textSize="26sp" />
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance Units:"
+                android:id="@+id/DistanceUnitsText"
+                android:textSize="26sp"
+                android:layout_below="@+id/EmailText"
+                android:layout_alignParentStart="true"/>
 
+            <Button
+                android:text="Kilometers"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/DistanceUnitsText"
+                android:layout_alignParentStart="true"
+                android:id="@+id/DistanceUnitsButton_Kilometers"
+                android:layout_toStartOf="@+id/ProfilePrivacyButton_Private"
+                android:layout_width="wrap_content"
+                android:onClick="setMetric" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile Privacy:"
+                android:id="@+id/ProfilePrivacyText"
+                android:textSize="26sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/DistanceUnitsButton_Kilometers" />
+
+            <Button
+                android:text="Public"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/ProfilePrivacyText"
+                android:layout_alignParentStart="true"
+                android:id="@+id/ProfilePrivacyButton_Public"
+                android:elevation="0dp"
+                android:onClick="setPublic"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="false"
+                android:layout_centerVertical="false"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/ProfilePrivacyButton_Private" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile Bio:"
+                android:id="@+id/ProfileBioText"
+                android:textSize="26sp"
+                android:layout_below="@+id/ProfilePrivacyButton_Public"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:text="MILES"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/DistanceUnitsButton_Miles"
+                android:layout_below="@+id/DistanceUnitsText"
+                android:layout_toEndOf="@+id/ProfilePrivacyText"
+                android:onClick="setImperial"/>
+
+            <Button
+                android:text="Private"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ProfilePrivacyButton_Private"
+                android:onClick="setPrivate"
+                android:layout_below="@+id/ProfilePrivacyText"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/ProfilePrivacyText" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Phil"
+                android:textColorHint="#FFFFFF"
+                android:layout_toRightOf="@+id/UsernameText"
+                android:id="@+id/UsernameEditText"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/UsernameText"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_toRightOf="@+id/EmailText"
+                android:id="@+id/EmailTextEdit"
+                android:layout_below="@+id/UsernameText"
+                android:layout_alignParentEnd="true"
+                android:hint="e@mail.ink"
+                android:textColorHint="#FFFFFF"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/ProfileBioEditText"
+                android:hint="Bio info here."
+                android:textColorHint="#FFFFFF"
+                android:layout_alignParentStart="true"
+                android:textSize="18sp"
+                android:layout_below="@+id/ProfileBioText" />
+
+            <Button
+                android:text="Save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:onClick="saveProfile"
+                android:id="@+id/ProfileSaveButton"
+                android:layout_below="@+id/ProfileBioEditText"
+                android:layout_toEndOf="@+id/ProfilePrivacyText" />
+
+            <Button
+                android:text="LOGOUT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:onClick="logOut"
+                android:id="@+id/ProfileLogOutButton"
+                android:layout_below="@+id/ProfileSaveButton"
+                android:layout_toEndOf="@+id/ProfilePrivacyText" />
+
+        </RelativeLayout>
+    </ScrollView>
     <ListView android:id="@+id/profile_left_drawer"
     android:layout_width="240dp"
     android:layout_height="match_parent"
