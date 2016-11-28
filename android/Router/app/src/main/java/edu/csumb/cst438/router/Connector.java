@@ -64,7 +64,6 @@ public class Connector {
             }
         };
         Future<ArrayList<User>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -82,7 +81,7 @@ public class Connector {
             }
         };
         Future<ArrayList<User>> future = executorService.submit(callable);
-        executorService.shutdown();
+
         try {
             return future.get();
         }
@@ -100,7 +99,6 @@ public class Connector {
             }
         };
         Future<ArrayList<Route>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -182,7 +180,6 @@ public class Connector {
             }
         };
         Future<HashMap<String, String>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -219,7 +216,6 @@ public class Connector {
             }
         };
         Future<Integer> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -239,7 +235,6 @@ public class Connector {
         };
 
         Future<ArrayList<HashMap<String, String>>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -258,7 +253,6 @@ public class Connector {
             }
         };
         Future<User> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -464,7 +458,8 @@ public class Connector {
         }
 
         try {
-            JSONObject response = new JSONObject(getResponse(json.toString(), checkLogin));
+            JSONArray temp = new JSONArray(getResponse(json.toString(), checkLogin));
+            JSONObject response = new JSONObject(temp.get(0).toString());
             if(response.get("username") != null) {
                 return new User(response.get("username").toString(), response.get("bio").toString(), response.get("email").toString(), response.get("idusers").toString());
             }
@@ -496,7 +491,7 @@ public class Connector {
                 User temp = new User();
                 temp.username = item.get("username").toString();
                 temp.bio = item.get("bio").toString();
-                temp.userId = item.get("userId").toString();
+                temp.userId = item.get("idusers").toString();
 
                 result.add(temp);
             }
@@ -527,7 +522,7 @@ public class Connector {
                 User temp = new User();
                 temp.username = item.get("username").toString();
                 temp.bio = item.get("bio").toString();
-                temp.userId = item.get("userId").toString();
+                temp.userId = item.get("idusers").toString();
 
                 result.add(temp);
             }
