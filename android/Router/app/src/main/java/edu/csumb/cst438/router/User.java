@@ -10,6 +10,7 @@ public class User {
     public String bio;
     public String email;
     public String id;
+    public String privacy;
 
     public User() {
 

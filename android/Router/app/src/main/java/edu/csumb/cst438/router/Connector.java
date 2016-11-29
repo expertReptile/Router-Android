@@ -430,6 +430,7 @@ public class Connector {
                     .put("username", username)
                     .put("password", password)
                     .put("bio", bio)
+                    .put("privacy", UserServices.getUserPrivacy().toUpperCase())
                     .put("email", email)).toString();
         }
         catch (Exception e) {
@@ -469,8 +470,13 @@ public class Connector {
              JSONArray jsonArray = new JSONArray(responseValue);
              response = jsonArray.getJSONObject(0);
              Log.d("CheckLogin: ", response.toString());
-             return new User(response.get("username").toString(), response.get("bio").toString(),
-                        response.get("email").toString(), response.get("idusers").toString());
+            User user = new User();
+            user.username = response.get("username").toString();
+            user.bio = response.get("bio").toString();
+            user.email = response.get("email").toString();
+            user.id = response.get("idusers").toString();
+            user.privacy = response.get("privacy").toString();
+            return user;
         }
         catch (Exception e) {
             Log.e("error", e.toString());
@@ -636,7 +642,7 @@ public class Connector {
                 User temp = new User();
                 temp.username = item.get("username").toString();
                 temp.bio = item.get("bio").toString();
-                temp.userId = item.get("idusers").toString();
+                temp.id = item.get("idusers").toString();
 
                 result.add(temp);
             }
