@@ -9,12 +9,11 @@ public class User {
     public String username;
     public String bio;
     public String email;
-    public String userId;
+    public String id;
 
     public User() {
 
     }
-    public String id;
 
     public User(String username, String bio, String email, String id) {
         this.username = username;

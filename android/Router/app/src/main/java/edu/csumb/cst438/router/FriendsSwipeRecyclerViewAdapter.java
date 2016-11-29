@@ -1,8 +1,10 @@
 package edu.csumb.cst438.router;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,15 +88,21 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
         viewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, " onClick : " + theArrayList.get(position).username , Toast.LENGTH_SHORT).show();
-                //TODO: implement desired functionality when a row is clicked
+                if(((Friends)v.getContext()).getIntent().hasExtra("display")){
+                    ((Friends)v.getContext()).finishActivity(1);
+                    Intent returnIntent = ((Friends) v.getContext()).getIntent();
+                    returnIntent.putExtra("friendId", theArrayList.get(position).id);
+                    returnIntent.putExtra("routeId", returnIntent.getIntExtra("routeId", -1));
+                    ((Friends)v.getContext()).setResult(1,returnIntent);
+                    ((Friends)v.getContext()).finish();
+                }
             }
         });
 
         viewHolder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mConnector.addFriend(Integer.getInteger(theArrayList.get(position).userId));
+                mConnector.addFriend(Integer.getInteger(theArrayList.get(position).id));
                 //TODO add any additional functionality after addFriend button is clicked
             }
         });
@@ -104,7 +112,7 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             public void onClick(View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 theArrayList.remove(position);
-                mConnector.removeFriend(Integer.getInteger(theArrayList.get(position).userId));
+                mConnector.removeFriend(Integer.getInteger(theArrayList.get(position).id));
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, theArrayList.size());
                 mItemManger.closeAllItems();

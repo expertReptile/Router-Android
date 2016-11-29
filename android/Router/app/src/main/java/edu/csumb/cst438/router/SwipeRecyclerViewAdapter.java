@@ -1,5 +1,6 @@
 package edu.csumb.cst438.router;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -130,8 +131,10 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //TODO : figure out how to get the friends user ID
-                mConnector.shareRoute(-1, theArrayList.get(position));
+                Intent intent = new Intent(view.getContext(), Friends.class);
+                intent.putExtra("display", "Click a Friend to share your Route with.");
+                intent.putExtra("routeId", theArrayList.get(position).getRouteIdRemote());
+                ((MyRoutes) mContext).startActivityForResult(intent, 1);
             }
         });
 
