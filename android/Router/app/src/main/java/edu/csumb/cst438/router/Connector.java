@@ -42,6 +42,7 @@ public class Connector {
     static String addFriend = "/addFriend/";
 
     static ExecutorService executorService = Executors.newSingleThreadExecutor();
+    static UserServices userService = Application.userService;
 
     Object result = null;
 
@@ -60,7 +61,7 @@ public class Connector {
         Callable<ArrayList<User>> callable = new Callable<ArrayList<User>>() {
             @Override
             public ArrayList<User> call() throws Exception {
-                return getFriendRequests_internal(UserServices.getUserId());
+                return getFriendRequests_internal();
             }
         };
         Future<ArrayList<User>> future = executorService.submit(callable);
@@ -77,7 +78,7 @@ public class Connector {
         Callable<ArrayList<User>> callable = new Callable<ArrayList<User>>() {
             @Override
             public ArrayList<User> call() throws Exception {
-                return getFriends_internal(UserServices.getUserId());
+                return getFriends_internal();
             }
         };
         Future<ArrayList<User>> future = executorService.submit(callable);
@@ -95,7 +96,7 @@ public class Connector {
         Callable<ArrayList<Route>> callable = new Callable<ArrayList<Route>>() {
             @Override
             public ArrayList<Route> call() throws Exception {
-                return getRoutesShared_internal(UserServices.getUserId());
+                return getRoutesShared_internal();
             }
         };
         Future<ArrayList<Route>> future = executorService.submit(callable);
@@ -112,7 +113,7 @@ public class Connector {
         Callable<Void> callable = new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                shareRoute_internal(UserServices.getUserId(), you_id, route);
+                shareRoute_internal(you_id, route);
                 return null;
             }
         };
@@ -123,7 +124,7 @@ public class Connector {
         Callable<Void> callable = new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                processRequest_internal(UserServices.getUserId(), response, you_id);
+                processRequest_internal(response, you_id);
                 return null;
             }
         };
@@ -151,7 +152,7 @@ public class Connector {
         Callable<Void> callable = new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                removeFriend_internal(UserServices.getUserId(), you_id);
+                removeFriend_internal(you_id);
                 return null;
             }
         };
@@ -162,7 +163,7 @@ public class Connector {
         Callable<Void> callable = new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                addFriend_internal(UserServices.getUserId(), you_id);
+                addFriend_internal(you_id);
                 return null;
             }
         };
@@ -478,12 +479,12 @@ public class Connector {
 
     }
 
-    private ArrayList<User> getFriendRequests_internal(final String userId) {
+    private ArrayList<User> getFriendRequests_internal() {
         String json = "";
         ArrayList<User> result = new ArrayList<>();
         try {
             json = (new JSONObject()
-            .put("userId", userId)).toString();
+            .put("user_id", UserServices.getUserId())).toString();
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
@@ -509,12 +510,12 @@ public class Connector {
         return result;
     }
 
-    private ArrayList<User> getFriends_internal(final String userId) {
+    private ArrayList<User> getFriends_internal() {
         String json = "";
         ArrayList<User> result = new ArrayList<>();
         try {
             json = (new JSONObject()
-                    .put("userId", userId)).toString();
+                    .put("userId", UserServices.getUserId())).toString();
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
@@ -540,12 +541,12 @@ public class Connector {
         return result;
     }
 
-    private ArrayList<Route> getRoutesShared_internal(final String userId) {
+    private ArrayList<Route> getRoutesShared_internal() {
         String json = "";
         ArrayList<Route> result = new ArrayList<>();
         try {
             json = (new JSONObject()
-                    .put("userId", userId)).toString();
+                    .put("user_id", UserServices.getUserId())).toString();
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
@@ -572,16 +573,17 @@ public class Connector {
         return result;
     }
 
-    private void shareRoute_internal(final String userId, final int you_id, final Route route) {
+    private void shareRoute_internal(final int you_id, final Route route) {
         String json = "";
         try {
             json = (new JSONObject()
-                    .put("userId", userId)
-                    .put("you_id", you_id)
+                    .put("sender_id", UserServices.getUserId())
+                    .put("receiver_id", you_id)
                     .put("route", route.getRoute())
-                    .put("route_name", route.getRouteName())
-                    .put("startPointLat", route.getStartPointLat())
-                    .put("startPointLon", route.getStartPointLon())).toString();
+                    .put("routeName", route.getRouteName())
+                    .put("route_id", route.getRouteIdRemote())
+                    .put("startLatitude", route.getStartPointLat())
+                    .put("startLongitude", route.getStartPointLon())).toString();
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
@@ -595,11 +597,11 @@ public class Connector {
         }
     }
 
-    private void processRequest_internal(final String userId, final String response, final int you_id) {
+    private void processRequest_internal(final String response, final int you_id) {
         String json = "";
         try {
             json = (new JSONObject()
-                    .put("userId", userId)
+                    .put("user_id", UserServices.getUserId())
                     .put("you_id", you_id)
                     .put("response", response)).toString();
         }
@@ -620,7 +622,7 @@ public class Connector {
         ArrayList<User> result = new ArrayList<>();
         try {
             json = (new JSONObject()
-                    .put("name", name)).toString();
+                    .put("username", name)).toString();
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
@@ -634,7 +636,7 @@ public class Connector {
                 User temp = new User();
                 temp.username = item.get("username").toString();
                 temp.bio = item.get("bio").toString();
-                temp.id = item.get("userId").toString();
+                temp.userId = item.get("idusers").toString();
 
                 result.add(temp);
             }
@@ -646,12 +648,12 @@ public class Connector {
         return result;
     }
 
-    private void removeFriend_internal(final String userId, final int you_id) {
+    private void removeFriend_internal(final int you_id) {
         String json = "";
         try {
             json = (new JSONObject()
-                    .put("userId", userId)
-                    .put("you_id", you_id)).toString();
+                    .put("user_id", UserServices.getUserId())
+                    .put("friend_id", you_id)).toString();
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
@@ -665,12 +667,12 @@ public class Connector {
         }
     }
 
-    private void addFriend_internal(final String userId, final int you_id) {
+    private void addFriend_internal(final int you_id) {
         String json = "";
         try {
             json = (new JSONObject()
-                    .put("userId", userId)
-                    .put("you_id", you_id)).toString();
+                    .put("user_id", UserServices.getUserId())
+                    .put("friend_id", you_id)).toString();
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
