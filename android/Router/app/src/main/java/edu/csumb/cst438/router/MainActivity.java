@@ -27,6 +27,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 
+import org.json.JSONTokener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -114,8 +119,27 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    public void getCurrentLocation(View view) {
-        updateLocation();
+    public void getNearMe(View view) {
+        removeNearMe();
+
+        ArrayList<Route> getRoutes;
+
+
+        //building json array
+        ArrayList<HashMap<String, String>> allTheRoutes = connector.getNearMe(String.valueOf(this.newPos.latitude), String.valueOf(this.newPos.longitude), 10);
+
+        for(HashMap<String, String> singleRoute: allTheRoutes) {
+            String j = singleRoute.get("route");
+            JSONTokener parser = new JSONTokener(j);
+
+        }
+
+
+        for(Route route: ) {
+
+
+        }
+
     }
 
 
