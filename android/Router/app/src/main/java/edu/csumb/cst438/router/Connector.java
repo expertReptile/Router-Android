@@ -636,7 +636,7 @@ public class Connector {
                 User temp = new User();
                 temp.username = item.get("username").toString();
                 temp.bio = item.get("bio").toString();
-                temp.userId = item.get("idusers").toString();
+                temp.id = item.get("idusers").toString();
 
                 result.add(temp);
             }

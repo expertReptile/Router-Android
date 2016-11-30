@@ -32,7 +32,7 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private DrawerLayout mDrawerLayout;
@@ -45,6 +45,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private Intent recordingService;
     private String routeName = "";
     private Polyline currentPath;
+    private ArrayList<Marker> nearMe;
+    private Connector connector = new Connector();
+    private LatLng curPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,29 +122,41 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    public void removeNearMe() {
+        if(nearMe != null) {
+            for(Marker marker: nearMe) {
+                marker.remove();
+            }
+        }
+        nearMe = null;
+        return;
+    }
+
     public void getNearMe(View view) {
         removeNearMe();
 
-        ArrayList<Route> getRoutes;
+        LatLng helper;
 
+        nearMe = new ArrayList<Marker>();
 
-        //building json array
-        ArrayList<HashMap<String, String>> allTheRoutes = connector.getNearMe(String.valueOf(this.newPos.latitude), String.valueOf(this.newPos.longitude), 10);
+        ArrayList<Route> allTheRoute = connector.getNearMe(String.valueOf(curPos.latitude), String.valueOf(curPos.longitude), 10);
 
-        for(HashMap<String, String> singleRoute: allTheRoutes) {
-            String j = singleRoute.get("route");
-            JSONTokener parser = new JSONTokener(j);
-
+        for(Route route: allTheRoute) {
+            helper = new LatLng(Double.parseDouble(route.getStartPointLat()), Double.parseDouble(route.getStartPointLon()));
+            nearMe.add(mMap.addMarker(new MarkerOptions().position(helper).title(route.getRouteName())));
         }
 
-
-        for(Route route: ) {
-
-
-        }
-
+        return;
     }
 
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        String name = marker.getTitle();
+
+        Log.d("marker", "Marker name: " + name);
+        // Do something with name to open it in routes.
+        return true;
+    }
 
     /**
      * Manipulates the map once available.
@@ -159,12 +174,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in monterey and move the camera
 
-        marker = mMap.addMarker(new MarkerOptions().position(loc.getLocation()).title("You"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocation(), 16));
-
-        LatLng pos = loc.getLocation();
-        marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));
+        curPos = loc.getLocation();
+        marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 16));
 
         updateLocation();
     }
@@ -173,13 +185,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         if(marker != null) {
             marker.remove();
         }
-        LatLng newPos = loc.getLocation();
-        Log.d("update", "New Location: " + newPos.toString());
-        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(newPos, 20);
+        curPos = loc.getLocation();
+        Log.d("update", "New Location: " + curPos.toString());
+        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(curPos, 20);
         mMap.moveCamera(center);
         Log.d("update", "Moved camera to " + center.toString());
         marker = mMap.addMarker(new MarkerOptions()
-        .position(newPos)
+        .position(curPos)
         .alpha(0.8f)
         .anchor(0.0f, 1.0f)
         .title("Your Location"));
