@@ -43,9 +43,7 @@ public class Connector {
     static String updateUser = "/updateUser/";
 
     static ExecutorService executorService = Executors.newSingleThreadExecutor();
-    static UserServices userService = Application.userService;
 
-    Object result = null;
 
 
     public Connector() {
@@ -207,12 +205,12 @@ public class Connector {
         return -1;
     }
 
-    public int updateUser(final String username, final String password, final String bio, final String email, final String privacy) {
+    public int updateUser(final String username,final String bio, final String email, final String privacy) {
 
         Callable<Integer> callable = new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return updateUser_internal(username, password, bio, email, privacy);
+                return updateUser_internal(username, bio, email, privacy);
             }
         };
         Future<Integer> future = executorService.submit(callable);
@@ -468,13 +466,11 @@ public class Connector {
         return -1;
     }
 
-    private int updateUser_internal(String username, String password, String bio, String email, String privacy) {
-        password = sha1(password);
+    private int updateUser_internal(String username, String bio, String email, String privacy) {
         String json = "";
         try {
             json = (new JSONObject()
                     .put("username", username)
-                    .put("password", password)
                     .put("bio", bio)
                     .put("privacy", privacy)
                     .put("user_id", UserServices.getUserId())

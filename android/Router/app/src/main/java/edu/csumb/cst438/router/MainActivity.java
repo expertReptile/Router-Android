@@ -137,9 +137,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in monterey and move the camera
 
-        LatLng pos = loc.getLocation();
+        LatLng pos = loc.getLastKnownLocation();
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 20));
 
         updateLocation();
     }

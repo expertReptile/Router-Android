@@ -25,10 +25,10 @@ public class LocationService implements LocationListener {
 
     public static int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
     //mininum distance moved until next update
-    private static final long MIN_DISTANCE_CHANGE = 1; // 10 meters
+    private static final long MIN_DISTANCE_CHANGE = 0; // changed to 0 for more constant updates 10 meters
 
     //minimum tiem in between updates in millisecons
-    private static final long MIN_TIME_CHANGED = 60000; // 1000 ms = 1 sec. 1000 * 60 = 60000
+    private static final long MIN_TIME_CHANGED = 0; // changed to 0 so that we can get more constant updates //60000; // 1000 ms = 1 sec. 1000 * 60 = 60000
 
     private final static boolean forceNetwork = false;
 
@@ -36,7 +36,6 @@ public class LocationService implements LocationListener {
 
     private LocationManager locationManager;
     public Location location;
-    public Location oldLocation;
     public double latitude;
     public  double longitude;
     private boolean isGPSEnabled;
@@ -64,6 +63,24 @@ public class LocationService implements LocationListener {
     public LocationService(Context mContext) {
         initLocationService(mContext);
         Log.d("GPS", "Location Service created.");
+    }
+
+    public LatLng getLastKnownLocation() {
+        try {
+            Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            return new LatLng(loc.getLongitude(), loc.getLatitude());
+        }
+        catch (SecurityException e) {
+            Log.d("location", e.toString());
+            try {
+                Location loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                return new LatLng(loc.getLongitude(), loc.getLatitude());
+            }
+            catch (SecurityException e2) {
+                Log.d("location", e2.toString());
+            }
+        }
+        return getLocation();
     }
 
     public boolean hasChanged() {
@@ -139,6 +156,7 @@ public class LocationService implements LocationListener {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         //updateCoordinates();
                     }
+
                     //checks if it can start recording on gps availability
                     if(isGPSEnabled) {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
@@ -147,6 +165,7 @@ public class LocationService implements LocationListener {
                         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         //updateCoordinates();
                     }
+
                 }
             }
         } catch (Exception e) {
