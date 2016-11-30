@@ -1,7 +1,6 @@
 
 package edu.csumb.cst438.router;
 
-import android.graphics.Color;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -118,6 +117,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean("isRecording", this.isRecording);
+        LatLng pos = loc.getLocation();
+        marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));
 
         super.onSaveInstanceState(savedInstanceState);
     }

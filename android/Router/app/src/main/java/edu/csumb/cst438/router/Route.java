@@ -24,6 +24,8 @@ public class Route {
     private String routeName = "";
     private JSONArray jsonArray = new JSONArray();
     private float distance;
+    private ArrayList<LatLng> latLngs = new ArrayList<>();
+    private int MIN_DISTANCE = 10;
 
     public Route(boolean isLocal, int routeIdRemote, String route, String startPointLat, String startPointLon, int userId, String routeName) {
         this.isLocal = isLocal;
@@ -39,9 +41,26 @@ public class Route {
 
     }
 
+    public double getDistance(LatLng left, LatLng right) {
+        double latDist = Math.toRadians(right.latitude - left.latitude);
+        double lonDist = Math.toRadians(right.longitude - left.longitude);
+        double a = Math.sin(latDist / 2) * Math.sin(latDist / 2) +
+                Math.cos(Math.toRadians(left.latitude)) * Math.cos(Math.toRadians(right.latitude))
+                * Math.sin(lonDist / 2) * Math.sin(lonDist / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = 6371 * c;
+        return d;
+    }
+
     public void add(LatLng latLng) {
         if(latLng.latitude == 0.0 && latLng.longitude == 0.0) {
             return;
+        }
+        if(latLngs.size() > 0) {
+            // check for if the distance is way too much
+            if(getDistance(latLng, this.latLngs.get(latLngs.size() - 1)) > MIN_DISTANCE) {
+                return;
+            }
         }
         try {
             Log.d("route", "here");
@@ -51,6 +70,7 @@ public class Route {
             temp.put("lon", latLng.longitude);
             jsonArray.put(temp);
             route = jsonArray.toString();
+            latLngs.add(latLng);
         }
         catch (Exception e) {
             Log.d("route", e.toString());

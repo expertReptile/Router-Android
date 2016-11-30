@@ -40,11 +40,10 @@ public class Connector {
     static String searchFriends = "/searchFriends/";
     static String removeFriend = "/removeFriends/";
     static String addFriend = "/addFriend/";
+    static String updateUser = "/updateUser/";
 
     static ExecutorService executorService = Executors.newSingleThreadExecutor();
-    static UserServices userService = Application.userService;
 
-    Object result = null;
 
 
     public Connector() {
@@ -193,7 +192,25 @@ public class Connector {
         Callable<Integer> callable = new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return createUser_internal(username, password, bio, email);
+                return createUser_internal(username, password, bio, email, "PRIVATE");
+            }
+        };
+        Future<Integer> future = executorService.submit(callable);
+        try {
+            return future.get();
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+        return -1;
+    }
+
+    public int updateUser(final String username,final String bio, final String email, final String privacy) {
+
+        Callable<Integer> callable = new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                return updateUser_internal(username, bio, email, privacy);
             }
         };
         Future<Integer> future = executorService.submit(callable);
@@ -422,7 +439,7 @@ public class Connector {
         return result;
     }
 
-    private int createUser_internal(String username, String password, String bio, String email) {
+    private int createUser_internal(String username, String password, String bio, String email, String privacy) {
         password = sha1(password);
         String json = "";
         try {
@@ -430,6 +447,7 @@ public class Connector {
                     .put("username", username)
                     .put("password", password)
                     .put("bio", bio)
+                    .put("privacy", privacy)
                     .put("email", email)).toString();
         }
         catch (Exception e) {
@@ -441,6 +459,32 @@ public class Connector {
             JSONObject response = new JSONObject(getResponse(json.toString(), createUser));
             Log.d("TEST", response.toString());
             return Integer.parseInt((response.get("userId").toString()));
+        }
+        catch (Exception e) {
+            Log.e("error", e.toString());
+        }
+        return -1;
+    }
+
+    private int updateUser_internal(String username, String bio, String email, String privacy) {
+        String json = "";
+        try {
+            json = (new JSONObject()
+                    .put("username", username)
+                    .put("bio", bio)
+                    .put("privacy", privacy)
+                    .put("user_id", UserServices.getUserId())
+                    .put("email", email)).toString();
+        }
+        catch (Exception e) {
+            Log.d("error", e.toString());
+        }
+
+        try {
+            Log.d("TEST", json.toString());
+            JSONObject response = new JSONObject(getResponse(json.toString(), updateUser));
+            Log.d("TEST", response.toString());
+            return 1;
         }
         catch (Exception e) {
             Log.e("error", e.toString());
@@ -470,7 +514,7 @@ public class Connector {
              response = jsonArray.getJSONObject(0);
              Log.d("CheckLogin: ", response.toString());
              return new User(response.get("username").toString(), response.get("bio").toString(),
-                        response.get("email").toString(), response.get("idusers").toString());
+                        response.get("email").toString(), response.get("idusers").toString(), response.get("privacy").toString());
         }
         catch (Exception e) {
             Log.e("error", e.toString());

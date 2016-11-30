@@ -10,15 +10,17 @@ public class User {
     public String bio;
     public String email;
     public String id;
+    public String privacy;
 
     public User() {
 
     }
 
-    public User(String username, String bio, String email, String id) {
+    public User(String username, String bio, String email, String id, String privacy) {
         this.username = username;
         this.bio = bio;
         this.email = email;
         this.id = id;
+        this.privacy = privacy;
     }
 }
