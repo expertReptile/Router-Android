@@ -1,7 +1,6 @@
 
 package edu.csumb.cst438.router;
 
-import android.graphics.Color;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -110,6 +109,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean("isRecording", this.isRecording);
+        LatLng pos = loc.getLocation();
+        marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -134,9 +136,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in monterey and move the camera
-
-        marker = mMap.addMarker(new MarkerOptions().position(loc.getLocation()).title("You"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc.getLocation(), 16));
 
         LatLng pos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
