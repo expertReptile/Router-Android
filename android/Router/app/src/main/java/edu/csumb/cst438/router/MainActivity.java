@@ -19,6 +19,7 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,7 +32,7 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener {
 
     private GoogleMap mMap;
     private DrawerLayout mDrawerLayout;
@@ -47,6 +48,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<Marker> nearMe;
     private Connector connector = new Connector();
     private LatLng curPos;
+    private HashMap<String, Route> routesNearMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -135,6 +138,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 marker.remove();
             }
         }
+        if(routesNearMe != null) {
+            routesNearMe.clear();
+        }
+
+        routesNearMe = null;
         nearMe = null;
         return;
     }
@@ -144,13 +152,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng helper;
 
-        nearMe = new ArrayList<Marker>();
+        nearMe = new ArrayList<>();
+        routesNearMe = new HashMap<>();
         if(curPos != null) {
             ArrayList<Route> allTheRoute = connector.getNearMe(String.valueOf(curPos.latitude), String.valueOf(curPos.longitude), 10);
             if (allTheRoute.size() != 0) {
                 for (Route route : allTheRoute) {
                     helper = new LatLng(Double.parseDouble(route.getStartPointLat()), Double.parseDouble(route.getStartPointLon()));
                     nearMe.add(mMap.addMarker(new MarkerOptions().position(helper).title(route.getRouteName())));
+                    routesNearMe.put(route.getRouteName(), route);
                 }
             }
         }
@@ -159,12 +169,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public boolean onMarkerClick(final Marker marker) {
+    public boolean onMarkerClick(Marker marker) {
         String name = marker.getTitle();
 
         Log.d("marker", "Marker name: " + name);
-        // Do something with name to open it in routes.
-        return true;
+        if(name.equals("Your Location") == false)
+            drawRoute(name);
+        return false;
     }
 
     /**
@@ -186,7 +197,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         curPos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 16));
-
+        googleMap.setOnMarkerClickListener(this);
         updateLocation();
     }
 
@@ -214,6 +225,23 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         else {
             currentPath.remove();
             currentPath = mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
+        }
+    }
+
+    public void drawRoute(String routeName) {
+        if(routesNearMe != null) {
+            Log.d("drawRoute", "starting");
+            if (currentPath == null) {
+                Log.d("drawRoute", routesNearMe.get(routeName).toString());
+                currentPath = mMap.addPolyline(DrawingService.createLine(routesNearMe.get(routeName)));
+                Log.d("drawRoute", currentPath.toString());
+            } else {
+                Log.d("drawRoute", routesNearMe.get(routeName).toString());
+                currentPath.remove();
+                currentPath = mMap.addPolyline(DrawingService.createLine(routesNearMe.get(routeName)));
+                Log.d("drawRoute", currentPath.toString());
+            }
+            Log.d("drawRoute", "ending");
         }
     }
 
