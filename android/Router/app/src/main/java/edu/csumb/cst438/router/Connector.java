@@ -391,7 +391,8 @@ public class Connector {
 
         try {
             JSONArray response = new JSONArray(getResponse(json.toString(), getNearMe));
-            Log.d("response: ", response.toString());
+            Log.d("response", response.toString());
+
             if(response.length() != 0) {
                 for (int i = 0; i < response.length(); i++) {
                     Route route = new Route();
@@ -405,6 +406,9 @@ public class Connector {
                     result.add(route);
 
                 }
+            }
+            else {
+                return result;
             }
         }
         catch (Exception e) {

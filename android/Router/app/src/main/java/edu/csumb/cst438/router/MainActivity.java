@@ -117,6 +117,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
+        if(marker != null) {
+            marker.remove();
+        }
+
         savedInstanceState.putBoolean("isRecording", this.isRecording);
         curPos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
