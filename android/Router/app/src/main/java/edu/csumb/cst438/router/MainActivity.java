@@ -58,7 +58,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState != null) {
-            this.isRecording = savedInstanceState.getBoolean("isRecorindg");
+            this.isRecording = savedInstanceState.getBoolean("isRecording");
         }
         setContentView(R.layout.activity_main);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -253,14 +253,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         if(routesNearMe != null) {
             Log.d("drawRoute", "starting");
             if (currentPath == null) {
-                Log.d("drawRoute", routesNearMe.get(routeName).toString());
-                currentPath = mMap.addPolyline(DrawingService.createLine(routesNearMe.get(routeName)));
-                Log.d("drawRoute", currentPath.toString());
+                Log.d("drawRoute", routesNearMe.get(routeName).getRouteList().toString());
+                currentPath = this.mMap.addPolyline(DrawingService.createLine(routesNearMe.get(routeName)));
+                Log.d("drawRoute", currentPath.getPoints().toString());
             } else {
-                Log.d("drawRoute", routesNearMe.get(routeName).toString());
+                Log.d("drawRoute", routesNearMe.get(routeName).getRouteList().toString());
                 currentPath.remove();
-                currentPath = mMap.addPolyline(DrawingService.createLine(routesNearMe.get(routeName)));
-                Log.d("drawRoute", currentPath.toString());
+                currentPath = this.mMap.addPolyline(DrawingService.createLine(routesNearMe.get(routeName)));
+                Log.d("drawRoute", currentPath.getPoints().toString());
             }
             Log.d("drawRoute", "ending");
         }
