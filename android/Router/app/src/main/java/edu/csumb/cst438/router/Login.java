@@ -78,7 +78,15 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         if (result.isSuccess()) {
             Log.d(TAG, "signed in: success");
             GoogleSignInAccount acct = result.getSignInAccount();
-            userServices.CreateLocalUser(acct.getGivenName(), " ", "private", acct.getEmail(), acct.getId(), "METRIC");
+            String username = acct.getEmail().substring(0,acct.getEmail().indexOf('@'));
+            int userId = connector.createUser(username,acct.getEmail(), " ", acct.getEmail());
+            if(userId == -1){
+                User user = connector.checkLogin(username, acct.getEmail());
+                userServices.CreateLocalUser(user.username, user.bio, user.privacy, user.email, user.id, "METRIC");
+            }
+            else{
+                userServices.CreateLocalUser(username, " ", "PRIVATE", acct.getEmail(), Integer.toString(userId), "METRIC");
+            }
             moveToMain();
         } else {
             Log.d(TAG, "signed in: failed");
