@@ -67,7 +67,7 @@ public class MyRoutes extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && requestCode == 1) {
-            mConnector.shareRoute(Integer.getInteger(data.getStringExtra("friendId")), routesServices.getRouteById(data.getIntExtra("routeId", -1)));
+            mConnector.shareRoute(Integer.parseInt(data.getStringExtra("friendId")), routesServices.getRouteById(data.getIntExtra("routeId", -1)));
             Toast.makeText(this, "This route has been shared!", Toast.LENGTH_SHORT).show();
         }
     }
