@@ -140,12 +140,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng helper;
 
         nearMe = new ArrayList<Marker>();
-
-        ArrayList<Route> allTheRoute = connector.getNearMe(String.valueOf(curPos.latitude), String.valueOf(curPos.longitude), 10);
-
-        for(Route route: allTheRoute) {
-            helper = new LatLng(Double.parseDouble(route.getStartPointLat()), Double.parseDouble(route.getStartPointLon()));
-            nearMe.add(mMap.addMarker(new MarkerOptions().position(helper).title(route.getRouteName())));
+        if(curPos != null) {
+            ArrayList<Route> allTheRoute = connector.getNearMe(String.valueOf(curPos.latitude), String.valueOf(curPos.longitude), 10);
+            if (allTheRoute.size() != 0) {
+                for (Route route : allTheRoute) {
+                    helper = new LatLng(Double.parseDouble(route.getStartPointLat()), Double.parseDouble(route.getStartPointLon()));
+                    nearMe.add(mMap.addMarker(new MarkerOptions().position(helper).title(route.getRouteName())));
+                }
+            }
         }
 
         return;
