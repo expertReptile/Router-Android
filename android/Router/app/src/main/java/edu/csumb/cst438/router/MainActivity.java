@@ -22,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -48,6 +49,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng curPos;
     private HashMap<String, Route> routesNearMe;
     private OnMarkerClickListener markerListener;
+    private float bearing = 0f;
+    private float curZoomLevel = 15f;
+    private float tilt = 45f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,11 +126,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         if(marker != null) {
             marker.remove();
         }
-
+        curZoomLevel = 15f;
         savedInstanceState.putBoolean("isRecording", this.isRecording);
         curPos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 16));
+
+        CameraUpdate center = CameraUpdateFactory.newCameraPosition(new CameraPosition(curPos, curZoomLevel, tilt,bearing));
+        mMap.moveCamera(center);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -182,7 +188,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Log.d("map", "onMapReady start");
         mMap = googleMap;
-
         if(Application.currentRoute != null) {
             currentPath = mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
         }
@@ -199,10 +204,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
         };
 
+
+        ;
         curPos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 16));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, curZoomLevel));
         mMap.setOnMarkerClickListener(markerListener);
+        CameraUpdate center = CameraUpdateFactory.newCameraPosition(new CameraPosition(curPos, curZoomLevel, tilt,bearing));
+        mMap.moveCamera(center);
 
         updateLocation();
     }
@@ -211,10 +220,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         if(marker != null) {
             marker.remove();
         }
+        curZoomLevel = mMap.getCameraPosition().zoom;
+        if(curZoomLevel < 9) {
+            curZoomLevel = 15;
+        }
+        bearing = mMap.getCameraPosition().bearing;
+        tilt = mMap.getCameraPosition().tilt;
         curPos = loc.getLocation();
         Log.d("update", "New Location: " + curPos.toString());
-        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(curPos, 20);
-        mMap.moveCamera(center);
+        CameraUpdate center = CameraUpdateFactory.newCameraPosition(new CameraPosition(curPos, curZoomLevel, tilt,bearing));
+        mMap.animateCamera(center);
         Log.d("update", "Moved camera to " + center.toString());
         marker = mMap.addMarker(new MarkerOptions()
         .position(curPos)
