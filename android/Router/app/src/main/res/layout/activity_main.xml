@@ -59,7 +59,7 @@
             android:id="@+id/GetNearMeButton"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:onClick="getCurrentLocation"/>
+            android:onClick="getNearMe"/>
 
     </RelativeLayout>
 

@@ -251,7 +251,6 @@ public class Connector {
         };
 
         Future<ArrayList<Route>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
@@ -392,17 +391,20 @@ public class Connector {
 
         try {
             JSONArray response = new JSONArray(getResponse(json.toString(), getNearMe));
+            Log.d("response: ", response.toString());
+            if(response.length() != 0) {
+                for (int i = 0; i < response.length(); i++) {
+                    Route route = new Route();
+                    JSONObject item = (JSONObject) response.get(i);
+                    route.setStartPointLon(item.getString("startPointLon"));
+                    route.setStartPointLat(item.getString("startPointLat"));
+                    route.setRouteName(item.getString("routeName"));
+                    route.setRouteIdRemote(item.getInt("idroutes"));
+                    route.setRoute(item.getString("route"));
+                    route.setDistance(Float.parseFloat(item.getString("distance")));
+                    result.add(route);
 
-            for(int i = 0; i < response.length(); i++) {
-                Route route = new Route();
-                JSONObject item = (JSONObject)response.get(i);
-                route.setStartPointLon(item.getString("startPointLon"));
-                route.setStartPointLat(item.getString("startPointLat"));
-                route.setRouteName(item.getString("routeName"));
-                route.setRouteIdRemote(item.getInt("idroutes"));
-                route.setRoute(item.getString("route"));
-                route.setDistance(Float.parseFloat(item.getString("distance")));
-                result.add(route);
+                }
             }
         }
         catch (Exception e) {
@@ -536,15 +538,22 @@ public class Connector {
 
         try {
             JSONArray response = new JSONArray(getResponse(json.toString(), getFriendRequests));
+            Log.d("response", response.toString());
+            if(response.length() != 0) {
 
-            for(int i = 0; i < response.length(); i++) {
-                JSONObject item = (JSONObject)response.get(i);
-                User temp = new User();
-                temp.username = item.get("username").toString();
-                temp.bio = item.get("bio").toString();
-                temp.id = item.get("idusers").toString();
 
-                result.add(temp);
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject item = (JSONObject) response.get(i);
+                    User temp = new User();
+                    temp.username = item.get("username").toString();
+                    temp.bio = item.get("bio").toString();
+                    temp.id = item.get("idusers").toString();
+
+                    result.add(temp);
+                }
+            }
+            else {
+                return result;
             }
         }
         catch (Exception e) {
@@ -567,15 +576,16 @@ public class Connector {
 
         try {
             JSONArray response = new JSONArray(getResponse(json.toString(), getFriends));
+            if(response.length() != 0) {
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject item = (JSONObject) response.get(i);
+                    User temp = new User();
+                    temp.username = item.get("username").toString();
+                    temp.bio = item.get("bio").toString();
+                    temp.id = item.get("idusers").toString();
 
-            for(int i = 0; i < response.length(); i++) {
-                JSONObject item = (JSONObject)response.get(i);
-                User temp = new User();
-                temp.username = item.get("username").toString();
-                temp.bio = item.get("bio").toString();
-                temp.id = item.get("idusers").toString();
-
-                result.add(temp);
+                    result.add(temp);
+                }
             }
         }
         catch (Exception e) {
@@ -674,15 +684,16 @@ public class Connector {
 
         try {
             JSONArray response = new JSONArray(getResponse(json.toString(), searchFriends));
+            if(response.length() != 0) {
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject item = (JSONObject) response.get(i);
+                    User temp = new User();
+                    temp.username = item.get("username").toString();
+                    temp.bio = item.get("bio").toString();
+                    temp.id = item.get("idusers").toString();
 
-            for(int i = 0; i < response.length(); i++) {
-                JSONObject item = (JSONObject)response.get(i);
-                User temp = new User();
-                temp.username = item.get("username").toString();
-                temp.bio = item.get("bio").toString();
-                temp.id = item.get("idusers").toString();
-
-                result.add(temp);
+                    result.add(temp);
+                }
             }
         }
         catch (Exception e) {

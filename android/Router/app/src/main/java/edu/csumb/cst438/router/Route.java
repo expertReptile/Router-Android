@@ -59,6 +59,7 @@ public class Route {
         if(latLngs.size() > 0) {
             // check for if the distance is way too much
             if(getDistance(latLng, this.latLngs.get(latLngs.size() - 1)) > MIN_DISTANCE) {
+                Log.d("route", "distance was too long!: " + Double.toString(getDistance(latLng, this.latLngs.get(latLngs.size() - 1))));
                 return;
             }
         }
