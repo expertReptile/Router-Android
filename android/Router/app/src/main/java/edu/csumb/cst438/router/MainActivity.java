@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -183,7 +184,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         if(Application.currentRoute != null) {
-            mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
+            currentPath = mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
         }
 
         markerListener = new OnMarkerClickListener() {
@@ -201,7 +202,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         curPos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 16));
-        googleMap.setOnMarkerClickListener(markerListener);
+        mMap.setOnMarkerClickListener(markerListener);
 
         updateLocation();
     }
