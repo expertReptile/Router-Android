@@ -202,7 +202,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         curPos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 16));
-        mMap.setOnMarkerClickListener(markerListener);
+        googleMap.setOnMarkerClickListener(markerListener);
 
         updateLocation();
     }
