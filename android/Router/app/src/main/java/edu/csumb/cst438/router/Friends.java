@@ -25,6 +25,7 @@ public class Friends extends AppCompatActivity {
     private RecyclerView.Adapter mRecyclerAdapter;
     private ArrayList<User> allFriends;
     private ArrayList<User> displayedFriends;
+    private ArrayList<User> friendRequests;
     private Connector mConnector;
 
     @Override
@@ -85,6 +86,27 @@ public class Friends extends AppCompatActivity {
 
         if(this.getIntent().hasExtra("display")) {
             Toast.makeText(this, this.getIntent().getStringExtra("display") , Toast.LENGTH_SHORT).show();
+        }
+
+        friendRequests = new ArrayList<>(mConnector.getFriendRequests());
+        for(final User friend: friendRequests) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(findViewById(R.id.friends_drawer_layout).getContext());
+            builder.setTitle("Accept " + friend.username + "'s friend request?");
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mConnector.processRequest("YES", Integer.parseInt(friend.id));
+                }
+            });
+
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mConnector.processRequest("NO", Integer.parseInt(friend.id));
+                }
+            });
+            builder.show();
         }
 
     }
