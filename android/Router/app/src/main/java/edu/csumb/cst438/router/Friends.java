@@ -97,6 +97,8 @@ public class Friends extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mConnector.processRequest("YES", Integer.parseInt(friend.id));
+                    setDisplayedFriends(mConnector.getFriends());
+                    mRecyclerAdapter.notifyDataSetChanged();
                 }
             });
 
