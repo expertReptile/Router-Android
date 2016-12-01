@@ -100,6 +100,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 public void onClick(DialogInterface dialog, int which) {
                     routeName = input.getText().toString();
                     RoutesServices.updateRouteName(routeName, "TEMPORARY");
+                    Log.d("saved", RoutesServices.getAllLocalRoutes().toString());
                 }
             });
 
@@ -137,7 +138,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in monterey and move the camera
 
-        LatLng pos = loc.getLastKnownLocation();
+        LatLng pos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 20));
 
