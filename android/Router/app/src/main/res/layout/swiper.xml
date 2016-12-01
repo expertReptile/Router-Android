@@ -10,8 +10,8 @@
         android:orientation="horizontal"
         android:background="@color/black"
         android:id="@+id/bottom_view"
-        android:layout_width="160dp"
-        android:weightSum="3"
+        android:layout_width="214dp"
+        android:weightSum="4"
         android:layout_height="match_parent">
         // show bottom things here
         <Button
@@ -32,6 +32,16 @@
             android:text="Edit"
             android:drawableTop="@android:drawable/ic_menu_edit"
             android:id="@+id/Edit"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:layout_toRightOf="@+id/Delete"
+            android:text="Edit"
+            android:drawableTop="@android:drawable/stat_sys_upload_done"
+            android:drawableTint="@color/light_gray_inactive_icon"
+            android:id="@+id/Upload"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
