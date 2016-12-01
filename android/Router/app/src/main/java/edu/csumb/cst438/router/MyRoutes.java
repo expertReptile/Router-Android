@@ -35,6 +35,7 @@ public class MyRoutes extends AppCompatActivity {
         setContentView(R.layout.activity_my_routes);
         mConnector = new Connector();
         localRoutes = new ArrayList(routesServices.getAllLocalRoutes());
+        localRoutes.addAll(mConnector.getRoutesShared());
         displayedRoutes = new ArrayList(localRoutes);
         noDataMyRoutes = (TextView) findViewById(R.id.no_data_myRoutes);
         mRecyclerView = (RecyclerView) findViewById(R.id.myRoutes_recycler_view);
@@ -67,7 +68,7 @@ public class MyRoutes extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && requestCode == 1) {
-            mConnector.shareRoute(Integer.getInteger(data.getStringExtra("friendId")), routesServices.getRouteById(data.getIntExtra("routeId", -1)));
+            mConnector.shareRoute(Integer.parseInt(data.getStringExtra("friendId")), routesServices.getRouteById(data.getIntExtra("routeId", -1)));
             Toast.makeText(this, "This route has been shared!", Toast.LENGTH_SHORT).show();
         }
     }

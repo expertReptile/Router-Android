@@ -2,6 +2,8 @@ package edu.csumb.cst438.router;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +102,11 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             @Override
             public void onClick(View v) {
                 mConnector.addFriend(Integer.parseInt(theArrayList.get(position).id));
-                //TODO add any additional functionality after addFriend button is clicked
+                Snackbar snack = Snackbar.make(v, "Friend Request Sent!", Snackbar.LENGTH_LONG);
+                View snackView = snack.getView();
+                TextView tv = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.rgb(0,191,255));
+                snack.show();
             }
         });
 
@@ -108,11 +114,17 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             @Override
             public void onClick(View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
+                String name = theArrayList.get(position).username;
                 mConnector.removeFriend(Integer.parseInt(theArrayList.get(position).id));
                 theArrayList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, theArrayList.size());
                 mItemManger.closeAllItems();
+                Snackbar snack = Snackbar.make(view, name + " was removed from friends!", Snackbar.LENGTH_LONG);
+                View snackView = snack.getView();
+                TextView tv = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.rgb(0,191,255));
+                snack.show();
             }
         });
         mItemManger.bindView(viewHolder.itemView, position);
