@@ -2,9 +2,11 @@ package edu.csumb.cst438.router;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,9 +15,11 @@ import android.widget.ListView;
 
 public class Profile extends AppCompatActivity {
 
+    private static final String TAG = "Profile";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private UserServices userServices;
+    private Connector connector;
     private Button mSaveButton;
     private Button mMetric;
     private Button mImperial;
@@ -98,7 +102,6 @@ public class Profile extends AppCompatActivity {
     }
 
     public void saveProfile(View view) {
-
         if(!TextUtils.isEmpty(mBio.getText().toString())) {
             userServices.updateUserBio(mBio.getText().toString());
         }
@@ -120,6 +123,19 @@ public class Profile extends AppCompatActivity {
         } else {
             userServices.updateUserUnits("IMPERIAL");
         }
+    updateUser();
+    Snackbar.make(view, "Profile Saved", Snackbar.LENGTH_LONG)
+            .show();
+}
+
+    private void updateUser() {
+        Log.d(TAG," user updated");
+        connector = new Connector();
+        String username = userServices.getUserName();
+        String bio = userServices.getUserBio();
+        String email = userServices.getUserEmail();
+        String privacy = userServices.getUserPrivacy();
+        connector.updateUser(username,bio,email,privacy);
     }
 
     public void logOut(View view) {

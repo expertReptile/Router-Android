@@ -67,7 +67,7 @@ public class Register extends AppCompatActivity{
                             .show();
         }
         else{
-            userServices.CreateLocalUser(username, bio, "private", email, Integer.toString(userId), "METRIC");
+            userServices.CreateLocalUser(username, bio, "PRIVATE", email, Integer.toString(userId), "METRIC");
             moveToMain();
         }
     }

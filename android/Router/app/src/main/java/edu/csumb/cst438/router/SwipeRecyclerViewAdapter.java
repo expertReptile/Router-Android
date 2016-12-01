@@ -1,6 +1,5 @@
 package edu.csumb.cst438.router;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -87,8 +86,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
-                intent.putExtra("routeId", theArrayList.get(position).getRouteIdRemote());
-                intent.putExtra("route", theArrayList.get(position).getRoute());
+                Application.currentRoute = theArrayList.get(position);
                 view.getContext().startActivity(intent);
             }
         });
@@ -128,6 +126,14 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             }
         });
 
+        viewHolder.uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mConnector.uploadRoute(Integer.parseInt(UserServices.getUserId()), theArrayList.get(position).getStartPointLat(), theArrayList.get(position).getStartPointLon(), theArrayList.get(position).getRouteName(), theArrayList.get(position).getRoute());
+                Toast.makeText(view.getContext(), "This route has been uploaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,6 +161,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         SwipeLayout swipeLayout;
         Button deleteButton;
         Button editButton;
+        Button uploadButton;
         Button shareButton;
         TextView rowText;
 
@@ -163,6 +170,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swiper);
             deleteButton = (Button) itemView.findViewById(R.id.Delete);
             editButton = (Button) itemView.findViewById(R.id.Edit);
+            uploadButton = (Button) itemView.findViewById(R.id.Upload);
             shareButton = (Button) itemView.findViewById(R.id.Share);
             rowText = (TextView) itemView.findViewById(R.id.swiperRow);
         }

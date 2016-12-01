@@ -38,7 +38,7 @@ public class Connector {
     static String shareRoute = "/shareRoute/";
     static String processRequest = "/processRequest/";
     static String searchFriends = "/searchFriends/";
-    static String removeFriend = "/removeFriends/";
+    static String removeFriend = "/removeFriend/";
     static String addFriend = "/addFriend/";
     static String updateUser = "/updateUser/";
 
@@ -659,8 +659,8 @@ public class Connector {
         String json = "";
         try {
             json = (new JSONObject()
-                    .put("user_id", UserServices.getUserId())
-                    .put("you_id", you_id)
+                    .put("friend_id", UserServices.getUserId())
+                    .put("user_id", you_id)
                     .put("response", response)).toString();
         }
         catch (Exception e) {
@@ -732,13 +732,14 @@ public class Connector {
             json = (new JSONObject()
                     .put("user_id", UserServices.getUserId())
                     .put("friend_id", you_id)).toString();
+            Log.d("TESTING", json);
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
         }
 
         try {
-            getResponse(json.toString(), addFriend);
+            Log.d("TESTING", getResponse(json.toString(), addFriend));
         }
         catch (Exception e) {
             Log.e("error", e.toString());

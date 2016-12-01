@@ -27,10 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 
-import org.json.JSONTokener;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -56,7 +53,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState != null) {
-            this.isRecording = savedInstanceState.getBoolean("isRecording");
+            this.isRecording = savedInstanceState.getBoolean("isRecorindg");
         }
         setContentView(R.layout.activity_main);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -185,7 +182,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("map", "onMapReady start");
         mMap = googleMap;
 
-        // Add a marker in monterey and move the camera
+        if(Application.currentRoute != null) {
+            mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
+        }
 
         markerListener = new OnMarkerClickListener() {
             @Override
