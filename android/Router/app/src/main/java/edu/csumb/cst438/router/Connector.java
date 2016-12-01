@@ -617,9 +617,9 @@ public class Connector {
                 JSONObject item = (JSONObject)response.get(i);
                 Route temp = new Route();
                 temp.setRoute(item.get("route").toString());
-                temp.setRouteName(item.get("routeName").toString());
-                temp.setStartPointLat(item.get("startPointLat").toString());
-                temp.setStartPointLon(item.get("startPointLon").toString());
+                temp.setRouteName(item.get("route_name").toString());
+                temp.setStartPointLat(item.get("start_point_lat").toString());
+                temp.setStartPointLon(item.get("start_point_lon").toString());
 
                 result.add(temp);
             }

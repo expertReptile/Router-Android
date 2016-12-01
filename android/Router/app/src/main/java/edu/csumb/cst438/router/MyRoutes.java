@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ public class MyRoutes extends AppCompatActivity {
         mConnector = new Connector();
         localRoutes = new ArrayList(routesServices.getAllLocalRoutes());
         localRoutes.addAll(mConnector.getRoutesShared());
+        Log.d("GETING THINGS!!!!!!!!!", mConnector.getRoutesShared().toString());
+        Log.d("GETING THINGS!!!!!!!!!", localRoutes.toString());
         displayedRoutes = new ArrayList(localRoutes);
         noDataMyRoutes = (TextView) findViewById(R.id.no_data_myRoutes);
         mRecyclerView = (RecyclerView) findViewById(R.id.myRoutes_recycler_view);
