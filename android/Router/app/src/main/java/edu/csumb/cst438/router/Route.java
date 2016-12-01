@@ -129,10 +129,30 @@ public class Route {
     }
     public ArrayList<LatLng> getRouteList() {
         try {
-            jsonArray = new JSONArray(route.toString());
+            Log.d("LIST", "BEFORE " + route.toString());
+            jsonArray = new JSONArray(route);
+            Log.d("LIST", "AFTER" + jsonArray.toString());
         }
         catch (Exception e) {
-            Log.d("route", e.toString());
+            String temp = route.replace("[", "");
+            temp = temp.replace("]", "");
+
+            temp = temp.replaceAll("\\}\\,\\{", "} {");
+            temp = temp.replaceAll("\\\\", "");
+            temp = temp.substring(1, temp.length() - 2);
+            Log.d("LIST", temp);
+            try {
+                for(String item: temp.split(" ")) {
+                    JSONObject object = new JSONObject(item);
+                    jsonArray.put(object);
+                }
+            }
+            catch (Exception e2) {
+                Log.d("ERROR", e.toString());
+            }
+
+            Log.d("ERROR", e.toString());
+            Log.d("ERROR", route.toString());
         }
         ArrayList<LatLng> locs = new ArrayList<>();
         try {
