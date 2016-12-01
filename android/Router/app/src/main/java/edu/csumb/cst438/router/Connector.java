@@ -655,8 +655,8 @@ public class Connector {
         String json = "";
         try {
             json = (new JSONObject()
-                    .put("user_id", UserServices.getUserId())
-                    .put("friend_id", you_id)
+                    .put("friend_id", UserServices.getUserId())
+                    .put("user_id", you_id)
                     .put("response", response)).toString();
         }
         catch (Exception e) {
