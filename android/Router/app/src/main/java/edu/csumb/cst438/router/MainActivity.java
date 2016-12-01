@@ -222,7 +222,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
         curZoomLevel = mMap.getCameraPosition().zoom;
         if(curZoomLevel < 9) {
-            curZoomLevel = 15;
+            curZoomLevel = 17;
         }
         bearing = mMap.getCameraPosition().bearing;
         tilt = mMap.getCameraPosition().tilt;
