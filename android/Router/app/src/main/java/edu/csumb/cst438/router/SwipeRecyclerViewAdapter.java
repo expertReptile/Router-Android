@@ -1,6 +1,5 @@
 package edu.csumb.cst438.router;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -87,8 +86,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
-                intent.putExtra("routeId", theArrayList.get(position).getRouteIdRemote());
-                intent.putExtra("route", theArrayList.get(position).getRoute());
+                Application.currentRoute = theArrayList.get(position);
                 view.getContext().startActivity(intent);
             }
         });
