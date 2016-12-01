@@ -1,6 +1,5 @@
 package edu.csumb.cst438.router;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
@@ -102,7 +100,7 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
         viewHolder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mConnector.addFriend(Integer.getInteger(theArrayList.get(position).id));
+                mConnector.addFriend(Integer.parseInt(theArrayList.get(position).id));
                 //TODO add any additional functionality after addFriend button is clicked
             }
         });

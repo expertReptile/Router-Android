@@ -728,13 +728,14 @@ public class Connector {
             json = (new JSONObject()
                     .put("user_id", UserServices.getUserId())
                     .put("friend_id", you_id)).toString();
+            Log.d("TESTING", json);
         }
         catch (Exception e) {
             Log.d("Error", e.toString());
         }
 
         try {
-            getResponse(json.toString(), addFriend);
+            Log.d("TESTING", getResponse(json.toString(), addFriend));
         }
         catch (Exception e) {
             Log.e("error", e.toString());
