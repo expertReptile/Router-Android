@@ -117,9 +117,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean("isRecording", this.isRecording);
-        LatLng pos = loc.getLocation();
-        marker = mMap.addMarker(new MarkerOptions().position(pos).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 16));
+        curPos = loc.getLocation();
+        marker = mMap.addMarker(new MarkerOptions().position(this.curPos).title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.curPos, 16));
 
         super.onSaveInstanceState(savedInstanceState);
     }
