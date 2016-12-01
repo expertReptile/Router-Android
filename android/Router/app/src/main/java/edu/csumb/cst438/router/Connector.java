@@ -251,7 +251,6 @@ public class Connector {
         };
 
         Future<ArrayList<Route>> future = executorService.submit(callable);
-        executorService.shutdown();
         try {
             return future.get();
         }
