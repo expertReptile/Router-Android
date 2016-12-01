@@ -22,7 +22,7 @@ public class DrawingService {
         PolylineOptions polyLine = new PolylineOptions();
         if(route == null) { return polyLine; }
         polyLine.width(5).color(Color.RED);
-        for(LatLng latLg : route.getRouteList()) {
+        for(LatLng latLg : route.getNormalizedRoute()) {
             Log.d("test", latLg.toString());
             polyLine.add(latLg);
         }

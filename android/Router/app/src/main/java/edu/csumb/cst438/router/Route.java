@@ -25,7 +25,7 @@ public class Route {
     private JSONArray jsonArray = new JSONArray();
     private float distance;
     private ArrayList<LatLng> latLngs = new ArrayList<>();
-    private int MIN_DISTANCE = 10;
+    private double MIN_DISTANCE = 0.06;
 
     public Route(boolean isLocal, int routeIdRemote, String route, String startPointLat, String startPointLon, int userId, String routeName) {
         this.isLocal = isLocal;
@@ -124,6 +124,10 @@ public class Route {
         return routeIdRemote;
     }
 
+    public ArrayList<LatLng> getNormalizedRoute() {
+        return normalize(getRouteList());
+    }
+
     public String getRoute() {
         return route;
     }
@@ -167,6 +171,17 @@ public class Route {
         }
         return locs;
 
+    }
+
+    public ArrayList<LatLng> normalize(ArrayList<LatLng> locs) {
+        ArrayList<LatLng>  norms = new ArrayList<>();
+        for(int i = 0; i < locs.size() - 1; i++) {
+            Log.d("DIST", Double.toString(getDistance(locs.get(i), locs.get(i+1))));
+            if(getDistance(locs.get(i), locs.get(i+1)) < MIN_DISTANCE) {
+                norms.add(locs.get(i));
+            }
+        }
+        return norms;
     }
 
     public String getStartPointLat() {
