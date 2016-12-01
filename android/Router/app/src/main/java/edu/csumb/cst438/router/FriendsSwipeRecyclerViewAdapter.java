@@ -3,7 +3,6 @@ package edu.csumb.cst438.router;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,8 +108,8 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             @Override
             public void onClick(View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
+                mConnector.removeFriend(Integer.parseInt(theArrayList.get(position).id));
                 theArrayList.remove(position);
-                mConnector.removeFriend(Integer.getInteger(theArrayList.get(position).id));
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, theArrayList.size());
                 mItemManger.closeAllItems();

@@ -38,7 +38,7 @@ public class Connector {
     static String shareRoute = "/shareRoute/";
     static String processRequest = "/processRequest/";
     static String searchFriends = "/searchFriends/";
-    static String removeFriend = "/removeFriends/";
+    static String removeFriend = "/removeFriend/";
     static String addFriend = "/addFriend/";
     static String updateUser = "/updateUser/";
 
