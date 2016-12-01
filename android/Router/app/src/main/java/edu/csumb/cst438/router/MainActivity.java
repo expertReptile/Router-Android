@@ -32,7 +32,7 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener {
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private DrawerLayout mDrawerLayout;
@@ -49,6 +49,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private Connector connector = new Connector();
     private LatLng curPos;
     private HashMap<String, Route> routesNearMe;
+    private OnMarkerClickListener markerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,15 +169,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         return;
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        String name = marker.getTitle();
 
-        Log.d("marker", "Marker name: " + name);
-        if(name.equals("Your Location") == false)
-            drawRoute(name);
-        return false;
-    }
 
     /**
      * Manipulates the map once available.
@@ -194,10 +187,23 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in monterey and move the camera
 
+        markerListener = new OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String name = marker.getTitle();
+
+                Log.d("marker", "Marker name: " + name);
+                if(name.equals("Your Location") == false)
+                    drawRoute(name);
+                return false;
+            }
+        };
+
         curPos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 16));
-        googleMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerClickListener(markerListener);
+
         updateLocation();
     }
 
