@@ -108,6 +108,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 public void onClick(DialogInterface dialog, int which) {
                     routeName = input.getText().toString();
                     RoutesServices.updateRouteName(routeName, "TEMPORARY");
+                    Log.d("saved", RoutesServices.getAllLocalRoutes().toString());
                 }
             });
 
@@ -118,8 +119,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean("isRecording", this.isRecording);
         curPos = loc.getLocation();
-        marker = mMap.addMarker(new MarkerOptions().position(this.curPos).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.curPos, 16));
+        marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 16));
 
         super.onSaveInstanceState(savedInstanceState);
     }

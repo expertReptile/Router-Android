@@ -1,15 +1,14 @@
 package edu.csumb.cst438.router;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -57,6 +56,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                signIn();
             }
         });
+        ActivityCompat.requestPermissions(this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
+                LocationService.MY_PERMISSION_ACCESS_COURSE_LOCATION );
     }
 
     @Override

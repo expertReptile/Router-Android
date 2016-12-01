@@ -48,6 +48,7 @@ public class MyRoutes extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.menu_string_array)));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mSearchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
+        mSearchView.setShowSearchKey(true);
 
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
