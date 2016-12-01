@@ -132,7 +132,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
 
         CameraUpdate center = CameraUpdateFactory.newCameraPosition(new CameraPosition(curPos, curZoomLevel, tilt,bearing));
-        mMap.animateCamera(center);
+        mMap.moveCamera(center);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -205,13 +205,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         };
 
 
-
+        ;
         curPos = loc.getLocation();
         marker = mMap.addMarker(new MarkerOptions().position(curPos).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, curZoomLevel));
         mMap.setOnMarkerClickListener(markerListener);
         CameraUpdate center = CameraUpdateFactory.newCameraPosition(new CameraPosition(curPos, curZoomLevel, tilt,bearing));
-        mMap.animateCamera(center);
+        mMap.moveCamera(center);
+
         updateLocation();
     }
 
@@ -220,6 +221,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             marker.remove();
         }
         curZoomLevel = mMap.getCameraPosition().zoom;
+        if(curZoomLevel < 9) {
+            curZoomLevel = 15;
+        }
         bearing = mMap.getCameraPosition().bearing;
         tilt = mMap.getCameraPosition().tilt;
         curPos = loc.getLocation();
