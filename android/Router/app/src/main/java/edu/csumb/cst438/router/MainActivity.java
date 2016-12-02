@@ -192,6 +192,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Log.d("map", "onMapReady start");
         mMap = googleMap;
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         if(Application.currentRoute != null) {
             currentPath = mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
         }
