@@ -23,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -168,7 +169,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             if (allTheRoute.size() != 0) {
                 for (Route route : allTheRoute) {
                     helper = new LatLng(Double.parseDouble(route.getStartPointLat()), Double.parseDouble(route.getStartPointLon()));
-                    nearMe.add(mMap.addMarker(new MarkerOptions().position(helper).title(route.getRouteName())));
+                    nearMe.add(mMap.addMarker(new MarkerOptions().position(helper)
+                            .title(route.getRouteName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.trail_marker))));
                     routesNearMe.put(route.getRouteName(), route);
                 }
             }
