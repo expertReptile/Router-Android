@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.google.android.gms.maps.CameraUpdate;
@@ -89,15 +90,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void startRecording(View view) {
-
         if(!isRecording) {
+            ToggleButton toggleButton = (ToggleButton) view;
             recordingService.putExtra("name", "TEMPORARY");
             recordingService.putExtra("StartLat", Double.toString(loc.getLocation().latitude));
             recordingService.putExtra("StartLon", Double.toString(loc.getLocation().longitude));
+            toggleButton.setBackgroundResource(R.drawable.record_button_recording);
             this.startService(recordingService);
             isRecording = true;
         }
         else {
+            ToggleButton toggleButton = (ToggleButton) view;
+            toggleButton.setBackgroundResource(R.drawable.record_button_default_state);
             this.stopService(recordingService);
             Application.cont = false;
             isRecording = false;
