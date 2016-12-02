@@ -122,6 +122,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
 
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    RoutesServices.deleteRoute("TEMPORARY");
+                    for(Route route: RoutesServices.getAllLocalRoutes()) {
+                        Log.d("DELETE", route.toString());
+                    }
+                }
+            });
+
             builder.show();
         }
     }

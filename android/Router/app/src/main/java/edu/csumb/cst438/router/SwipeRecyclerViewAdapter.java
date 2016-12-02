@@ -95,7 +95,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             @Override
             public void onClick(View view) {
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
-                routesServices.deleteRoute(theArrayList.get(position).getRouteIdRemote());
+                routesServices.deleteRoute(theArrayList.get(position).getRouteName());
                 theArrayList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, theArrayList.size());
