@@ -3,6 +3,8 @@ package edu.csumb.cst438.router;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -173,12 +176,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         nearMe = new ArrayList<>();
         routesNearMe = new HashMap<>();
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("trail_marker", "drawable", getPackageName()));
+        Bitmap resized = Bitmap.createScaledBitmap(icon, 100, 100, false);
         if(curPos != null) {
             ArrayList<Route> allTheRoute = connector.getNearMe(String.valueOf(curPos.latitude), String.valueOf(curPos.longitude), 10);
             if (allTheRoute.size() != 0) {
                 for (Route route : allTheRoute) {
                     helper = new LatLng(Double.parseDouble(route.getStartPointLat()), Double.parseDouble(route.getStartPointLon()));
-                    nearMe.add(mMap.addMarker(new MarkerOptions().position(helper).title(route.getRouteName())));
+                    nearMe.add(mMap.addMarker(new MarkerOptions().position(helper)
+                            .title(route.getRouteName())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resized))));
                     routesNearMe.put(route.getRouteName(), route);
                 }
             }
