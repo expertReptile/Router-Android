@@ -3,6 +3,7 @@ package edu.csumb.cst438.router;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ public class DrawerItemClickListener extends AppCompatActivity implements ListVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("DrawerItemClickListener", "onCreate completed");
     }
 
     @Override
@@ -38,5 +40,6 @@ public class DrawerItemClickListener extends AppCompatActivity implements ListVi
                 break;
             default:
         }
+        Log.d("DrawerItemClickListener", "onItemClick completed");
     }
 }

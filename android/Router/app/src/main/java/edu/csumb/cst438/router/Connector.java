@@ -54,6 +54,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "constructor completed");
     }
 
     public ArrayList<User> getFriendRequests() {
@@ -70,6 +71,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "getFriendRequests completed");
         return null;
     }
 
@@ -88,6 +90,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "getFriends completed");
         return null;
     }
 
@@ -105,6 +108,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "getRoutesShared completed");
         return null;
     }
 
@@ -117,6 +121,7 @@ public class Connector {
             }
         };
         executorService.submit(callable);
+        Log.d("Connector", "shareRoute completed");
     }
 
     public void processRequest(final String response, final int you_id) {
@@ -128,6 +133,7 @@ public class Connector {
             }
         };
         executorService.submit(callable);
+        Log.d("Connector", "processRequest completed");
     }
 
     public ArrayList<User> searchFriends(final String name) {
@@ -144,6 +150,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "searchFriends completed");
         return null;
     }
 
@@ -156,6 +163,7 @@ public class Connector {
             }
         };
         Future<Void> future = executorService.submit(callable);
+        Log.d("Connector", "removeFriend completed");
     }
 
     public void addFriend(final int you_id) {
@@ -167,6 +175,7 @@ public class Connector {
             }
         };
         Future<Void> future = executorService.submit(callable);
+        Log.d("Connector", "addFriend completed");
     }
 
     public HashMap<String, String> downloadRoute(final int routeId) {
@@ -184,6 +193,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "downloadRoute completed");
         return null;
     }
 
@@ -202,6 +212,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "createUser completed");
         return -1;
     }
 
@@ -220,6 +231,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "updateUser completed");
         return -1;
     }
 
@@ -238,6 +250,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "uploadRoute completed");
         return -1;
     }
 
@@ -257,6 +270,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "getNearMe completed");
         return null;
     }
 
@@ -275,6 +289,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "checkLogin completed");
         return null;
 
     }
@@ -290,7 +305,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-
+        Log.d("Connector", "buildConnection completed");
         return conn;
     }
 
@@ -322,6 +337,7 @@ public class Connector {
         } catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "getResponse completed");
         return "";
     }
 
@@ -331,6 +347,7 @@ public class Connector {
         for(int i = 0; i < item.length(); i++) {
             result += Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1);
         }
+        Log.d("Connector", "sha1 completed");
         return result;
     }
 
@@ -369,6 +386,7 @@ public class Connector {
             return Integer.parseInt(result.get("idroutes"));
         }
         catch (Exception e) {
+            Log.d("Connector", "uploadRoute_internal completed");
             return -1;
         }
 
@@ -414,7 +432,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-
+        Log.d("Connector", "getNearMe_internal completed");
         return result;
     }
 
@@ -441,7 +459,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-
+        Log.d("Connector", "downloadRoute_internal completed");
         return result;
     }
 
@@ -469,6 +487,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "_internal completed");
         return -1;
     }
 
@@ -495,6 +514,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "updateUser_internal completed");
         return -1;
     }
 
@@ -525,8 +545,8 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "checkLogin_internal completed");
         return null;
-
     }
 
     private ArrayList<User> getFriendRequests_internal() {
@@ -563,7 +583,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-
+        Log.d("Connector", "getFriendRequests_internal completed");
         return result;
     }
 
@@ -595,7 +615,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-
+        Log.d("Connector", "getFriends_internal completed");
         return result;
     }
 
@@ -627,7 +647,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-
+        Log.d("Connector", "getRoutesShared_internal completed");
         return result;
     }
 
@@ -653,6 +673,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "shareRoute_internal completed");
     }
 
     private void processRequest_internal(final String response, final int you_id) {
@@ -673,6 +694,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "processRequest_internal completed");
     }
 
     private ArrayList<User> searchFriends_internal(final String name) {
@@ -703,7 +725,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
-
+        Log.d("Connector", "searchFriends_internal completed");
         return result;
     }
 
@@ -724,6 +746,7 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "removeFriend_internal completed");
     }
 
     private void addFriend_internal(final int you_id) {
@@ -744,6 +767,6 @@ public class Connector {
         catch (Exception e) {
             Log.e("error", e.toString());
         }
+        Log.d("Connector", "addFriend_internal completed");
     }
-
 }

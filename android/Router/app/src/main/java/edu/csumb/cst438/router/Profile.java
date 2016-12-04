@@ -54,6 +54,7 @@ public class Profile extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getProfile();
+        Log.d("Profile", "onCreate completed");
     }
 
     public void getProfile() {
@@ -75,30 +76,35 @@ public class Profile extends AppCompatActivity {
         } else {
             setMetric(mMetric);
         }
+        Log.d("Profile", "getProfile completed");
     }
 
     public void setPublic(View view) {
         isPrivate = false;
         mPublic.setBackgroundColor(0xff5a595b);
         mPrivate.setBackgroundColor(000000);
+        Log.d("Profile", "setPublic completed");
     }
 
     public void setPrivate(View view) {
         isPrivate = true;
         mPrivate.setBackgroundColor(0xff5a595b);
         mPublic.setBackgroundColor(000000);
+        Log.d("Profile", "setPrivate completed");
     }
 
     public void setImperial(View view) {
         isMetric = false;
         mImperial.setBackgroundColor(0xff5a595b);
         mMetric.setBackgroundColor(000000);
+        Log.d("Profile", "setImperial completed");
     }
 
     public void setMetric(View view) {
         isMetric = true;
         mMetric.setBackgroundColor(0xff5a595b);
         mImperial.setBackgroundColor(000000);
+        Log.d("Profile", "setMetric completed");
     }
 
     public void saveProfile(View view) {
@@ -123,9 +129,9 @@ public class Profile extends AppCompatActivity {
         } else {
             userServices.updateUserUnits("IMPERIAL");
         }
-    updateUser();
-    Snackbar.make(view, "Profile Saved", Snackbar.LENGTH_LONG)
-            .show();
+        updateUser();
+        Snackbar.make(view, "Profile Saved", Snackbar.LENGTH_LONG).show();
+        Log.d("Profile", "saveProfile completed");
 }
 
     private void updateUser() {
@@ -136,11 +142,13 @@ public class Profile extends AppCompatActivity {
         String email = userServices.getUserEmail();
         String privacy = userServices.getUserPrivacy();
         connector.updateUser(username,bio,email,privacy);
+        Log.d("Profile", "updateUser completed");
     }
 
     public void logOut(View view) {
         userServices.deleteLocalUser();
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
+        Log.d("Profile", "logOut completed");
     }
 }

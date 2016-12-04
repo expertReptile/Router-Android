@@ -30,6 +30,7 @@ public class Register extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         setupVariables();
+        Log.d("Register", "onCreate completed");
     }
 
     public void register(View view){
@@ -50,11 +51,13 @@ public class Register extends AppCompatActivity{
             Snackbar.make(view, "Please Enter Credentials!", Snackbar.LENGTH_LONG)
                     .show();
         }
+        Log.d("Register", "register completed");
     }
 
     public void logIn(View view){
         Intent intent = new Intent(Register.this, Login.class);
         startActivity(intent);
+        Log.d("Register", "logIn completed");
     }
 
     public void createUser(final String username, final String password, final String bio, final String email, final View view) {
@@ -70,11 +73,13 @@ public class Register extends AppCompatActivity{
             userServices.CreateLocalUser(username, bio, "PRIVATE", email, Integer.toString(userId), "METRIC");
             moveToMain();
         }
+        Log.d("Register", "createUser completed");
     }
 
     private void moveToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        Log.d("Register", "moveToMain completed");
     }
 
     private void setupVariables() {
@@ -83,6 +88,6 @@ public class Register extends AppCompatActivity{
         bioToCreate = (EditText) findViewById(R.id.bioToCreate);
         passwordToCreate = (EditText) findViewById(R.id.passwordToCreate);
         repasswordToCreate = (EditText) findViewById(R.id.repasswordToCreate);
+        Log.d("Register", "setupVariables completed");
     }
-
 }

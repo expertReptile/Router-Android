@@ -61,8 +61,10 @@ public class MyRoutes extends AppCompatActivity {
                 displayedRoutes.clear();
                 displayedRoutes.addAll(SearchEngine.findRoutes(query, localRoutes));
                 mRecyclerAdapter.notifyDataSetChanged();
+                Log.d("MyRoutes", "onSearchAction completed");
             }
         });
+        Log.d("MyRoutes", "onCreate completed");
     }
 
     @Override
@@ -72,11 +74,13 @@ public class MyRoutes extends AppCompatActivity {
             mConnector.shareRoute(Integer.parseInt(data.getStringExtra("friendId")), routesServices.getRouteById(data.getIntExtra("routeId", -1)));
             Toast.makeText(this, "This route has been shared!", Toast.LENGTH_SHORT).show();
         }
+        Log.d("MyRoutes", "onActivityResult completed");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mRecyclerAdapter.notifyDataSetChanged();
+        Log.d("MyRoutes", "onStart completed");
     }
 }

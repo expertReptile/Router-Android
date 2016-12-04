@@ -58,6 +58,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         });
         ActivityCompat.requestPermissions(this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
                 LocationService.MY_PERMISSION_ACCESS_COURSE_LOCATION );
+        Log.d("Login", "onCreate completed");
     }
 
     @Override
@@ -69,6 +70,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
+        Log.d("Login", "onActivityResult completed");
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
@@ -91,6 +93,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         } else {
             Log.d(TAG, "signed in: failed");
         }
+        Log.d("Login", "handleSignInResult completed");
     }
 
     private void signIn() {
@@ -99,6 +102,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         }
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        Log.d("Login", "signIn completed");
     }
 
     @Override
@@ -106,12 +110,14 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
+        Log.d("Login", "onConnectionFailed completed");
     }
 
     // Whenever a login succeeds it moves to the main activity
     private void moveToMain(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        Log.d("Login", "moveToMain completed");
     }
 
     public void logIn(View view) {
@@ -124,11 +130,13 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             Snackbar.make(view, "Please Enter Credentials!", Snackbar.LENGTH_LONG)
                     .show();
         }
+        Log.d("Login", "logIn completed");
     }
 
     public void register(View view){
         Intent intent = new Intent(Login.this, Register.class);
         startActivity(intent);
+        Log.d("Login", "register completed");
     }
 
     private void authenticateLogin(final String username, final String password, View view) {
@@ -144,12 +152,14 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             userServices.CreateLocalUser(user.username, user.bio, "private", user.email, user.id, "METRIC");
             moveToMain();
         }
+        Log.d("Login", "authenticateLogin completed");
     }
 
     private void setupVariables() {
         usernameToLogin = (EditText) findViewById(R.id.usernameToLogin);
         passwordToLogin = (EditText) findViewById(R.id.passwordToLogin);
         signInButton = (SignInButton) findViewById(R.id.signInButton);
+        Log.d("Login", "setupVariables completed");
     }
 
     private void signOut() {
@@ -161,5 +171,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                         Log.d(TAG, "status: " + status.toString());
                     }
                 });
+        Log.d("Login", "signOut completed");
     }
 }

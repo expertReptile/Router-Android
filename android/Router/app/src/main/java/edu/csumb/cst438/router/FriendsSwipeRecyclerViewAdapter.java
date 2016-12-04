@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +33,13 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
         this.theArrayList = objects;
         this.isAdd = false;
         this.mConnector = new Connector();
+        Log.d("FriendsRecyclerAdapter", "FriendsSwipeRecyclerViewAdapter constructor completed");
     }
 
     @Override
     public FriendsSimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friends_swiper, parent, false);
+        Log.d("FriendsRecyclerAdapter", "onCreateViewHolder completed");
         return new FriendsSimpleViewHolder(view);
     }
 
@@ -130,20 +133,29 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             }
         });
         mItemManger.bindView(viewHolder.itemView, position);
+        Log.d("FriendsRecyclerAdapter", "onBindViewHolder completed");
     }
 
     private String getEmojiByUnicode(int unicode){
+        Log.d("FriendsRecyclerAdapter", "getEmojiByUnicode completed");
         return new String(Character.toChars(unicode));
     }
 
     @Override
     public int getItemCount() {
+        Log.d("FriendsRecyclerAdapter", "getItemCount completed");
         return theArrayList.size();
     }
 
     @Override
     public int getSwipeLayoutResourceId(int position) {
+        Log.d("FriendsRecyclerAdapter", "getSwipeLayoutResourceId completed");
         return R.id.friendsSwiper;
+    }
+
+    public void setIsAdd(Boolean bool){
+        Log.d("FriendsRecyclerAdapter", "setIsAdd completed");
+        this.isAdd = bool;
     }
 
     public static class FriendsSimpleViewHolder extends RecyclerView.ViewHolder {
@@ -158,10 +170,7 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             deleteButton = (Button) itemView.findViewById(R.id.friendsDelete);
             addButton = (Button) itemView.findViewById(R.id.friendsAdd);
             rowText = (TextView) itemView.findViewById(R.id.friendsSwiperRow);
+            Log.d("FriendsSimpleViewHolder", "FriendsSimpleViewHolder constructor completed");
         }
-    }
-
-    public void setIsAdd(Boolean bool){
-        this.isAdd = bool;
     }
 }

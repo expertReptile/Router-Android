@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,13 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         this.mContext = context;
         this.theArrayList = objects;
         this.mConnector = new Connector();
+        Log.d("SwipeRecyclerAdapter", "SwipeRecyclerViewAdapter constructor completed");
     }
 
     @Override
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.swiper, parent, false);
+        Log.d("SwipeRecyclerAdapter", "onCreateViewHolder completed");
         return new SimpleViewHolder(view);
     }
 
@@ -145,15 +148,18 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
         });
 
         mItemManger.bindView(viewHolder.itemView, position);
+        Log.d("SwipeRecyclerAdapter", "onBindViewHolder completed");
     }
 
     @Override
     public int getItemCount() {
+        Log.d("SwipeRecyclerAdapter", "getItemCount completed");
         return theArrayList.size();
     }
 
     @Override
     public int getSwipeLayoutResourceId(int position) {
+        Log.d("SwipeRecyclerAdapter", "getSwipeLayoutResourceId completed");
         return R.id.swiper;
     }
 
@@ -173,6 +179,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<SwipeRecycler
             uploadButton = (Button) itemView.findViewById(R.id.Upload);
             shareButton = (Button) itemView.findViewById(R.id.Share);
             rowText = (TextView) itemView.findViewById(R.id.swiperRow);
+            Log.d("SimpleViewHolder", "SimpleViewHolder constructor completed");
         }
     }
 }

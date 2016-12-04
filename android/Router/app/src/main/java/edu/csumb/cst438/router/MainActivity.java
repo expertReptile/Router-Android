@@ -88,8 +88,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         routesServices = Application.routesService;
         recordingService = new Intent(this, RecordingService.class);
-
-        Log.d("map", "finished onCreate");
+        Log.d("MainActivity", "onCreate completed");
     }
 
     public void startRecording(View view) {
@@ -137,6 +136,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
             builder.show();
         }
+        Log.d("MainActivity", "startRecording completed");
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -152,6 +152,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(center);
 
         super.onSaveInstanceState(savedInstanceState);
+        Log.d("MainActivity", "onSaveInstanceState completed");
     }
 
     public void removeNearMe() {
@@ -166,6 +167,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         routesNearMe = null;
         nearMe = null;
+        Log.d("MainActivity", "removeNearMe completed");
         return;
     }
 
@@ -190,7 +192,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         }
-
+        Log.d("MainActivity", "getNearMe completed");
         return;
     }
 
@@ -236,6 +238,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(center);
 
         updateLocation();
+        Log.d("MainActivity", "onMapReady completed");
     }
 
     public void updateLocation() {
@@ -259,6 +262,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         .anchor(0.0f, 1.0f)
         .title("Your Location"));
         new LocationChangedListener().execute(null, null);
+        Log.d("MainActivity", "updateLocation completed");
     }
 
     public void updateDraw() {
@@ -269,6 +273,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             currentPath.remove();
             currentPath = mMap.addPolyline(DrawingService.createLine(Application.currentRoute));
         }
+        Log.d("MainActivity", "updateDraw completed");
     }
 
     public void drawRoute(String routeName) {
@@ -286,6 +291,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
             Log.d("drawRoute", "ending");
         }
+        Log.d("MainActivity", "drawRoute completed");
     }
 
 
@@ -302,6 +308,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.d("thread", e.toString());
                 }
             }
+            Log.d("LocationChangedListener", "doInBackground completed");
             return null;
         }
 
@@ -311,6 +318,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 updateDraw();
             }
             updateLocation();
+            Log.d("LocationChangedListener", "onPostExecute completed");
         }
     }
 }

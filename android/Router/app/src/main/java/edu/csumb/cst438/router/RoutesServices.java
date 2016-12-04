@@ -15,6 +15,7 @@ public class RoutesServices extends Services{
 
     public RoutesServices() {
         super(Application.db);
+        Log.d("RoutesServices", "RoutesServices constructor completed");
     }
 
     public static void insertRoute(Route route) {
@@ -29,7 +30,7 @@ public class RoutesServices extends Services{
         values.put(SQLiteHelper.Routes.COLLUMN_NAME_USER_ID, route.getUserId());
 
         insert(SQLiteHelper.Routes.TABLE_NAME, values);
-
+        Log.d("RoutesServices", "insertRoute completed");
     }
 
     private static void insert(final String tableName, final ContentValues values) {
@@ -39,11 +40,13 @@ public class RoutesServices extends Services{
                 db.insert(tableName, "null", values);
             }
         }).start();
+        Log.d("RoutesServices", "insert completed");
     }
 
     public static void deleteRoute(String name) {
         String query = String.format("DELETE FROM Routes WHERE RouteName = '%s'", name);
         db.execSQL(query);
+        Log.d("RoutesServices", "deleteRtoue completed");
     }
 
     public static Route getRouteById(int id) {
@@ -55,6 +58,7 @@ public class RoutesServices extends Services{
 
         c.moveToFirst();
 
+        Log.d("RoutesServices", "getRouteById completed");
         // _id, RouteId, Route, StartPointLat, StartPointLon, RouteName, UserId
         return new Route(false, c.getInt(1), c.getString(2), c.getString(3), c.getString(4), c.getInt(6), c.getString(5));
     }
@@ -74,6 +78,7 @@ public class RoutesServices extends Services{
         }
 
         Log.d("RoutesServices", routes.toString());
+        Log.d("RoutesServices", "getAllLocalRoutes completed");
         return routes;
     }
 
@@ -89,6 +94,7 @@ public class RoutesServices extends Services{
                 }
             }
         }).start();
+        Log.d("RoutesServices", "update completed");
     }
 
     public static void updateRouteRoute(String newRoute, int id) {
@@ -97,6 +103,7 @@ public class RoutesServices extends Services{
         String where = "RouteId=" + Integer.toString(id);
         Log.d("recording", "updated " + newRoute);
         update(contentValues, where);
+        Log.d("RoutesServices", "updateRouteRoute completed");
     }
 
     public static void updateStartPointLat(String newLat, String name) {
@@ -104,6 +111,7 @@ public class RoutesServices extends Services{
         contentValues.put("StartPointLat", newLat);
         String where = "RouteName=" + name;
         update(contentValues, where);
+        Log.d("RoutesServices", "updateStartPointLat completed");
     }
 
     public static void updateStartPointLon(String newLon, String name) {
@@ -111,6 +119,7 @@ public class RoutesServices extends Services{
         contentValues.put("StartPointLon", newLon);
         String where = "RouteName=" + name;
         update(contentValues, where);
+        Log.d("RoutesServices", "updateStartPointLon completed");
     }
 
     public static void updateRouteName(String newName, String name) {
@@ -118,6 +127,7 @@ public class RoutesServices extends Services{
         contentValues.put("RouteName", newName);
         String where = "RouteName=" + "'" + name + "'";
         update(contentValues, where);
+        Log.d("RoutesServices", "updateRouteName completed");
     }
 
     public static void updateRouteUserId(String newId, String name) {
@@ -125,5 +135,6 @@ public class RoutesServices extends Services{
         contentValues.put("UserId", newId);
         String where = "RouteName=" + name;
         update(contentValues, where);
+        Log.d("RoutesServices", "updateRouteUserId completed");
     }
 }

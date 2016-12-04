@@ -35,6 +35,7 @@ public class Route {
         this.startPointLon = startPointLon;
         this.userId = Integer.parseInt(UserServices.getUserId());
         this.routeName = routeName;
+        Log.d("Route", "Route constructor completed");
     }
 
     public Route() {
@@ -49,6 +50,7 @@ public class Route {
                 * Math.sin(lonDist / 2) * Math.sin(lonDist / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = 6371 * c;
+        Log.d("Route", "getDistance completed");
         return d;
     }
 
@@ -76,61 +78,80 @@ public class Route {
         catch (Exception e) {
             Log.d("route", e.toString());
         }
+        Log.d("Route", "add completed");
     }
 
     public String toString() {
+        Log.d("Route", "toString completed");
         return String.format("isLocal: %s \nroute: %s\n routeIdRemote: %s\nstartPointLat: %s\nStartPointLon: %s\nUserId: %s\nRouteName: %s\n",
                 isLocal, route, routeIdRemote, startPointLat, startPointLon, userId, routeName);
     }
 
-    public void setDistance(float distance)
-    {
+    public void setDistance(float distance) {
         this.distance = distance;
+        Log.d("Route", "setDistance completed");
     }
 
-    public float getDistance() {return distance;}
+    public float getDistance() {
+        Log.d("Route", "getDistance completed");
+        return distance;
+    }
 
     public void setLocal(boolean local) {
         this.isLocal = local;
+        Log.d("Route", "setLocal completed");
     }
 
     public void setRouteIdRemote(int id) {
         this.routeIdRemote = id;
+        Log.d("Route", "setRouteIdRemote completed");
     }
 
     public void setRoute(String route) {
         this.route = route;
+        Log.d("Route", "setRoute completed");
     }
 
     public void setStartPointLat(String lat) {
         this.startPointLat = lat;
+        Log.d("Route", "setStartPointLat completed");
     }
 
     public void setStartPointLon(String lon) {
         this.startPointLon = lon;
+        Log.d("Route", "setStartPointLon completed");
     }
 
     public void setUserId(int id) {
         this.userId = id;
+        Log.d("Route", "setUserId completed");
     }
 
     public void setRouteName(String name) {
         this.routeName = name;
+        Log.d("Route", "setRouteName completed");
     }
 
-    public boolean isLocal() {return isLocal;}
+    public boolean isLocal() {
+        Log.d("Route", "isLocal completed");
+        return isLocal;
+    }
 
     public int getRouteIdRemote() {
+        Log.d("Route", "getRouteIdRemote completed");
         return routeIdRemote;
     }
 
     public ArrayList<LatLng> getNormalizedRoute() {
+        Log.d("Route", "getNormalizedRoute completed");
         return normalize(getRouteList());
     }
 
     public String getRoute() {
+        Log.d("Route", "getRoute completed");
         return route;
     }
+
     public ArrayList<LatLng> getRouteList() {
         try {
             Log.d("LIST", "BEFORE " + route.toString());
@@ -169,8 +190,8 @@ public class Route {
         catch (Exception e) {
             Log.d("route", e.toString());
         }
+        Log.d("Route", "getRouteList completed");
         return locs;
-
     }
 
     public ArrayList<LatLng> normalize(ArrayList<LatLng> locs) {
@@ -181,23 +202,27 @@ public class Route {
                 norms.add(locs.get(i));
             }
         }
+        Log.d("Route", "normalize completed");
         return norms;
     }
 
     public String getStartPointLat() {
+        Log.d("Route", "setStartPointLat completed");
         return startPointLat;
     }
 
     public String getStartPointLon() {
+        Log.d("Route", "setStartPointLon completed");
         return startPointLon;
     }
 
     public int getUserId() {
+        Log.d("Route", "getUserId completed");
         return userId;
     }
 
     public String getRouteName() {
+        Log.d("Route", "getRouteName completed");
         return routeName;
     }
-
 }

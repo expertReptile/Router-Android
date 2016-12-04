@@ -25,6 +25,7 @@ public class Application extends android.app.Application {
         super.onCreate();
         Application.context = getApplicationContext();
         instantiate();
+        Log.d("Application", "onCreate completed");
     }
 
     public void instantiate() {
@@ -35,6 +36,7 @@ public class Application extends android.app.Application {
                 setUpDbUtil();
             }
         }).start();
+        Log.d("Application", "instantiate completed");
     }
 
     private void setUpDbUtil() {
@@ -53,6 +55,7 @@ public class Application extends android.app.Application {
     }
 
     public SQLiteDatabase getDB() {
+        Log.d("Application", "getDB completed");
         return db;
     }
 }

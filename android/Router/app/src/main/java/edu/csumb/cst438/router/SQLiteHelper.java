@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 /**
  * Created by pico on 10/15/16.
@@ -84,23 +85,26 @@ public class SQLiteHelper {
 
         public DeBra(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
+            Log.d("DeBra", "DeBra constructor completed");
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_USER_SETTINGS);
             db.execSQL(CREATE_ROUTES);
-
+            Log.d("DeBra", "onCreate completed");
         }
 
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             db.execSQL(DELETE_USER_SETTINGS);
             db.execSQL(DELETE_ROUTES);
             onCreate(db);
+            Log.d("DeBra", "onUpgrade completed");
         }
 
         public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             onUpgrade(db, oldVersion, newVersion);
+            Log.d("DeBra", "onDowngrade completed");
         }
     }
 }

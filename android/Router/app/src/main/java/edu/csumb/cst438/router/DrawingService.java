@@ -16,6 +16,7 @@ public class DrawingService {
 
     public DrawingService() {
         routesServices = Application.routesService;
+        Log.d("DrawingService", "DrawingService constructor completed");
     }
 
     public static PolylineOptions createLine(Route route) {
@@ -27,6 +28,7 @@ public class DrawingService {
             polyLine.add(latLg);
         }
         Log.d("polyline", polyLine.toString());
+        Log.d("DrawingService", "createLine completed");
         return polyLine;
     }
 }

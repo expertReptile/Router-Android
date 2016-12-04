@@ -1,6 +1,8 @@
 package edu.csumb.cst438.router;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -17,7 +19,7 @@ public class SearchEngine {
                 results.add(entry);
             }
         }
-
+        Log.d("SearchEngine", "findFriends completed");
         return results;
     }
 
@@ -30,7 +32,7 @@ public class SearchEngine {
                 results.add(entry);
             }
         }
-
+        Log.d("SearchEngine", "findRoutes completed");
         return results;
     }
 }

@@ -25,6 +25,7 @@ public class RecordingService extends IntentService {
         super("RecordingService");
         gps = new LocationService(this);
         routesServices = new RoutesServices();
+        Log.d("RecordingService", "RecordingService constructor completed");
     }
 
     @Override
@@ -58,6 +59,7 @@ public class RecordingService extends IntentService {
 
         recording.start();
         checking.start();
+        Log.d("RecordingService", "onHandleIntent completed");
     }
 
     @Override
@@ -97,7 +99,7 @@ public class RecordingService extends IntentService {
             Log.d("recording", Boolean.toString(Application.cont));
         }
         Log.d("recording", Boolean.toString(Application.cont));
-
+        Log.d("RecordingService", "startRecording completed");
     }
 
     public void startGPSing() {
@@ -133,5 +135,6 @@ public class RecordingService extends IntentService {
             Log.d("recording", Boolean.toString(Application.cont));
         }
         Log.d("recording", Boolean.toString(Application.cont));
+        Log.d("RecordingService", "startGPSing completed");
     }
 }

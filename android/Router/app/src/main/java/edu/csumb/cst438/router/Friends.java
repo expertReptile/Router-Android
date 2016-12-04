@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -110,11 +111,12 @@ public class Friends extends AppCompatActivity {
             });
             builder.show();
         }
-
+        Log.d("Friends", "onCreate completed");
     }
 
     public void setDisplayedFriends(ArrayList<User> newFriends) {
         this.displayedFriends.clear();
         this.displayedFriends.addAll(newFriends);
+        Log.d("Friends", "setDisplayedFriends completed");
     }
 }

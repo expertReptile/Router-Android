@@ -49,6 +49,7 @@ public class LocationService implements LocationListener {
         if(instance == null) {
             instance = new LocationService(context);
         }
+        Log.d("LocationService", "getLocationManager completed");
         return instance;
     }
 
@@ -57,12 +58,13 @@ public class LocationService implements LocationListener {
         this.locationChanged = false;
         Log.d("location", Double.toString(this.latitude));
         Log.d("location", Double.toString(this.longitude));
+        Log.d("LocationService", "getLocation completed");
         return new LatLng(this.latitude, this.longitude);
     }
 
     public LocationService(Context mContext) {
         initLocationService(mContext);
-        Log.d("GPS", "Location Service created.");
+        Log.d("LocationService", "LocationService constructor completed");
     }
 
     public LatLng getLastKnownLocation() {
@@ -80,10 +82,12 @@ public class LocationService implements LocationListener {
                 Log.d("location", e2.toString());
             }
         }
+        Log.d("LocationService", "getLastKnownLocation completed");
         return getLocation();
     }
 
     public boolean hasChanged() {
+        Log.d("LocationService", "hasChanged completed");
         return locationChanged;
     }
 
@@ -96,25 +100,27 @@ public class LocationService implements LocationListener {
         String msg = "New Latitude: " + this.latitude
                     + "New Longitude: " + this.longitude;
         Log.d("Location", "Changed: " + msg);
+        Log.d("LocationService", "onLocationChanged completed");
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
     @Override
     public void onProviderEnabled(String provider) {
         Log.d("GPS" , "Gps is turned on");
+        Log.d("LocationService", "onProviderEnabled completed");
     }
 
     public void onProviderDisabled(String provider) {
         Intent intent = new Intent(context, Settings.ACTION_LOCATION_SOURCE_SETTINGS.getClass());
         context.startActivity(intent);
         Log.d("GPS", "GPS is turned off");
+        Log.d("LocationService", "onProviderDisabled completed");
     }
 
     public boolean isServiceAvailable(){
+        Log.d("LocationService", "isServiceAvailable completed");
         return locationServiceAvailable;
     }
 
@@ -171,6 +177,6 @@ public class LocationService implements LocationListener {
         } catch (Exception e) {
             Log.d("GPS", "Error creating location service: " + e.getMessage());
         }
-
+        Log.d("LocationService", "initLocationService completed");
     }
 }

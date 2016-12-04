@@ -1,5 +1,7 @@
 package edu.csumb.cst438.router;
 
+import android.util.Log;
+
 /**
  * Created by pico on 11/20/16.
  */
@@ -22,5 +24,6 @@ public class User {
         this.email = email;
         this.id = id;
         this.privacy = privacy;
+        Log.d("User", "User constructor completed");
     }
 }
