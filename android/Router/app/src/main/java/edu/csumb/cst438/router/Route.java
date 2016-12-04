@@ -58,13 +58,15 @@ public class Route {
         if(latLng.latitude == 0.0 && latLng.longitude == 0.0) {
             return;
         }
+
         if(latLngs.size() > 0) {
             // check for if the distance is way too much
-            if(getDistance(latLng, this.latLngs.get(latLngs.size() - 1)) > MIN_DISTANCE) {
+            if(getDistance(latLng, this.latLngs.get(latLngs.size() - 1)) > 10) {
                 Log.d("route", "distance was too long!: " + Double.toString(getDistance(latLng, this.latLngs.get(latLngs.size() - 1))));
                 return;
             }
         }
+
         try {
             Log.d("route", "here");
             Log.d("route", route);

@@ -134,6 +134,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     RoutesServices.deleteRoute("TEMPORARY");
+                    if(currentPath != null) {
+                        currentPath.remove();
+                    }
                     for(Route route: RoutesServices.getAllLocalRoutes()) {
                         Log.d("DELETE", route.toString());
                     }
