@@ -3,6 +3,8 @@ package edu.csumb.cst438.router;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -93,14 +97,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i("mainActivity", "startRecording start");
         if(!isRecording) {
             Log.i("mainActivity", "starting recording service");
+            ToggleButton toggleButton = (ToggleButton) view;
             recordingService.putExtra("name", "TEMPORARY");
             recordingService.putExtra("StartLat", Double.toString(loc.getLocation().latitude));
             recordingService.putExtra("StartLon", Double.toString(loc.getLocation().longitude));
+            toggleButton.setBackgroundResource(R.drawable.record_button_recording);
             this.startService(recordingService);
             isRecording = true;
         }
         else {
             Log.i("mainActivity", "stopping recording service");
+            ToggleButton toggleButton = (ToggleButton) view;
+            toggleButton.setBackgroundResource(R.drawable.record_button_default_state);
             this.stopService(recordingService);
             Application.cont = false;
             isRecording = false;
@@ -118,6 +126,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     routeName = input.getText().toString();
                     RoutesServices.updateRouteName(routeName, "TEMPORARY");
                     Log.d("saved", RoutesServices.getAllLocalRoutes().toString());
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    RoutesServices.deleteRoute("TEMPORARY");
+                    for(Route route: RoutesServices.getAllLocalRoutes()) {
+                        Log.d("DELETE", route.toString());
+                    }
                 }
             });
 
@@ -167,6 +185,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         nearMe = new ArrayList<>();
         routesNearMe = new HashMap<>();
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("trail_marker", "drawable", getPackageName()));
+        Bitmap resized = Bitmap.createScaledBitmap(icon, 100, 100, false);
         if(curPos != null) {
             Log.i("mainActivity", "calling getNearMe from connector");
             ArrayList<Route> allTheRoute = connector.getNearMe(String.valueOf(curPos.latitude), String.valueOf(curPos.longitude), 10);
@@ -174,7 +194,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.i("mainActivity", "adding markers to map, storing routes in routesNearMe");
                 for (Route route : allTheRoute) {
                     helper = new LatLng(Double.parseDouble(route.getStartPointLat()), Double.parseDouble(route.getStartPointLon()));
-                    nearMe.add(mMap.addMarker(new MarkerOptions().position(helper).title(route.getRouteName())));
+                    nearMe.add(mMap.addMarker(new MarkerOptions().position(helper)
+                            .title(route.getRouteName())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resized))));
                     routesNearMe.put(route.getRouteName(), route);
                 }
             }
@@ -198,6 +220,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Log.i("mainActivity", "onMapReady start");
         mMap = googleMap;
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         if(Application.currentRoute != null) {
             Log.i("mainActivity", "drawing selected route on screen");
             currentPath = mMap.addPolyline(DrawingService.createLine(Application.currentRoute));

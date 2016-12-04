@@ -102,7 +102,8 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             @Override
             public void onClick(View v) {
                 mConnector.addFriend(Integer.parseInt(theArrayList.get(position).id));
-                Snackbar snack = Snackbar.make(v, "Friend Request Sent!", Snackbar.LENGTH_LONG);
+                int unicode = 0x1F60A;
+                Snackbar snack = Snackbar.make(v, "Friend Request Sent! " + getEmojiByUnicode(unicode), Snackbar.LENGTH_LONG);
                 View snackView = snack.getView();
                 TextView tv = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.rgb(0,191,255));
@@ -120,7 +121,8 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, theArrayList.size());
                 mItemManger.closeAllItems();
-                Snackbar snack = Snackbar.make(view, name + " was removed from friends!", Snackbar.LENGTH_LONG);
+                int unicode = 0x1F61E;
+                Snackbar snack = Snackbar.make(view, name + " was removed from friends! " + getEmojiByUnicode(unicode), Snackbar.LENGTH_LONG);
                 View snackView = snack.getView();
                 TextView tv = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(Color.rgb(0,191,255));
@@ -128,6 +130,10 @@ public class FriendsSwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<Friend
             }
         });
         mItemManger.bindView(viewHolder.itemView, position);
+    }
+
+    private String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 
     @Override

@@ -43,22 +43,28 @@
             app:floatingSearch_leftActionMode="showHamburger"
             app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
 
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:drawableTop="@drawable/quantum_ic_play_arrow_grey600_36"
+        <ToggleButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:id="@+id/MainRecordButton"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="startRecording"/>
+            android:onClick="startRecording"
+            android:textOn=""
+            android:textOff=""
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/record_custom"/>
 
         <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:drawableTop="@drawable/quantum_ic_keyboard_arrow_down_white_36"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_nearme"
             android:id="@+id/GetNearMeButton"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="7dp"
+            style="?android:attr/borderlessButtonStyle"
             android:onClick="getNearMe"/>
 
     </RelativeLayout>

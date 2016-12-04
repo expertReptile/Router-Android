@@ -37,8 +37,6 @@ public class MyRoutes extends AppCompatActivity {
         mConnector = new Connector();
         localRoutes = new ArrayList(routesServices.getAllLocalRoutes());
         localRoutes.addAll(mConnector.getRoutesShared());
-        Log.d("GETING THINGS!!!!!!!!!", mConnector.getRoutesShared().toString());
-        Log.d("GETING THINGS!!!!!!!!!", localRoutes.toString());
         displayedRoutes = new ArrayList(localRoutes);
         noDataMyRoutes = (TextView) findViewById(R.id.no_data_myRoutes);
         mRecyclerView = (RecyclerView) findViewById(R.id.myRoutes_recycler_view);

@@ -41,8 +41,8 @@ public class RoutesServices extends Services{
         }).start();
     }
 
-    public static void deleteRoute(int id) {
-        String query = String.format("DELETE FROM Routes WHERE RouteId = %s", Integer.toString(id));
+    public static void deleteRoute(String name) {
+        String query = String.format("DELETE FROM Routes WHERE RouteName = '%s'", name);
         db.execSQL(query);
     }
 
