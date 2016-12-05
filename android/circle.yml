@@ -1,0 +1,12 @@
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository,android-23"
+  test:
+  override:
+    - ./gradlew build test jacocoTestReport
+    - cp ./*/build/outputs/apk/*.apk $CIRCLE_ARTIFACTS/
+    - cp ./*/build/test-results/freeDebug/*.xml $CIRCLE_TEST_REPORTS/
+    - cd ./*/build/;bash <(curl -s https://codecov.io/bash)
+notify:
+  webhooks:
+    - url: http://csumbse.net/harbormaster/hook/circleci/
