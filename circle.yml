@@ -1,3 +1,5 @@
+general:
+    build_dir: android/Router/
 dependencies:
   pre:
     - echo y | android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository,android-23"
