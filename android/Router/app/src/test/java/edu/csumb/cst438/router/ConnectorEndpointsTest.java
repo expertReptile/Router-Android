@@ -18,7 +18,7 @@ public class ConnectorEndpointsTest {
     public void getFriendRequests() throws Exception {
 
         ExecutorService executorService = mock(Executors.newSingleThreadExecutor().getClass());
-        when(executorService.submit(any(Callable.class))).thenReturn()
+        when(executorService.submit(any(Callable.class))).thenReturn(null);
     }
 
     @Test

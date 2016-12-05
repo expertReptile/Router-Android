@@ -13,7 +13,6 @@ public class ConnectorSha1Test {
         String password = "password";
         String result = Connector.sha1(password);
 
-
         assertEquals(result, "70617373776f7264");
     }
 
